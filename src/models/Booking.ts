@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IBooking extends Document {
   leadId: mongoose.Types.ObjectId;
   propertyId: mongoose.Types.ObjectId;
+  roomId?: mongoose.Types.ObjectId;
   visitId?: mongoose.Types.ObjectId;
   monthlyRent: number;
   securityDeposit?: number;
@@ -18,13 +19,14 @@ const BookingSchema: Schema = new Schema(
   {
     leadId: { type: Schema.Types.ObjectId, ref: 'Lead', required: true },
     propertyId: { type: Schema.Types.ObjectId, ref: 'Property', required: true },
+    roomId: { type: Schema.Types.ObjectId, ref: 'Room' },
     visitId: { type: Schema.Types.ObjectId, ref: 'Visit' },
     monthlyRent: { type: Number, required: true },
     securityDeposit: { type: Number },
     moveInDate: { type: Date },
     bookingStatus: { type: String, enum: ['pending', 'confirmed', 'checked_in', 'cancelled'], default: 'pending' },
     paymentStatus: { type: String, enum: ['pending', 'partial', 'paid'], default: 'pending' },
-    bookedBy: { type: Schema.Types.ObjectId, ref: 'Member', required: true },
+    bookedBy: { type: Schema.Types.ObjectId, ref: 'Agent', required: true },
   },
   { timestamps: true }
 );

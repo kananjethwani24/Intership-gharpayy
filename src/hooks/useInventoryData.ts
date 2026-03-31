@@ -16,19 +16,33 @@ export function useOwners() {
 export function useCreateOwner() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (owner: { name: string; phone: string; email?: string | null; company_name?: string | null; notes?: string | null }) => {
+    mutationFn: async (owner: { 
+      name: string; 
+      phone: string; 
+      email: string; 
+      username: string;
+      password: string;
+      exactPgName?: string;
+      gharpayyPgName?: string;
+      company_name?: string | null; 
+      notes?: string | null 
+    }) => {
       const res = await fetch('/api/owners', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(owner),
       });
-      if (!res.ok) throw new Error('Failed to create owner');
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Failed to create owner');
+      }
       return res.json();
     },
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['owners'] }); toast.success('Owner created'); },
     onError: (e: any) => toast.error(e.message),
   });
 }
+
 
 export function useUpdateOwner() {
   const qc = useQueryClient();

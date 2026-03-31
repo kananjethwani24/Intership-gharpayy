@@ -1,7 +1,7 @@
 "use client";
 
 import AppLayout from '@/components/AppLayout';
-import AddVisitDialog from '@/components/AddVisitDialog';
+import AddTourDialog from '@/components/AddTourDialog';
 import { useVisits } from '@/hooks/useCrmData';
 import { format } from 'date-fns';
 import { CalendarCheck, CheckCircle, XCircle, HelpCircle, Clock, MapPin, User } from 'lucide-react';
@@ -56,14 +56,14 @@ const Visits = () => {
 
   if (isLoading) {
     return (
-      <AppLayout title="Visits" subtitle="Manage property visits and track outcomes">
+      <AppLayout title="Tours" subtitle="Manage property tours and track outcomes">
         <Skeleton className="h-[400px] rounded-2xl" />
       </AppLayout>
     );
   }
 
   return (
-    <AppLayout title="Visits" subtitle="Manage property visits and track outcomes" actions={<AddVisitDialog />}>
+    <AppLayout title="Tours" subtitle="Manage property tours and track outcomes" actions={<AddTourDialog />}>
       <div className="mb-10">
         <h2 className="font-display font-semibold text-xs text-foreground mb-4 flex items-center gap-2">
           <CalendarCheck size={15} className="text-accent" /> Upcoming ({upcoming.length})
@@ -83,6 +83,9 @@ const Visits = () => {
                   <p className="text-2xs text-muted-foreground flex items-center gap-1 mt-0.5">
                     <MapPin size={10} /> {(visit.properties as any)?.name}
                   </p>
+                  <span className={`badge-pipeline text-[9px] mt-1 inline-block ${visit.tourType === 'Online' ? 'bg-info/10 text-info' : 'bg-accent/10 text-accent'}`}>
+                    {visit.tourType || 'Physical'}
+                  </span>
                 </div>
                 {visit.confirmed ? (
                   <span className="badge-pipeline bg-success/10 text-success text-[10px]">Confirmed</span>
@@ -94,7 +97,7 @@ const Visits = () => {
               </div>
               <div className="flex items-center justify-between text-2xs text-muted-foreground mb-4">
                 <span className="flex items-center gap-1"><Clock size={10} /> {format(new Date(visit.scheduledAt), 'MMM d, h:mm a')}</span>
-                <span className="flex items-center gap-1"><User size={10} /> {(visit.members as any)?.name?.split(' ')[0] || 'TBD'}</span>
+                <span className="flex items-center gap-1"><User size={10} /> {(visit.agents as any)?.name?.split(' ')[0] || 'TBD'}</span>
               </div>
               <div className="border-t border-border pt-3">
                 <Select onValueChange={v => handleOutcome(visit.id, v)}>
@@ -108,45 +111,49 @@ const Visits = () => {
               </div>
             </motion.div>
           ))}
-          {upcoming.length === 0 && <p className="text-xs text-muted-foreground col-span-3 text-center py-10">No upcoming visits</p>}
+          {upcoming.length === 0 && <p className="text-xs text-muted-foreground col-span-3 text-center py-10">No upcoming tours</p>}
         </div>
       </div>
 
       <div>
-        <h2 className="font-display font-semibold text-xs text-foreground mb-4">Completed Visits</h2>
+        <h2 className="font-display font-semibold text-xs text-foreground mb-4">Completed Tours</h2>
         <div className="kpi-card p-0 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead>
-                <tr className="border-b border-border bg-secondary/30">
-                  <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Lead</th>
-                  <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Property</th>
-                  <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Date</th>
-                  <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Staff</th>
-                  <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Outcome</th>
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-border bg-secondary/30">
+                <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Lead</th>
+                <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Property</th>
+                <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Date</th>
+                <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Staff</th>
+                <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Type</th>
+                <th className="text-left px-4 py-3.5 text-2xs font-medium text-muted-foreground">Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              {past.map(visit => (
+                <tr key={visit.id} className="border-b border-border last:border-0 hover:bg-secondary/20 transition-colors">
+                  <td className="px-4 py-3.5 font-medium text-foreground">{(visit.leads as any)?.name}</td>
+                  <td className="px-4 py-3.5 text-2xs text-muted-foreground">{(visit.properties as any)?.name}</td>
+                  <td className="px-4 py-3.5 text-2xs text-muted-foreground">{format(new Date(visit.scheduledAt), 'MMM d, h:mm a')}</td>
+                  <td className="px-4 py-3.5 text-2xs text-muted-foreground">{(visit.agents as any)?.name}</td>
+                  <td className="px-4 py-3.5">
+                    <span className={`badge-pipeline text-[9px] ${visit.tourType === 'Online' ? 'bg-info/10 text-info' : 'bg-accent/10 text-accent'}`}>
+                      {visit.tourType || 'Physical'}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3.5">
+                    <span className="flex items-center gap-1 text-2xs capitalize">
+                      {visit.outcome && outcomeIcons[visit.outcome]}
+                      {visit.outcome?.replace('_', ' ')}
+                    </span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {past.map(visit => (
-                  <tr key={visit.id} className="border-b border-border last:border-0 hover:bg-secondary/20 transition-colors">
-                    <td className="px-4 py-3.5 font-medium text-foreground">{(visit.leads as any)?.name}</td>
-                    <td className="px-4 py-3.5 text-2xs text-muted-foreground">{(visit.properties as any)?.name}</td>
-                    <td className="px-4 py-3.5 text-2xs text-muted-foreground">{format(new Date(visit.scheduledAt), 'MMM d, h:mm a')}</td>
-                    <td className="px-4 py-3.5 text-2xs text-muted-foreground">{(visit.members as any)?.name}</td>
-                    <td className="px-4 py-3.5">
-                      <span className="flex items-center gap-1 text-2xs capitalize">
-                        {visit.outcome && outcomeIcons[visit.outcome]}
-                        {visit.outcome?.replace('_', ' ')}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-                {past.length === 0 && (
-                  <tr><td colSpan={5} className="text-center py-10 text-xs text-muted-foreground">No completed visits yet</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+              ))}
+              {past.length === 0 && (
+                <tr><td colSpan={6} className="text-center py-10 text-xs text-muted-foreground">No completed tours yet</td></tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </AppLayout>

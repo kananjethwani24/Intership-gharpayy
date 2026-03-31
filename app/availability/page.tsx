@@ -103,37 +103,35 @@ const Availability = () => {
               <Badge variant="secondary" className="text-[10px]">{area.totalVacant} vacant</Badge>
             </div>
             <div className="rounded-xl border overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs">
-                  <thead>
-                    <tr className="bg-secondary/50 text-muted-foreground">
-                      <th className="text-left py-2.5 px-4 font-medium">Property</th>
-                      <th className="text-center py-2.5 px-3 font-medium">Vacant Beds</th>
-                      <th className="text-center py-2.5 px-3 font-medium">Rent/bed</th>
-                      <th className="text-center py-2.5 px-3 font-medium">Next Vacancy</th>
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="bg-secondary/50 text-muted-foreground">
+                    <th className="text-left py-2.5 px-4 font-medium">Property</th>
+                    <th className="text-center py-2.5 px-3 font-medium">Vacant Beds</th>
+                    <th className="text-center py-2.5 px-3 font-medium">Rent/bed</th>
+                    <th className="text-center py-2.5 px-3 font-medium">Next Vacancy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {area.properties.map((p, i) => (
+                    <tr key={i} className="border-t border-border/50 hover:bg-secondary/30 transition-colors">
+                      <td className="py-2.5 px-4 font-medium text-foreground">{p.name}</td>
+                      <td className="py-2.5 px-3 text-center">
+                        <span className={`font-semibold ${p.vacantBeds > 0 ? 'status-good' : 'status-bad'}`}>
+                          {p.vacantBeds}
+                        </span>
+                        <span className="text-muted-foreground"> / {p.totalBeds}</span>
+                      </td>
+                      <td className="py-2.5 px-3 text-center text-foreground">
+                        {p.avgRent > 0 ? `₹${p.avgRent.toLocaleString()}` : '—'}
+                      </td>
+                      <td className="py-2.5 px-3 text-center text-muted-foreground">
+                        {p.nextVacancy || '—'}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {area.properties.map((p, i) => (
-                      <tr key={i} className="border-t border-border/50 hover:bg-secondary/30 transition-colors">
-                        <td className="py-2.5 px-4 font-medium text-foreground">{p.name}</td>
-                        <td className="py-2.5 px-3 text-center">
-                          <span className={`font-semibold ${p.vacantBeds > 0 ? 'status-good' : 'status-bad'}`}>
-                            {p.vacantBeds}
-                          </span>
-                          <span className="text-muted-foreground"> / {p.totalBeds}</span>
-                        </td>
-                        <td className="py-2.5 px-3 text-center text-foreground">
-                          {p.avgRent > 0 ? `₹${p.avgRent.toLocaleString()}` : '—'}
-                        </td>
-                        <td className="py-2.5 px-3 text-center text-muted-foreground">
-                          {p.nextVacancy || '—'}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         ))}

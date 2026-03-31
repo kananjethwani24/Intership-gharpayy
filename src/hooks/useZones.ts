@@ -6,7 +6,7 @@ export function useZones() {
   return useQuery({
     queryKey: ['zones'],
     queryFn: async () => {
-      const res = await fetch('/api/zones', { cache: 'no-store' });
+      const res = await fetch('/api/zones');
       if (!res.ok) throw new Error('Failed to fetch zones');
       return res.json();
     },
@@ -25,11 +25,7 @@ export function useCreateZone() {
       if (!res.ok) throw new Error('Failed to create zone');
       return res.json();
     },
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ['zones'] });
-      await qc.refetchQueries({ queryKey: ['zones'], type: 'active' });
-      toast.success('Zone created');
-    },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['zones'] }); toast.success('Zone created'); },
     onError: (e: any) => toast.error(e.message),
   });
 }
@@ -46,45 +42,7 @@ export function useUpdateZone() {
       if (!res.ok) throw new Error('Failed to update zone');
       return res.json();
     },
-    onSuccess: async (updatedZone: any, variables: { id: string; [key: string]: any }) => {
-      qc.setQueryData(['zones'], (prev: any) => {
-        if (!Array.isArray(prev)) return prev;
-        return prev.map((zone: any) => {
-          const zoneId = zone.id || zone._id;
-          if (String(zoneId) !== String(variables.id)) return zone;
-          return {
-            ...zone,
-            ...variables,
-            ...updatedZone,
-            id: updatedZone?.id || String(zoneId),
-            _id: updatedZone?._id || String(zoneId),
-          };
-        });
-      });
-      await qc.invalidateQueries({ queryKey: ['zones'] });
-      await qc.refetchQueries({ queryKey: ['zones'], type: 'active' });
-      toast.success('Zone updated');
-    },
-    onError: (e: any) => toast.error(e.message),
-  });
-}
-
-export function useDeleteZone() {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`/api/zones/${id}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete zone');
-      return res.json();
-    },
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ['zones'] });
-      await qc.refetchQueries({ queryKey: ['zones'], type: 'active' });
-      await qc.invalidateQueries({ queryKey: ['team-queues'] });
-      toast.success('Zone deleted');
-    },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['zones'] }); toast.success('Zone updated'); },
     onError: (e: any) => toast.error(e.message),
   });
 }
@@ -227,11 +185,20 @@ export function useRouteLeadToZone() {
 // ─── DB Matching ────────────────────────────────────
 export function useDbMatchBeds() {
   return useMutation({
-    mutationFn: async (params: { location: string; budget: number; roomType?: string }) => {
-       const res = await fetch(`/api/public/properties?city=${params.location}`);
-       if (!res.ok) return [];
-       return res.json();
+    mutationFn: async (params: { location: string; budget: number; roomType?: string; gender?: string; occupation?: string; range?: number }) => {
+      const res = await fetch('/api/matching', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          location: params.location,
+          budget: params.budget,
+          gender: params.gender,
+          occupation: params.occupation,
+          range: params.range,
+        }),
+      });
+      if (!res.ok) return [];
+      return res.json();
     },
   });
 }
-

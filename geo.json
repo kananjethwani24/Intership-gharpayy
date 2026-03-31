@@ -1,0 +1,176 @@
+[
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Version: 1.0  |  Generated: 2025  |  Coverage: BBMP + extended BDA limits",
+    "": "",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "",
+    "": "",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "SHEET",
+    "": "CONTENTS",
+    "_1": "ROWS",
+    "_2": "KEY COLUMNS"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "0_README",
+    "": "This data dictionary",
+    "_1": "—",
+    "_2": "—"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "1_Pincodes",
+    "": "All 55 Bangalore PIN codes with area coverage",
+    "_1": "56",
+    "_2": "Pincode, Areas covered, Zone"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "2_Areas_Master",
+    "": "All 98 localities (blocks, sectors, layouts, sub-areas)",
+    "_1": "83",
+    "_2": "Tier, Region, Sub-area detail, Lat/Lng"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "3_Tech_Parks",
+    "": "All 17 major IT parks with coordinates & tenants",
+    "_1": "17",
+    "_2": "Companies, Area (sqft), Type"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "4_Metro_Stations",
+    "": "All 49 metro stations (Purple/Green/Yellow/Pink lines)",
+    "_1": "48",
+    "_2": "Line, Interchange, Year opened"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "5_Landmarks",
+    "": "All 24 key landmarks (universities, hospitals, malls, junctions)",
+    "_1": "23",
+    "_2": "Type, Notes"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "6_Area_to_Metro",
+    "": "Each area → 3 nearest metro stations with km & drive time",
+    "_1": "83",
+    "_2": "Straight-line, Road dist, Drive min"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "7_Area_to_TechParks",
+    "": "Each area → 5 nearest tech parks with km & drive time",
+    "_1": "83",
+    "_2": "Straight-line, Road dist, Drive min"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "8_Area_to_Landmarks",
+    "": "Each area → 5 nearest landmarks with km & drive time",
+    "_1": "83",
+    "_2": "Straight-line, Drive min"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "9_Distance_Matrix_km",
+    "": "Straight-line km matrix (55×55 areas)",
+    "_1": "55×55",
+    "_2": "Haversine formula"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "10_Road_Distance_Matrix_km",
+    "": "Estimated road km matrix (×1.35 correction)",
+    "_1": "55×55",
+    "_2": "Road correction factor"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "11_Drive_Time_Matrix_min",
+    "": "Estimated drive time in minutes (25 km/h avg)",
+    "_1": "55×55",
+    "_2": "Bangalore avg traffic speed"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "12_Landmark_Area_Distances",
+    "": "Every landmark vs every area – full cross join",
+    "_1": "23×83 = 1,909",
+    "_2": "Direct lookup table"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "",
+    "": "",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "METHODOLOGY",
+    "": "",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Distance Formula",
+    "": "Haversine (great-circle distance between two GPS coordinates)",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Road Distance",
+    "": "Straight-line × 1.35 correction factor (calibrated for Bangalore road network)",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Drive Time",
+    "": "Road distance ÷ 25 km/h (average Bangalore city speed with traffic)",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Tier Classification",
+    "": "luxury > premium > mid > affordable (based on avg psqft in 2024-25)",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Coordinates",
+    "": "WGS84 (standard GPS) – compatible with Google Maps, Mapbox, PostGIS",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "",
+    "": "",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "TIER COLOUR CODING (Sheet 2)",
+    "": "",
+    "_1": "",
+    "_2": ""
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Luxury",
+    "": "Sadashivanagar, MG Road, Indiranagar, Frazer Town (>12,000 psqft)",
+    "_1": "",
+    "_2": "Gold"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Premium",
+    "": "Koramangala, Jayanagar, HSR, Malleswaram, Indir 1st Stg (8,000-12,000)",
+    "_1": "",
+    "_2": "Green"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Mid",
+    "": "Whitefield, Hebbal, HSR ext, BTM, JP Nagar, Marathahalli (5,000-8,000)",
+    "_1": "",
+    "_2": "Blue"
+  },
+  {
+    "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "Affordable",
+    "": "Electronic City, Kengeri, Varthur, Devanahalli (<5,000 psqft)",
+    "_1": "",
+    "_2": "Purple"
+  }
+]

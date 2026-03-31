@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-// Type for lead with joined member and property
+// Type for lead with joined agent and property
 export type LeadWithRelations = {
   id: string;
   name: string;
@@ -10,41 +10,19 @@ export type LeadWithRelations = {
   status: string;
   source: string;
   firstResponseTimeMin?: number;
-  members: { id: string, name: string, phone?: string } | null;
-  creator?: { id: string, name: string, phone?: string } | null;
+  agents: { id: string, name: string } | null;
   properties: { id: string, name: string } | null;
   preferredLocation?: string;
   budget?: string;
-  moveInDate?: string;
-  profession?: string;
-  roomType?: string;
-  needPreference?: string;
-  specialRequests?: string;
-  parsedMetadata?: Record<string, any>;
+  movingDate?: string;
+  gender?: string;
+  occupation?: string;
+  stayDuration?: string;
   leadScore: number;
-  isDuplicate?: boolean;
-  duplicateCount?: number;
   notes?: string;
-  assignedMemberId?: string;
+  assignedAgentId?: string;
   createdAt: string;
   lastActivityAt: string;
-};
-
-export type CreatorLeaderboardEntry = {
-  rank: number;
-  userId: string;
-  name: string;
-  role: 'manager' | 'admin' | 'member';
-  leadsCreated: number;
-  zones: { zone: string; count: number }[];
-};
-
-export type CreatorLeaderboardResponse = {
-  period: 'this_month' | 'all_time' | 'today' | 'last_30_days';
-  from: string | null;
-  to: string | null;
-  generatedAt: string;
-  rankings: CreatorLeaderboardEntry[];
 };
 
 
@@ -94,11 +72,8 @@ export const useCreateLead = () => {
       if (!res.ok) throw new Error('Failed to create lead');
       return res.json();
     },
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ['leads'] });
-      await qc.invalidateQueries({ queryKey: ['leads-paginated'] });
-      await qc.invalidateQueries({ queryKey: ['leads', 'status'] });
-      await qc.refetchQueries({ queryKey: ['leads-paginated'], type: 'active' });
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['leads'] });
       toast.success('Lead created');
     },
   });
@@ -116,21 +91,18 @@ export const useUpdateLead = () => {
       if (!res.ok) throw new Error('Failed to update lead');
       return res.json();
     },
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ['leads'] });
-      await qc.invalidateQueries({ queryKey: ['leads-paginated'] });
-      await qc.invalidateQueries({ queryKey: ['leads', 'status'] });
-      await qc.refetchQueries({ queryKey: ['leads-paginated'], type: 'active' });
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['leads'] });
     },
   });
 };
 
 export const useAgents = () =>
   useQuery({
-    queryKey: ['members'],
+    queryKey: ['agents'],
     queryFn: async () => {
-      const res = await fetch('/api/members');
-      if (!res.ok) throw new Error('Failed to fetch members');
+      const res = await fetch('/api/agents');
+      if (!res.ok) throw new Error('Failed to fetch agents');
       return res.json();
     },
   });
@@ -138,16 +110,16 @@ export const useAgents = () =>
 export const useCreateAgent = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (member: any) => {
-      const res = await fetch('/api/members', {
+    mutationFn: async (agent: any) => {
+      const res = await fetch('/api/agents', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(member),
+        body: JSON.stringify(agent),
       });
-      if (!res.ok) throw new Error('Failed to create member');
+      if (!res.ok) throw new Error('Failed to create agent');
       return res.json();
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['members'] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['agents'] }),
   });
 };
 
@@ -155,15 +127,15 @@ export const useUpdateAgent = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, ...updates }: { id: string; [key: string]: any }) => {
-      const res = await fetch(`/api/members/${id}`, {
+      const res = await fetch(`/api/agents/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates),
       });
-      if (!res.ok) throw new Error('Failed to update member');
+      if (!res.ok) throw new Error('Failed to update agent');
       return res.json();
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['members'] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['agents'] }),
   });
 };
 
@@ -171,11 +143,11 @@ export const useDeleteAgent = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`/api/members/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Failed to delete member');
+      const res = await fetch(`/api/agents/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete agent');
       return res.json();
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['members'] }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['agents'] }),
   });
 };
 
@@ -247,13 +219,13 @@ export const useCreateVisit = () => {
   });
 };
 
-// Member Stats (for dashboard)
+// Agent Stats (for dashboard)
 export const useAgentStats = () =>
   useQuery({
-    queryKey: ['member-stats'],
+    queryKey: ['agent-stats'],
     queryFn: async () => {
-      const res = await fetch('/api/members/stats');
-      if (!res.ok) throw new Error('Failed to fetch member stats');
+      const res = await fetch('/api/agents/stats');
+      if (!res.ok) throw new Error('Failed to fetch agent stats');
       return res.json();
     },
   });
@@ -268,67 +240,4 @@ export const useDashboardStats = () =>
       return res.json();
     },
   });
-
-export const useCreatorLeaderboard = (period: 'this_month' | 'all_time' | 'today' | 'last_30_days' = 'this_month') =>
-  useQuery({
-    queryKey: ['creator-leaderboard', period],
-    queryFn: async () => {
-      const res = await fetch(`/api/leads/stats/by-creator?period=${period}`);
-      if (!res.ok) throw new Error('Failed to fetch leaderboard');
-      return res.json() as Promise<CreatorLeaderboardResponse>;
-    },
-  });
-
-export const useOfficeZones = () =>
-  useQuery({
-    queryKey: ['office-zones'],
-    queryFn: async () => {
-      const res = await fetch('/api/zones');
-      if (!res.ok) throw new Error('Failed to fetch office zones');
-      return res.json();
-    },
-  });
-
-export type PipelineStageConfig = {
-  id?: string;
-  key: string;
-  label: string;
-  color: string;
-  order: number;
-};
-
-export const usePipelineStages = () =>
-  useQuery({
-    queryKey: ['pipeline-stages'],
-    queryFn: async () => {
-      const res = await fetch('/api/pipeline-stages');
-      if (!res.ok) throw new Error('Failed to fetch pipeline stages');
-      return res.json() as Promise<PipelineStageConfig[]>;
-    },
-  });
-
-export const useSavePipelineStages = () => {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: async (stages: PipelineStageConfig[]) => {
-      const res = await fetch('/api/pipeline-stages', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ stages }),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || 'Failed to save pipeline stages');
-      }
-      return res.json();
-    },
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ['pipeline-stages'] });
-      await qc.invalidateQueries({ queryKey: ['leads'] });
-      await qc.invalidateQueries({ queryKey: ['leads-paginated'] });
-      await qc.invalidateQueries({ queryKey: ['leads', 'status'] });
-      toast.success('Pipeline stages updated');
-    },
-  });
-};
 

@@ -2,8 +2,9 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IZone extends Document {
   name: string;
-  city?: string;
-  areas?: string[];
+  city: string;
+  areas: string[];
+  manager_id?: mongoose.Types.ObjectId;
   color?: string;
   description?: string;
   isActive: boolean;
@@ -14,9 +15,10 @@ export interface IZone extends Document {
 const ZoneSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
-    city: { type: String, default: '' },
-    areas: { type: [String], default: [] },
-    color: { type: String, default: '' },
+    city: { type: String, default: 'Bangalore' },
+    areas: [{ type: String }],
+    manager_id: { type: Schema.Types.ObjectId, ref: 'User' },
+    color: { type: String, default: '#6366f1' },
     description: { type: String },
     isActive: { type: Boolean, default: true },
   },

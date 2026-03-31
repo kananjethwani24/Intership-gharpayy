@@ -1,0 +1,98 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id         Int              @id @default(autoincrement())
+  name       String
+  email      String           @unique
+  phone      String?
+  password   String
+  role       String
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  properties PropertyMaster[]
+}
+
+model PropertyMaster {
+  id             Int          @id @default(autoincrement())
+  name           String
+  area           String
+  gender_allowed String?
+  room_config    String?
+  amenities      String?
+  base_rules     String?
+  ownerId        Int
+  owner          User         @relation(fields: [ownerId], references: [id])
+  rooms          RoomMaster[]
+}
+
+model RoomMaster {
+  id             Int                 @id @default(autoincrement())
+  propertyId     Int
+  room_number    String
+  capacity       Int                 @default(1)
+  default_gender String?
+  base_price     Float?
+  isLocked       Boolean             @default(false)
+  lockedAt       DateTime?
+  youtube_link   String?
+  actions        ActionLog[]
+  availability   AvailabilityUpdate?
+  retail         RetailRoom?
+  property       PropertyMaster      @relation(fields: [propertyId], references: [id])
+  visits         Visit[]
+}
+
+model AvailabilityUpdate {
+  id                Int        @id @default(autoincrement())
+  roomId            Int        @unique
+  availability_type String
+  available_from    DateTime?
+  expected_price    Float?
+  remarks           String?
+  updated_at        DateTime   @updatedAt
+  confirmed_by      Int?
+  room              RoomMaster @relation(fields: [roomId], references: [id])
+}
+
+model RetailRoom {
+  id                 Int        @id @default(autoincrement())
+  roomId             Int        @unique
+  retail_status      String
+  retail_price       Float?
+  pricing_tier       String?
+  brand_notes        String?
+  amenities_snapshot String?
+  approved_by        Int?
+  approved_at        DateTime?
+  updated_at         DateTime   @updatedAt
+  room               RoomMaster @relation(fields: [roomId], references: [id])
+}
+
+model ActionLog {
+  id          Int        @id @default(autoincrement())
+  roomId      Int
+  actionType  String
+  salesUserId Int
+  timestamp   DateTime   @default(now())
+  notes       String?
+  room        RoomMaster @relation(fields: [roomId], references: [id])
+}
+
+model Visit {
+  id            Int        @id @default(autoincrement())
+  roomId        Int
+  customerName  String
+  visitType     String
+  scheduledTime DateTime
+  status        String
+  room          RoomMaster @relation(fields: [roomId], references: [id])
+}

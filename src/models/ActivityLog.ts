@@ -13,7 +13,7 @@ export interface IActivityLog extends Document {
 const ActivityLogSchema: Schema = new Schema(
   {
     leadId: { type: Schema.Types.ObjectId, ref: 'Lead', required: true },
-    agentId: { type: Schema.Types.ObjectId, ref: 'Member' },
+    agentId: { type: Schema.Types.ObjectId, ref: 'Agent' },
     activityType: { type: String, required: true },
     description: { type: String, required: true },
     metadata: { type: Schema.Types.Mixed },

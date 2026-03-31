@@ -1,0 +1,3 @@
+﻿app/matching/page.tsx(896,37): error TS2551: Property 'maxBudget' does not exist on type 'LeadWithRelations'. Did you mean 'budget'?
+src/hooks/useInventoryStore.ts(96,45): error TS2345: Argument of type '{ rooms: {}; }' is not assignable to parameter of type 'Store | (() => Store)'.
+  Property 'actions' is missing in type '{ rooms: {}; }' but required in type 'Store'.

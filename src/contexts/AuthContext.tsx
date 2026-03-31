@@ -2,13 +2,9 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 
 interface AuthUser {
   id: string;
-  username: string;
   email: string;
   fullName: string;
   role: string;
-  phone?: string;
-  zones?: string[];
-  zoneName?: string;
 }
 
 interface AuthContextType {
@@ -33,18 +29,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const checkUser = async () => {
     try {
-      const res = await fetch('/api/auth/me', { cache: 'no-store' });
+      const res = await fetch('/api/auth/me');
       const data = await res.json();
       if (data.user) {
         setUser({
-          id: data.user.id || data.user._id,
-          username: data.user.username,
+          id: data.user._id,
           email: data.user.email,
           fullName: data.user.fullName,
-          role: data.user.role,
-          phone: data.user.phone,
-          zones: data.user.zones || [],
-          zoneName: data.user.zoneName,
+          role: data.user.role
         });
       } else {
         setUser(null);

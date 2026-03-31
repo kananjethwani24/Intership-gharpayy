@@ -1,0 +1,77 @@
+[
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "8-step standard operating procedure for converting any company lead into a PG booking | Gharpayy Sales 2025"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "Step",
+    "__EMPTY": "Step Title",
+    "__EMPTY_1": "What To Do",
+    "__EMPTY_2": "How To Do It",
+    "__EMPTY_3": "Example / Script",
+    "__EMPTY_4": "Tool / Sheet Reference"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 1",
+    "__EMPTY": "IDENTIFY PROSPECT COMPANY",
+    "__EMPTY_1": "Use Sheets 2 (Tech Parks), 5 (MNCs), 3 (Unicorns), 15 (GCCs) to find companies",
+    "__EMPTY_2": "Which tech park are they in? What's the employee count? Look up the company.",
+    "__EMPTY_3": "Example: 'Client says they work at Manyata' → Open Sheet 2, filter by Manyata → Find JP Morgan, Wells Fargo, IBM, Microsoft, Target, Walmart, Nokia, Concentrix",
+    "__EMPTY_4": "TOOL: Use Ctrl+F in Sheet 5 (MNCs) or Sheet 15 (GCCs) to search company name"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 2",
+    "__EMPTY": "FIND COMPANY LOCATION & AREA",
+    "__EMPTY_1": "Get the exact building, tech park, and zone from the relevant sheet",
+    "__EMPTY_2": "Look at 'Area/Location' and 'Building/Tech Park' columns for exact location",
+    "__EMPTY_3": "Example: JP Morgan is in 'Manyata Embassy Business Park, Thanisandra, North Bangalore, 560045'",
+    "__EMPTY_4": "TOOL: Cross-reference with Sheet 16 (PIN Codes) to confirm zone"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 3",
+    "__EMPTY": "MATCH NEAREST PG AREAS",
+    "__EMPTY_1": "Use Sheet 19 (Lead Matcher) to find best PG areas for that zone",
+    "__EMPTY_2": "Match the area name with Lead Matcher rows. Read 'Recommended PG Areas' from Sheet 2",
+    "__EMPTY_3": "Example: Manyata/Thanisandra → Lead Matcher Row 8 → 'Thanisandra Main Road, Nagawara, Hennur Road, Hebbal'",
+    "__EMPTY_4": "TOOL: Also use Sheet 20 (Distance Matrix) to confirm commute distance < 10km"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 4",
+    "__EMPTY": "CHECK BUDGET RANGE",
+    "__EMPTY_1": "Ask what salary/budget the lead has. IT freshers: 8K-15K, Mid-level: 12K-25K, Senior: 20K-40K",
+    "__EMPTY_2": "Junior IT (0-3 yrs): ₹6K-15K/month PG budget. Senior IT (4+ yrs): ₹15K-30K. Freshers: ₹5K-10K",
+    "__EMPTY_3": "Example: Amazon India fresher → Budget ₹6,000-12,000 → Recommend BTM Layout, Bellandur budget PGs",
+    "__EMPTY_4": "TOOL: Check Sheet 19 typical budget ranges per area"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 5",
+    "__EMPTY": "HANDLE AREA NAME ALIASES",
+    "__EMPTY_1": "Leads often use informal names. Learn area aliases to avoid confusion",
+    "__EMPTY_2": "COMMON ALIASES: 'Outer Ring Road' = ORR = Marathahalli-Bellandur corridor. 'Manyata' = Manyata Tech Park = Thanisandra area. 'ITPL' = International Tech Park = Whitefield.",
+    "__EMPTY_3": "ALIASES TABLE: 'Near Prestige' = Marathahalli ORR | 'Near Embassy' = Bellandur | 'Near Bagmane' = CV Raman Nagar | 'Near EGL' = Domlur | 'EC' = Electronic City",
+    "__EMPTY_4": "MORE ALIASES: 'Koramangala startup hub' = Koramangala 4th-8th blocks | 'Silicon Valley of India' = Whitefield-ORR-EC belt"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 6",
+    "__EMPTY": "QUALIFY LEAD FURTHER",
+    "__EMPTY_1": "Ask these key qualifying questions to find best match",
+    "__EMPTY_2": "Q1: Which company do you work for? Q2: Which area is your office? Q3: How much are you looking to spend? Q4: Single/double occupancy? Q5: When do you need it?",
+    "__EMPTY_3": "Example script: 'Hi! I see you work at Google India (Embassy TechVillage, Bellandur). For your budget of ₹10,000-15,000, we have excellent PGs in Bellandur Main Road, Harlur Road, and Sarjapur Road within 5-10 minutes of your office.'",
+    "__EMPTY_4": "TOOL: Use Sheet 8 (Coworking) if lead works from coworking — match with coworking member profiles"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 7",
+    "__EMPTY": "PITCH RELEVANT PG OPTIONS",
+    "__EMPTY_1": "Always mention commute time, key amenities, and price. Compare 2-3 options.",
+    "__EMPTY_2": "Structure: 'For [COMPANY] employees near [AREA], we recommend: 1. [PG Name] in [Sub-Area] - ₹X/month, 10-min commute. 2. [PG Name] - budget option at ₹Y/month.'",
+    "__EMPTY_3": "Example: 'For Flipkart employees at Embassy TechVillage: 1. Bellandur Main Rd PGs - ₹8K-12K, 5 min. 2. Sarjapur Road PGs - ₹7K-10K, 10-15 min. 3. HSR Layout PGs - ₹9K-15K, 20-25 min via ORR.'",
+    "__EMPTY_4": "TIP: Always offer 3 options: budget (< ₹8K), mid-range (₹8K-15K), premium (₹15K+)"
+  },
+  {
+    " LEAD CONVERSION SOP — GHARPAYY SALES PLAYBOOK": "STEP 8",
+    "__EMPTY": "FOLLOW-UP & CLOSE",
+    "__EMPTY_1": "Follow-up within 24 hours. Track lead status. Use area demand to prioritize",
+    "__EMPTY_2": "Priority order by PG demand: Very High demand areas first (Koramangala, HSR, Whitefield, ORR, EC), then High, then Medium",
+    "__EMPTY_3": "Example follow-up: 'Hi [Name], checking back on your PG search near [Company]. I have [X] new options matching your budget of ₹[Y]. Would you like to visit today?'",
+    "__EMPTY_4": "CONVERSION TIP: Leads from Very High demand areas (GCC workers at JP Morgan, Google, Cisco) convert at 3x higher rate than low-demand areas"
+  }
+]

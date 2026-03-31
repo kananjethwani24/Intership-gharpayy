@@ -21,7 +21,7 @@ export async function GET(req: Request) {
       ...r.toObject(),
       id: r._id,
       leads: r.leadId,
-      members: r.agentId,
+      agents: r.agentId,
       reminder_date: r.reminderDate
     }));
 

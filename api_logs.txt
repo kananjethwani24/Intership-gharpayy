@@ -1,0 +1,91 @@
+[2026-03-23T13:29:17.566Z] FETCH: Property 'MEXA COED' requested. hasPdf: false
+[2026-03-23T13:29:28.395Z] UPLOAD: ID 69c13bc4fecd8cb0b9f69589, Base64 Size: 4.19MB
+[2026-03-23T13:29:28.598Z] FOUND: Property name is 'MEXA COED'
+[2026-03-23T13:29:28.648Z] SUCCESS: PDF saved for MEXA COED. Verifying field now...
+[2026-03-23T13:29:28.698Z] VERIFIED: Does brochurePdf exist in DB? false
+[2026-03-23T13:29:40.844Z] UPLOAD: ID 69c13bc4fecd8cb0b9f69589, Base64 Size: 4.19MB
+[2026-03-23T13:29:40.901Z] FOUND: Property name is 'MEXA COED'
+[2026-03-23T13:29:40.940Z] SUCCESS: PDF saved for MEXA COED. Verifying field now...
+[2026-03-23T13:29:40.985Z] VERIFIED: Does brochurePdf exist in DB? false
+[2026-03-23T13:30:09.702Z] UPLOAD: ID 69c13bc4fecd8cb0b9f69589, Base64 Size: 4.19MB
+[2026-03-23T13:30:09.750Z] FOUND: Property name is 'MEXA COED'
+[2026-03-23T13:30:09.797Z] SUCCESS: PDF saved for MEXA COED. Verifying field now...
+[2026-03-23T13:30:09.836Z] VERIFIED: Does brochurePdf exist in DB? false
+[2026-03-23T13:32:18.847Z] FETCH: Property 'MEXA COED' requested. hasPdf: false
+[2026-03-23T13:32:28.766Z] FORCE-UPLOAD: ID 69c13bc4fecd8cb0b9f69589, size: 4.19MB
+[2026-03-23T13:32:28.803Z] RAW UPDATING: Property MEXA COED (69c13bc4fecd8cb0b9f69589)
+[2026-03-23T13:32:30.085Z] FORCE-UPLOAD: ID 69c13bc4fecd8cb0b9f69589, size: 4.19MB
+[2026-03-23T13:32:30.129Z] RAW UPDATING: Property MEXA COED (69c13bc4fecd8cb0b9f69589)
+[2026-03-23T13:32:49.035Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T13:32:57.804Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T13:33:02.170Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:33:23.400Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:33:57.401Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:34:14.048Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:35:17.150Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:36:19.138Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:37:51.788Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:38:01.768Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:54:44.890Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:56:54.995Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:59:07.989Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T13:59:38.347Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:02:32.072Z] FETCH: Property 'ZEDD COED' requested. hasPdf: false
+[2026-03-23T14:02:38.934Z] FETCH: Property 'CAZZ COED' requested. hasPdf: false
+[2026-03-23T14:02:47.693Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:04:24.419Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:04:39.423Z] RAW-DELETE: ID 69c13bc4fecd8cb0b9f69589
+[2026-03-23T14:04:48.342Z] FETCH: Property 'MEXA COED' requested. hasPdf: false
+[2026-03-23T14:04:52.164Z] FETCH: Property 'MEXA COED' requested. hasPdf: false
+[2026-03-23T14:05:09.886Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: false
+[2026-03-23T14:05:14.072Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: false
+[2026-03-23T14:07:18.969Z] FETCH: Property 'MEXA COED' requested. hasPdf: false
+[2026-03-23T14:07:28.293Z] FORCE-UPLOAD: ID 69c13bc4fecd8cb0b9f69589, size: 4.19MB
+[2026-03-23T14:07:28.321Z] FORCE-UPLOAD: ID 69c13bc4fecd8cb0b9f69589, size: 4.19MB
+[2026-03-23T14:07:28.427Z] RAW UPDATING: Property MEXA COED (69c13bc4fecd8cb0b9f69589)
+[2026-03-23T14:07:28.435Z] RAW UPDATING: Property MEXA COED (69c13bc4fecd8cb0b9f69589)
+[2026-03-23T14:07:32.332Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T14:07:36.232Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T14:12:09.418Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:17:17.306Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:28:12.509Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:31:56.767Z] FORCE-UPLOAD: ID 69c13bc4fecd8cb0b9f69589, size: 4.19MB
+[2026-03-23T14:31:59.606Z] RAW UPDATING: Property MEXA COED (69c13bc4fecd8cb0b9f69589)
+[2026-03-23T14:32:04.514Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T14:33:06.032Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:35:15.440Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:35:58.932Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:37:55.960Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:38:27.305Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:38:36.899Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:40:22.708Z] FORCE-UPLOAD: ID 69c15081ba470656fc7c9081, size: 4.19MB
+[2026-03-23T14:40:22.826Z] RAW UPDATING: Property MEXA COED (69c15081ba470656fc7c9081)
+[2026-03-23T14:40:25.708Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T14:40:31.659Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:42:18.400Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:43:14.484Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:43:53.630Z] FETCH: Property 'MEXA COED' requested. hasPdf: false
+[2026-03-23T14:44:09.343Z] FORCE-UPLOAD: ID 69c15199ba470656fc7c914b, size: 4.19MB
+[2026-03-23T14:44:09.408Z] RAW UPDATING: Property MEXA COED (69c15199ba470656fc7c914b)
+[2026-03-23T14:44:11.814Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T14:44:14.147Z] FETCH: Property 'MEXA COED' requested. hasPdf: true
+[2026-03-23T14:46:54.654Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: false
+[2026-03-23T14:52:24.354Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: false
+[2026-03-23T14:52:37.220Z] FORCE-UPLOAD: ID 69c1521dba470656fc7c92e9, size: 4.19MB
+[2026-03-23T14:52:37.815Z] RAW UPDATING: Property AMEX LUXE BALC COED (69c1521dba470656fc7c92e9)
+[2026-03-23T14:52:42.720Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404
+[2026-03-23T15:01:36.900Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:01:47.224Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:06:01.900Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:07:52.000Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:08:22.618Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:10:03.991Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:12:03.870Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:13:09.102Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:13:50.778Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:15:48.533Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:19:10.723Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T15:21:40.342Z] FETCH: Property 'AMEX LUXE BALC COED' requested. hasPdf: true
+[2026-03-23T17:11:39.390Z] FORCE-UPLOAD: ID 69c171e3ce81021628a42390, size: 4.19MB
+[2026-03-23T17:11:39.551Z] RAW UPDATING: Property FINN AFFO COED (69c171e3ce81021628a42390)
+[2026-03-23T17:11:47.026Z] RAW-VERIFIED: Success? true. DB-Field Length: 4391404

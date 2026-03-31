@@ -1,0 +1,1535 @@
+[
+  {
+    "name": "CBD / MG Road / Residency Rd",
+    "pinCode": "560001",
+    "lat": 12.9716,
+    "lng": 77.5946,
+    "type": "area",
+    "zone": "Central"
+  },
+  {
+    "name": "Chickpet / KR Market",
+    "pinCode": "560002",
+    "lat": 12.9659,
+    "lng": 77.5773,
+    "type": "area",
+    "zone": "Central"
+  },
+  {
+    "name": "Malleswaram",
+    "pinCode": "560003",
+    "lat": 13.0035,
+    "lng": 77.5668,
+    "type": "area",
+    "zone": "North-West"
+  },
+  {
+    "name": "Basavanagudi / Mavalli",
+    "pinCode": "560004",
+    "lat": 12.9457,
+    "lng": 77.5681,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Fraser Town / Jeevanahalli",
+    "pinCode": "560005",
+    "lat": 12.993,
+    "lng": 77.611,
+    "type": "area",
+    "zone": "North-East"
+  },
+  {
+    "name": "Indiranagar (partial)",
+    "pinCode": "560008",
+    "lat": 12.9784,
+    "lng": 77.6408,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "Bhashyam Circle / Shivajinagar",
+    "pinCode": "560010",
+    "lat": 12.9821,
+    "lng": 77.5972,
+    "type": "area",
+    "zone": "Central"
+  },
+  {
+    "name": "Jayanagar 3rd Block",
+    "pinCode": "560011",
+    "lat": 12.9299,
+    "lng": 77.5886,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Doorvaninagar / DRDO",
+    "pinCode": "560016",
+    "lat": 13.016,
+    "lng": 77.6315,
+    "type": "area",
+    "zone": "North-East"
+  },
+  {
+    "name": "Cox Town / Ulsoor",
+    "pinCode": "560017",
+    "lat": 12.9792,
+    "lng": 77.6141,
+    "type": "area",
+    "zone": "East-Central"
+  },
+  {
+    "name": "Sadashivanagar",
+    "pinCode": "560018",
+    "lat": 13.0075,
+    "lng": 77.58,
+    "type": "area",
+    "zone": "North-West"
+  },
+  {
+    "name": "Gaviopuram / NR Colony",
+    "pinCode": "560019",
+    "lat": 12.9495,
+    "lng": 77.5583,
+    "type": "area",
+    "zone": "South-West"
+  },
+  {
+    "name": "KP West",
+    "pinCode": "560020",
+    "lat": 12.9832,
+    "lng": 77.5712,
+    "type": "area",
+    "zone": "North-West"
+  },
+  {
+    "name": "Okalipuram / Gayathrinagar",
+    "pinCode": "560021",
+    "lat": 12.9889,
+    "lng": 77.5519,
+    "type": "area",
+    "zone": "West"
+  },
+  {
+    "name": "Yeshwanthpur",
+    "pinCode": "560022",
+    "lat": 13.0215,
+    "lng": 77.5452,
+    "type": "area",
+    "zone": "North-West"
+  },
+  {
+    "name": "Rajajinagar",
+    "pinCode": "560025",
+    "lat": 12.994,
+    "lng": 77.5542,
+    "type": "area",
+    "zone": "North-West"
+  },
+  {
+    "name": "Lakkasandra / Christ Univ area",
+    "pinCode": "560029",
+    "lat": 12.9287,
+    "lng": 77.6017,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Adugodi / Koramangala-adj",
+    "pinCode": "560030",
+    "lat": 12.9434,
+    "lng": 77.6116,
+    "type": "area",
+    "zone": "South-East"
+  },
+  {
+    "name": "Koramangala",
+    "pinCode": "560034",
+    "lat": 12.9352,
+    "lng": 77.6244,
+    "type": "area",
+    "zone": "South-East"
+  },
+  {
+    "name": "Marathahalli / Doddanekkundi",
+    "pinCode": "560037",
+    "lat": 12.9591,
+    "lng": 77.6974,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "Indiranagar",
+    "pinCode": "560038",
+    "lat": 12.9784,
+    "lng": 77.6408,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "Vijayanagar",
+    "pinCode": "560040",
+    "lat": 12.9735,
+    "lng": 77.5232,
+    "type": "area",
+    "zone": "West"
+  },
+  {
+    "name": "Jayanagar",
+    "pinCode": "560041",
+    "lat": 12.9258,
+    "lng": 77.585,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Kalyanagar",
+    "pinCode": "560043",
+    "lat": 13.0231,
+    "lng": 77.6419,
+    "type": "area",
+    "zone": "North-East"
+  },
+  {
+    "name": "Nagavara / Manyata",
+    "pinCode": "560045",
+    "lat": 13.051,
+    "lng": 77.6215,
+    "type": "area",
+    "zone": "North"
+  },
+  {
+    "name": "Benson Town",
+    "pinCode": "560046",
+    "lat": 13.0025,
+    "lng": 77.6003,
+    "type": "area",
+    "zone": "North-Central"
+  },
+  {
+    "name": "Banashankari",
+    "pinCode": "560050",
+    "lat": 12.9276,
+    "lng": 77.5593,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Mathikere / MSRIT",
+    "pinCode": "560054",
+    "lat": 13.031,
+    "lng": 77.5596,
+    "type": "area",
+    "zone": "North-West"
+  },
+  {
+    "name": "Malleswaram West",
+    "pinCode": "560055",
+    "lat": 13.002,
+    "lng": 77.5581,
+    "type": "area",
+    "zone": "North-West"
+  },
+  {
+    "name": "Bannerghatta Road",
+    "pinCode": "560060",
+    "lat": 12.893,
+    "lng": 77.598,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Doddakallasandra",
+    "pinCode": "560062",
+    "lat": 12.8786,
+    "lng": 77.5589,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Yelahanka (AF Station)",
+    "pinCode": "560063",
+    "lat": 13.1007,
+    "lng": 77.5963,
+    "type": "area",
+    "zone": "North"
+  },
+  {
+    "name": "Yelahanka / Satellite Town",
+    "pinCode": "560064",
+    "lat": 13.1002,
+    "lng": 77.5963,
+    "type": "area",
+    "zone": "North"
+  },
+  {
+    "name": "Whitefield / Pattandur",
+    "pinCode": "560066",
+    "lat": 12.97,
+    "lng": 77.7482,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "Kadugodi / Whitefield ext",
+    "pinCode": "560067",
+    "lat": 12.9912,
+    "lng": 77.7503,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "Bommanahalli",
+    "pinCode": "560068",
+    "lat": 12.9039,
+    "lng": 77.633,
+    "type": "area",
+    "zone": "South-East"
+  },
+  {
+    "name": "Jayanagar East",
+    "pinCode": "560069",
+    "lat": 12.9308,
+    "lng": 77.605,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Jayanagar West / Padmanabhnagar",
+    "pinCode": "560070",
+    "lat": 12.933,
+    "lng": 77.568,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Domlur",
+    "pinCode": "560071",
+    "lat": 12.9608,
+    "lng": 77.6492,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "New Thippasandra",
+    "pinCode": "560075",
+    "lat": 12.9906,
+    "lng": 77.6459,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "BTM Layout / MICO Layout",
+    "pinCode": "560076",
+    "lat": 12.9163,
+    "lng": 77.61,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "JP Nagar Phase 3 / Yelachenahalli",
+    "pinCode": "560078",
+    "lat": 12.9058,
+    "lng": 77.5874,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "Basaveshwaranagar / Kamakshipalya",
+    "pinCode": "560079",
+    "lat": 12.9841,
+    "lng": 77.5354,
+    "type": "area",
+    "zone": "West"
+  },
+  {
+    "name": "Panathur",
+    "pinCode": "560087",
+    "lat": 12.938,
+    "lng": 77.708,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "Amruthahalli",
+    "pinCode": "560092",
+    "lat": 13.0495,
+    "lng": 77.5916,
+    "type": "area",
+    "zone": "North"
+  },
+  {
+    "name": "CV Raman Nagar / Bagmane",
+    "pinCode": "560093",
+    "lat": 12.9845,
+    "lng": 77.6614,
+    "type": "area",
+    "zone": "East"
+  },
+  {
+    "name": "Yelahanka 2nd Stage",
+    "pinCode": "560094",
+    "lat": 13.0815,
+    "lng": 77.5981,
+    "type": "area",
+    "zone": "North"
+  },
+  {
+    "name": "Koramangala (ext)",
+    "pinCode": "560095",
+    "lat": 12.9252,
+    "lng": 77.6188,
+    "type": "area",
+    "zone": "South-East"
+  },
+  {
+    "name": "Electronic City Phase 1",
+    "pinCode": "560100",
+    "lat": 12.8399,
+    "lng": 77.6773,
+    "type": "area",
+    "zone": "South"
+  },
+  {
+    "name": "HSR Layout",
+    "pinCode": "560102",
+    "lat": 12.9116,
+    "lng": 77.6389,
+    "type": "area",
+    "zone": "South-East"
+  },
+  {
+    "name": "Bellandur / Embassy TechVillage",
+    "pinCode": "560103",
+    "lat": 12.9277,
+    "lng": 77.6781,
+    "type": "area",
+    "zone": "South-East"
+  },
+  {
+    "name": "Bagmane Tech Park",
+    "address": "CV Raman Nagar",
+    "pinCode": "560093",
+    "zone": "Central-East",
+    "lat": 12.9845,
+    "lng": 77.6614,
+    "type": "tech-park"
+  },
+  {
+    "name": "Prestige Tech Park",
+    "address": "Marathahalli ORR",
+    "pinCode": "560103",
+    "zone": "South-East",
+    "lat": 12.955,
+    "lng": 77.69,
+    "type": "tech-park"
+  },
+  {
+    "name": "Global Village Tech Park",
+    "address": "Mysore Road / Kengeri",
+    "pinCode": "560059",
+    "zone": "West",
+    "lat": 12.92,
+    "lng": 77.48,
+    "type": "tech-park"
+  },
+  {
+    "name": "Bagmane World Tech Centre",
+    "address": "Mahadevapura",
+    "pinCode": "560048",
+    "zone": "East",
+    "lat": 12.995,
+    "lng": 77.675,
+    "type": "tech-park"
+  },
+  {
+    "name": "Brigade Tech Gardens",
+    "address": "Whitefield",
+    "pinCode": "560066",
+    "zone": "East",
+    "lat": 12.962,
+    "lng": 77.72,
+    "type": "tech-park"
+  },
+  {
+    "name": "Pritech Park SEZ",
+    "address": "Bellandur / ORR",
+    "pinCode": "560103",
+    "zone": "South-East",
+    "lat": 12.925,
+    "lng": 77.685,
+    "type": "tech-park"
+  },
+  {
+    "name": "Kalyani Tech Park",
+    "address": "Whitefield area",
+    "pinCode": "560066",
+    "zone": "East",
+    "lat": 12.97,
+    "lng": 77.71,
+    "type": "tech-park"
+  },
+  {
+    "name": "AKR Tech Park",
+    "address": "Whitefield",
+    "pinCode": "560066",
+    "zone": "East",
+    "lat": 12.968,
+    "lng": 77.705,
+    "type": "tech-park"
+  },
+  {
+    "name": "Shilpitha Tech Park",
+    "address": "HSR/ORR area",
+    "pinCode": "560102",
+    "zone": "South-East",
+    "lat": 12.92,
+    "lng": 77.66,
+    "type": "tech-park"
+  },
+  {
+    "name": "Whitefield (Kadugodi)",
+    "line": "Purple",
+    "lat": 12.9912,
+    "lng": 77.7503,
+    "type": "metro-station"
+  },
+  {
+    "name": "Hopefarm Channasandra",
+    "line": "Purple",
+    "lat": 12.9912,
+    "lng": 77.7408,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kadugodi Tree Park",
+    "line": "Purple",
+    "lat": 12.9885,
+    "lng": 77.735,
+    "type": "metro-station"
+  },
+  {
+    "name": "Pattandur Agrahara",
+    "line": "Purple",
+    "lat": 12.981,
+    "lng": 77.731,
+    "type": "metro-station"
+  },
+  {
+    "name": "Sri Sathya Sai Hospital",
+    "line": "Purple",
+    "lat": 12.978,
+    "lng": 77.7245,
+    "type": "metro-station"
+  },
+  {
+    "name": "Nallurhalli",
+    "line": "Purple",
+    "lat": 12.9788,
+    "lng": 77.716,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kundalahalli",
+    "line": "Purple",
+    "lat": 12.9764,
+    "lng": 77.7082,
+    "type": "metro-station"
+  },
+  {
+    "name": "Seetharamapalya",
+    "line": "Purple",
+    "lat": 12.972,
+    "lng": 77.702,
+    "type": "metro-station"
+  },
+  {
+    "name": "Hoodi",
+    "line": "Purple",
+    "lat": 12.965,
+    "lng": 77.6962,
+    "type": "metro-station"
+  },
+  {
+    "name": "Garudacharpalya",
+    "line": "Purple",
+    "lat": 12.9621,
+    "lng": 77.6889,
+    "type": "metro-station"
+  },
+  {
+    "name": "Singayyanapalya",
+    "line": "Purple",
+    "lat": 12.9605,
+    "lng": 77.682,
+    "type": "metro-station"
+  },
+  {
+    "name": "Krishnarajapura",
+    "line": "Purple",
+    "lat": 12.9591,
+    "lng": 77.6751,
+    "type": "metro-station"
+  },
+  {
+    "name": "Benniganahalli",
+    "line": "Purple",
+    "lat": 12.976,
+    "lng": 77.664,
+    "type": "metro-station"
+  },
+  {
+    "name": "Baiyappanahalli",
+    "line": "Purple",
+    "lat": 12.9818,
+    "lng": 77.6556,
+    "type": "metro-station"
+  },
+  {
+    "name": "Swami Vivekananda Road",
+    "line": "Purple",
+    "lat": 12.9845,
+    "lng": 77.6614,
+    "type": "metro-station"
+  },
+  {
+    "name": "Indiranagar",
+    "line": "Purple",
+    "lat": 12.9784,
+    "lng": 77.6408,
+    "type": "metro-station"
+  },
+  {
+    "name": "Halasuru",
+    "line": "Purple",
+    "lat": 12.9765,
+    "lng": 77.6273,
+    "type": "metro-station"
+  },
+  {
+    "name": "Trinity",
+    "line": "Purple",
+    "lat": 12.9732,
+    "lng": 77.6148,
+    "type": "metro-station"
+  },
+  {
+    "name": "Mahatma Gandhi Road",
+    "line": "Purple",
+    "lat": 12.9741,
+    "lng": 77.607,
+    "type": "metro-station"
+  },
+  {
+    "name": "Cubbon Park",
+    "line": "Purple",
+    "lat": 12.9763,
+    "lng": 77.5965,
+    "type": "metro-station"
+  },
+  {
+    "name": "Vidhana Soudha",
+    "line": "Purple",
+    "lat": 12.9791,
+    "lng": 77.5906,
+    "type": "metro-station"
+  },
+  {
+    "name": "Sir M. Visveshwaraya",
+    "line": "Purple",
+    "lat": 12.9769,
+    "lng": 77.5826,
+    "type": "metro-station"
+  },
+  {
+    "name": "Majestic (Nadaprabhu Kempegowda)",
+    "line": "Purple",
+    "lat": 12.9767,
+    "lng": 77.5718,
+    "type": "metro-station"
+  },
+  {
+    "name": "KSR Railway Station",
+    "line": "Purple",
+    "lat": 12.9762,
+    "lng": 77.568,
+    "type": "metro-station"
+  },
+  {
+    "name": "Magadi Road",
+    "line": "Purple",
+    "lat": 12.9753,
+    "lng": 77.5595,
+    "type": "metro-station"
+  },
+  {
+    "name": "Hosahalli",
+    "line": "Purple",
+    "lat": 12.9766,
+    "lng": 77.5507,
+    "type": "metro-station"
+  },
+  {
+    "name": "Vijayanagar",
+    "line": "Purple",
+    "lat": 12.9735,
+    "lng": 77.5232,
+    "type": "metro-station"
+  },
+  {
+    "name": "Attiguppe",
+    "line": "Purple",
+    "lat": 12.9703,
+    "lng": 77.5162,
+    "type": "metro-station"
+  },
+  {
+    "name": "Deepanjali Nagar",
+    "line": "Purple",
+    "lat": 12.9681,
+    "lng": 77.5095,
+    "type": "metro-station"
+  },
+  {
+    "name": "Mysuru Road",
+    "line": "Purple",
+    "lat": 12.9627,
+    "lng": 77.499,
+    "type": "metro-station"
+  },
+  {
+    "name": "Pantharapalya-Nayandahalli",
+    "line": "Purple",
+    "lat": 12.9501,
+    "lng": 77.5052,
+    "type": "metro-station"
+  },
+  {
+    "name": "Rajarajeshwari Nagar",
+    "line": "Purple",
+    "lat": 12.935,
+    "lng": 77.496,
+    "type": "metro-station"
+  },
+  {
+    "name": "Jnanabharathi",
+    "line": "Purple",
+    "lat": 12.9286,
+    "lng": 77.49,
+    "type": "metro-station"
+  },
+  {
+    "name": "Pattanagere",
+    "line": "Purple",
+    "lat": 12.9176,
+    "lng": 77.4873,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kengeri Bus Terminal",
+    "line": "Purple",
+    "lat": 12.9092,
+    "lng": 77.4825,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kengeri",
+    "line": "Purple",
+    "lat": 12.9014,
+    "lng": 77.4791,
+    "type": "metro-station"
+  },
+  {
+    "name": "Challaghatta",
+    "line": "Purple",
+    "lat": 12.895,
+    "lng": 77.475,
+    "type": "metro-station"
+  },
+  {
+    "name": "Madavara",
+    "line": "Green",
+    "lat": 13.0732,
+    "lng": 77.502,
+    "type": "metro-station"
+  },
+  {
+    "name": "Chikkabidarakallu",
+    "line": "Green",
+    "lat": 13.06,
+    "lng": 77.513,
+    "type": "metro-station"
+  },
+  {
+    "name": "Manjunath Nagar",
+    "line": "Green",
+    "lat": 13.05,
+    "lng": 77.52,
+    "type": "metro-station"
+  },
+  {
+    "name": "Nagasandra",
+    "line": "Green",
+    "lat": 13.044,
+    "lng": 77.526,
+    "type": "metro-station"
+  },
+  {
+    "name": "Dasarahalli",
+    "line": "Green",
+    "lat": 13.036,
+    "lng": 77.533,
+    "type": "metro-station"
+  },
+  {
+    "name": "Jalahalli",
+    "line": "Green",
+    "lat": 13.028,
+    "lng": 77.54,
+    "type": "metro-station"
+  },
+  {
+    "name": "Peenya Industry",
+    "line": "Green",
+    "lat": 13.02,
+    "lng": 77.538,
+    "type": "metro-station"
+  },
+  {
+    "name": "Peenya",
+    "line": "Green",
+    "lat": 13.0155,
+    "lng": 77.5343,
+    "type": "metro-station"
+  },
+  {
+    "name": "Goraguntepalya",
+    "line": "Green",
+    "lat": 13.01,
+    "lng": 77.5388,
+    "type": "metro-station"
+  },
+  {
+    "name": "Yeshwanthpur",
+    "line": "Green",
+    "lat": 13.0215,
+    "lng": 77.5452,
+    "type": "metro-station"
+  },
+  {
+    "name": "Sandal Soap Factory",
+    "line": "Green",
+    "lat": 13.0082,
+    "lng": 77.5508,
+    "type": "metro-station"
+  },
+  {
+    "name": "Mahalakshmi",
+    "line": "Green",
+    "lat": 13.0009,
+    "lng": 77.5558,
+    "type": "metro-station"
+  },
+  {
+    "name": "Rajajinagar",
+    "line": "Green",
+    "lat": 12.994,
+    "lng": 77.5542,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kuvempu Road",
+    "line": "Green",
+    "lat": 12.9901,
+    "lng": 77.5609,
+    "type": "metro-station"
+  },
+  {
+    "name": "Srirampura",
+    "line": "Green",
+    "lat": 12.9867,
+    "lng": 77.5648,
+    "type": "metro-station"
+  },
+  {
+    "name": "Mantri Square Sampige Road",
+    "line": "Green",
+    "lat": 12.9827,
+    "lng": 77.5693,
+    "type": "metro-station"
+  },
+  {
+    "name": "Majestic (Nadaprabhu Kempegowda)",
+    "line": "Green",
+    "lat": 12.9767,
+    "lng": 77.5718,
+    "type": "metro-station"
+  },
+  {
+    "name": "Chickpete",
+    "line": "Green",
+    "lat": 12.9719,
+    "lng": 77.5741,
+    "type": "metro-station"
+  },
+  {
+    "name": "Krishna Rajendra Market",
+    "line": "Green",
+    "lat": 12.9677,
+    "lng": 77.5763,
+    "type": "metro-station"
+  },
+  {
+    "name": "National College",
+    "line": "Green",
+    "lat": 12.96,
+    "lng": 77.5811,
+    "type": "metro-station"
+  },
+  {
+    "name": "Lalbagh",
+    "line": "Green",
+    "lat": 12.9505,
+    "lng": 77.5826,
+    "type": "metro-station"
+  },
+  {
+    "name": "South End Circle",
+    "line": "Green",
+    "lat": 12.9434,
+    "lng": 77.5835,
+    "type": "metro-station"
+  },
+  {
+    "name": "Jayanagar",
+    "line": "Green",
+    "lat": 12.9289,
+    "lng": 77.583,
+    "type": "metro-station"
+  },
+  {
+    "name": "Rashtreeya Vidyalaya Road",
+    "line": "Green",
+    "lat": 12.9175,
+    "lng": 77.5837,
+    "type": "metro-station"
+  },
+  {
+    "name": "Banashankari",
+    "line": "Green",
+    "lat": 12.9119,
+    "lng": 77.5793,
+    "type": "metro-station"
+  },
+  {
+    "name": "Jaya Prakash Nagar",
+    "line": "Green",
+    "lat": 12.9058,
+    "lng": 77.5874,
+    "type": "metro-station"
+  },
+  {
+    "name": "Yelachenahalli",
+    "line": "Green",
+    "lat": 12.8932,
+    "lng": 77.5822,
+    "type": "metro-station"
+  },
+  {
+    "name": "Konankunte Cross",
+    "line": "Green",
+    "lat": 12.88,
+    "lng": 77.5761,
+    "type": "metro-station"
+  },
+  {
+    "name": "Doddakallasandra",
+    "line": "Green",
+    "lat": 12.8786,
+    "lng": 77.5589,
+    "type": "metro-station"
+  },
+  {
+    "name": "Vajarahalli",
+    "line": "Green",
+    "lat": 12.87,
+    "lng": 77.5498,
+    "type": "metro-station"
+  },
+  {
+    "name": "Thalaghattapura",
+    "line": "Green",
+    "lat": 12.8605,
+    "lng": 77.5405,
+    "type": "metro-station"
+  },
+  {
+    "name": "Silk Institute",
+    "line": "Green",
+    "lat": 12.855,
+    "lng": 77.5345,
+    "type": "metro-station"
+  },
+  {
+    "name": "Rashtreeya Vidyalaya Road",
+    "line": "Yellow",
+    "lat": 12.9175,
+    "lng": 77.5837,
+    "type": "metro-station"
+  },
+  {
+    "name": "Ragigudda",
+    "line": "Yellow",
+    "lat": 12.9145,
+    "lng": 77.596,
+    "type": "metro-station"
+  },
+  {
+    "name": "Jayadeva Hospital",
+    "line": "Yellow",
+    "lat": 12.9228,
+    "lng": 77.6019,
+    "type": "metro-station"
+  },
+  {
+    "name": "BTM Layout",
+    "line": "Yellow",
+    "lat": 12.9163,
+    "lng": 77.61,
+    "type": "metro-station"
+  },
+  {
+    "name": "Central Silk Board",
+    "line": "Yellow",
+    "lat": 12.916,
+    "lng": 77.6231,
+    "type": "metro-station"
+  },
+  {
+    "name": "Bommanahalli",
+    "line": "Yellow",
+    "lat": 12.9039,
+    "lng": 77.633,
+    "type": "metro-station"
+  },
+  {
+    "name": "Hongasandra",
+    "line": "Yellow",
+    "lat": 12.895,
+    "lng": 77.6349,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kudlu Gate",
+    "line": "Yellow",
+    "lat": 12.884,
+    "lng": 77.6432,
+    "type": "metro-station"
+  },
+  {
+    "name": "Singasandra",
+    "line": "Yellow",
+    "lat": 12.872,
+    "lng": 77.652,
+    "type": "metro-station"
+  },
+  {
+    "name": "Hosa Road",
+    "line": "Yellow",
+    "lat": 12.8599,
+    "lng": 77.6875,
+    "type": "metro-station"
+  },
+  {
+    "name": "Beratena Agrahara",
+    "line": "Yellow",
+    "lat": 12.85,
+    "lng": 77.682,
+    "type": "metro-station"
+  },
+  {
+    "name": "Electronic City",
+    "line": "Yellow",
+    "lat": 12.8445,
+    "lng": 77.6782,
+    "type": "metro-station"
+  },
+  {
+    "name": "Infosys Foundation Konappana Agrahara",
+    "line": "Yellow",
+    "lat": 12.8337,
+    "lng": 77.6758,
+    "type": "metro-station"
+  },
+  {
+    "name": "Huskur Road",
+    "line": "Yellow",
+    "lat": 12.823,
+    "lng": 77.6745,
+    "type": "metro-station"
+  },
+  {
+    "name": "Biocon Hebbagodi",
+    "line": "Yellow",
+    "lat": 12.8226,
+    "lng": 77.6768,
+    "type": "metro-station"
+  },
+  {
+    "name": "Delta Electronics Bommasandra",
+    "line": "Yellow",
+    "lat": 12.81,
+    "lng": 77.68,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kalena Agrahara",
+    "line": "Pink",
+    "lat": 12.875,
+    "lng": 77.61,
+    "type": "metro-station"
+  },
+  {
+    "name": "Hulimavu",
+    "line": "Pink",
+    "lat": 12.885,
+    "lng": 77.605,
+    "type": "metro-station"
+  },
+  {
+    "name": "IIMB",
+    "line": "Pink",
+    "lat": 12.899,
+    "lng": 77.6,
+    "type": "metro-station"
+  },
+  {
+    "name": "JP Nagar 4th Phase",
+    "line": "Pink",
+    "lat": 12.899,
+    "lng": 77.591,
+    "type": "metro-station"
+  },
+  {
+    "name": "Jayadeva Hospital",
+    "line": "Pink",
+    "lat": 12.9228,
+    "lng": 77.6019,
+    "type": "metro-station"
+  },
+  {
+    "name": "Tavarekere",
+    "line": "Pink",
+    "lat": 12.925,
+    "lng": 77.6075,
+    "type": "metro-station"
+  },
+  {
+    "name": "Dairy Circle",
+    "line": "Pink",
+    "lat": 12.9319,
+    "lng": 77.6026,
+    "type": "metro-station"
+  },
+  {
+    "name": "Lakkasandra",
+    "line": "Pink",
+    "lat": 12.9287,
+    "lng": 77.6017,
+    "type": "metro-station"
+  },
+  {
+    "name": "Langford Town",
+    "line": "Pink",
+    "lat": 12.952,
+    "lng": 77.595,
+    "type": "metro-station"
+  },
+  {
+    "name": "National Military School",
+    "line": "Pink",
+    "lat": 12.96,
+    "lng": 77.59,
+    "type": "metro-station"
+  },
+  {
+    "name": "Mahatma Gandhi Road",
+    "line": "Pink",
+    "lat": 12.9741,
+    "lng": 77.607,
+    "type": "metro-station"
+  },
+  {
+    "name": "Shivajinagar",
+    "line": "Pink",
+    "lat": 12.987,
+    "lng": 77.601,
+    "type": "metro-station"
+  },
+  {
+    "name": "Cantonment Rly Station",
+    "line": "Pink",
+    "lat": 12.9971,
+    "lng": 77.5993,
+    "type": "metro-station"
+  },
+  {
+    "name": "Pottery Town",
+    "line": "Pink",
+    "lat": 13.0008,
+    "lng": 77.607,
+    "type": "metro-station"
+  },
+  {
+    "name": "Tannery Road",
+    "line": "Pink",
+    "lat": 13.008,
+    "lng": 77.62,
+    "type": "metro-station"
+  },
+  {
+    "name": "Nagawara",
+    "line": "Pink",
+    "lat": 13.038,
+    "lng": 77.625,
+    "type": "metro-station"
+  },
+  {
+    "name": "Central Silk Board",
+    "line": "Blue",
+    "lat": 12.916,
+    "lng": 77.6231,
+    "type": "metro-station"
+  },
+  {
+    "name": "HSR Layout",
+    "line": "Blue",
+    "lat": 12.9116,
+    "lng": 77.6389,
+    "type": "metro-station"
+  },
+  {
+    "name": "Agara",
+    "line": "Blue",
+    "lat": 12.919,
+    "lng": 77.644,
+    "type": "metro-station"
+  },
+  {
+    "name": "Ibbaluru",
+    "line": "Blue",
+    "lat": 12.928,
+    "lng": 77.658,
+    "type": "metro-station"
+  },
+  {
+    "name": "Bellandur",
+    "line": "Blue",
+    "lat": 12.9277,
+    "lng": 77.6781,
+    "type": "metro-station"
+  },
+  {
+    "name": "Kadubeesanahalli",
+    "line": "Blue",
+    "lat": 12.945,
+    "lng": 77.7048,
+    "type": "metro-station"
+  },
+  {
+    "name": "Marathahalli",
+    "line": "Blue",
+    "lat": 12.9591,
+    "lng": 77.6974,
+    "type": "metro-station"
+  },
+  {
+    "name": "ISRO",
+    "line": "Blue",
+    "lat": 12.9785,
+    "lng": 77.687,
+    "type": "metro-station"
+  },
+  {
+    "name": "Doddanekundi",
+    "line": "Blue",
+    "lat": 12.965,
+    "lng": 77.6962,
+    "type": "metro-station"
+  },
+  {
+    "name": "Bagmane Developers DRDO",
+    "line": "Blue",
+    "lat": 12.9845,
+    "lng": 77.6614,
+    "type": "metro-station"
+  },
+  {
+    "name": "Krishnarajapura",
+    "line": "Blue",
+    "lat": 12.9591,
+    "lng": 77.6751,
+    "type": "metro-station"
+  },
+  {
+    "name": "Nagawara",
+    "line": "Blue",
+    "lat": 13.038,
+    "lng": 77.625,
+    "type": "metro-station"
+  },
+  {
+    "name": "Yelahanka",
+    "line": "Blue",
+    "lat": 13.1002,
+    "lng": 77.5963,
+    "type": "metro-station"
+  },
+  {
+    "name": "Airport City",
+    "line": "Blue",
+    "lat": 13.18,
+    "lng": 77.63,
+    "type": "metro-station"
+  },
+  {
+    "name": "KIAL Terminals",
+    "line": "Blue",
+    "lat": 13.1987,
+    "lng": 77.7063,
+    "type": "metro-station"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 1,
+    "lng": 12.9397,
+    "type": "sub-area",
+    "pinCode": "77.6109"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 2,
+    "lng": 12.9372,
+    "type": "sub-area",
+    "pinCode": "77.6140"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 3,
+    "lng": 12.9352,
+    "type": "sub-area",
+    "pinCode": "77.6172"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 4,
+    "lng": 12.9325,
+    "type": "sub-area",
+    "pinCode": "77.6200"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 5,
+    "lng": 12.933,
+    "type": "sub-area",
+    "pinCode": "77.6228"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 6,
+    "lng": 12.931,
+    "type": "sub-area",
+    "pinCode": "77.6250"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 7,
+    "lng": 12.9295,
+    "type": "sub-area",
+    "pinCode": "77.6274"
+  },
+  {
+    "name": "560034",
+    "parentArea": "Koramangala",
+    "lat": 8,
+    "lng": 12.9275,
+    "type": "sub-area",
+    "pinCode": "77.6300"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 1,
+    "lng": 12.9382,
+    "type": "sub-area",
+    "pinCode": "77.5820"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 2,
+    "lng": 12.9358,
+    "type": "sub-area",
+    "pinCode": "77.5835"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 3,
+    "lng": 12.934,
+    "type": "sub-area",
+    "pinCode": "77.5858"
+  },
+  {
+    "name": "560011",
+    "parentArea": "Jayanagar",
+    "lat": 3,
+    "lng": 12.932,
+    "type": "sub-area",
+    "pinCode": "77.5865"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 4,
+    "lng": 12.9289,
+    "type": "sub-area",
+    "pinCode": "77.5830"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 4,
+    "lng": 12.928,
+    "type": "sub-area",
+    "pinCode": "77.5850"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 5,
+    "lng": 12.9265,
+    "type": "sub-area",
+    "pinCode": "77.5828"
+  },
+  {
+    "name": "560069",
+    "parentArea": "Jayanagar",
+    "lat": 6,
+    "lng": 12.9308,
+    "type": "sub-area",
+    "pinCode": "77.6050"
+  },
+  {
+    "name": "560069",
+    "parentArea": "Jayanagar",
+    "lat": 7,
+    "lng": 12.929,
+    "type": "sub-area",
+    "pinCode": "77.6070"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 8,
+    "lng": 12.926,
+    "type": "sub-area",
+    "pinCode": "77.5875"
+  },
+  {
+    "name": "560041",
+    "parentArea": "Jayanagar",
+    "lat": 9,
+    "lng": 12.924,
+    "type": "sub-area",
+    "pinCode": "77.5890"
+  },
+  {
+    "name": "560076",
+    "parentArea": "BTM Layout",
+    "lat": 1,
+    "lng": 12.9215,
+    "type": "sub-area",
+    "pinCode": "77.6148"
+  },
+  {
+    "name": "560076",
+    "parentArea": "BTM Layout",
+    "lat": 2,
+    "lng": 12.9163,
+    "type": "sub-area",
+    "pinCode": "77.6100"
+  },
+  {
+    "name": "560038",
+    "parentArea": "Indiranagar",
+    "lat": 1,
+    "lng": 12.9784,
+    "type": "sub-area",
+    "pinCode": "77.6408"
+  },
+  {
+    "name": "560038",
+    "parentArea": "Indiranagar",
+    "lat": 2,
+    "lng": 12.974,
+    "type": "sub-area",
+    "pinCode": "77.6408"
+  },
+  {
+    "name": "560038",
+    "parentArea": "Indiranagar",
+    "lat": 100,
+    "lng": 12.9784,
+    "type": "sub-area",
+    "pinCode": "77.6454"
+  },
+  {
+    "name": "560050",
+    "parentArea": "Banashankari",
+    "lat": 1,
+    "lng": 12.9394,
+    "type": "sub-area",
+    "pinCode": "77.5712"
+  },
+  {
+    "name": "560050",
+    "parentArea": "Banashankari",
+    "lat": 2,
+    "lng": 12.934,
+    "type": "sub-area",
+    "pinCode": "77.5680"
+  },
+  {
+    "name": "560050",
+    "parentArea": "Banashankari",
+    "lat": 3,
+    "lng": 12.929,
+    "type": "sub-area",
+    "pinCode": "77.5640"
+  },
+  {
+    "name": "560050",
+    "parentArea": "Banashankari",
+    "lat": 4,
+    "lng": 12.925,
+    "type": "sub-area",
+    "pinCode": "77.5610"
+  },
+  {
+    "name": "560050",
+    "parentArea": "Banashankari",
+    "lat": 5,
+    "lng": 12.921,
+    "type": "sub-area",
+    "pinCode": "77.5590"
+  }
+]

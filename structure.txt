@@ -1,0 +1,12 @@
+MEGA DB Row 1:
+{
+  " GHARPAYY BANGALORE MEGA DATABASE — MASTER OVERVIEW": " TOTAL RECORDS: 1,438 | 21 SHEETS | Covering: Tech Parks • Unicorns • GCCs • MNCs • Hospitals • Colleges • Coworking • Pharma • Gaming/AI • PSUs • Banks • E-commerce • PIN Codes • Metro Stations"
+}
+
+GEO DB Row 1:
+{
+  "GHARPAY BANGALORE GEO-INTELLIGENCE DATASET": "",
+  "": "",
+  "_1": "",
+  "_2": ""
+}

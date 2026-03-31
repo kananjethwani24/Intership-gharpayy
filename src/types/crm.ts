@@ -6,17 +6,11 @@ export interface Lead {
   source: LeadSource;
   status: PipelineStage;
   assignedAgent: string;
-  zone?: string;
   createdAt: string;
   lastActivity: string;
   firstResponseTime?: number; // in minutes
   budget?: string;
   preferredLocation?: string;
-  moveInDate?: string;
-  profession?: string;
-  roomType?: string;
-  needPreference?: string;
-  specialRequests?: string;
   notes?: string;
   nextFollowUp?: string;
   visitDate?: string;
@@ -26,17 +20,19 @@ export interface Lead {
 
 export type LeadSource = 'whatsapp' | 'website' | 'instagram' | 'facebook' | 'phone' | 'landing_page';
 
-export type PipelineStage = string;
-
-export type PipelineStageConfig = {
-  key: string;
-  label: string;
-  color: string;
-};
+export type PipelineStage =
+  | 'new'
+  | 'contacted'
+  | 'requirement_collected'
+  | 'property_suggested'
+  | 'visit_scheduled'
+  | 'visit_completed'
+  | 'booked'
+  | 'lost';
 
 export type VisitOutcome = 'booked' | 'considering' | 'not_interested';
 
-export interface Member {
+export interface Agent {
   id: string;
   name: string;
   avatar?: string;
@@ -58,7 +54,7 @@ export interface Visit {
   outcome?: VisitOutcome;
 }
 
-export const PIPELINE_STAGES: PipelineStageConfig[] = [
+export const PIPELINE_STAGES: { key: PipelineStage; label: string; color: string }[] = [
   { key: 'new', label: 'New Lead', color: 'bg-pipeline-new' },
   { key: 'contacted', label: 'Contacted', color: 'bg-pipeline-contacted' },
   { key: 'requirement_collected', label: 'Requirement Collected', color: 'bg-pipeline-requirement' },

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Booking from '@/models/Booking';
+import Visit from '@/models/Visit';
+import Room from '@/models/Room';
 
 export async function GET(req: Request) {
   try {
@@ -44,7 +46,23 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     await connectToDatabase();
+
+    // Critical Architecture: Zero Leakage Validation
+    if (!body.visitId || !body.roomId) {
+       return NextResponse.json({ error: 'Leakage Blocked: Cannot instantiate a booking without a verified physical visit trail and Room ID.' }, { status: 400 });
+    }
+
+    const linkedVisit = await Visit.findById(body.visitId);
+    if (!linkedVisit || linkedVisit.roomId?.toString() !== body.roomId?.toString()) {
+       return NextResponse.json({ error: 'Leakage Blocked: Visit trail mismatch. Booking denied.' }, { status: 400 });
+    }
+
+    // Provision the booking and establish the Hard Lock
     const booking = await Booking.create(body);
+    
+    // Establishing Hard Lock on the Room
+    await Room.findByIdAndUpdate(body.roomId, { status: 'booked' });
+
     return NextResponse.json(booking, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });

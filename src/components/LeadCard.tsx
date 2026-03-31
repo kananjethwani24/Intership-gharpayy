@@ -1,13 +1,10 @@
-import type { ReactNode } from 'react';
 import { Lead, PIPELINE_STAGES, SOURCE_LABELS } from '@/types/crm';
 import { Phone, Clock, MapPin, IndianRupee, PhoneCall, MessageCircle, AlertCircle } from 'lucide-react';
-import { ZonePill } from '@/components/LeadUIAtoms';
 
 interface LeadCardProps {
   lead: Lead;
   compact?: boolean;
   stale?: boolean;
-  extraActions?: ReactNode;
 }
 
 const sourceColors: Record<string, string> = {
@@ -19,7 +16,7 @@ const sourceColors: Record<string, string> = {
   landing_page: 'bg-purple-500/10 text-purple-600',
 };
 
-const LeadCard = ({ lead, compact, stale, extraActions }: LeadCardProps) => {
+const LeadCard = ({ lead, compact, stale }: LeadCardProps) => {
   return (
     <div className="pipeline-card">
       <div className="flex items-start justify-between mb-2">
@@ -37,12 +34,9 @@ const LeadCard = ({ lead, compact, stale, extraActions }: LeadCardProps) => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-1 items-end">
-          {lead.zone && <ZonePill zoneName={lead.zone} xs />}
-          <span className={`badge-pipeline text-[10px] ${sourceColors[lead.source] || 'bg-secondary text-secondary-foreground'}`}>
-            {SOURCE_LABELS[lead.source]}
-          </span>
-        </div>
+        <span className={`badge-pipeline text-[10px] ${sourceColors[lead.source] || 'bg-secondary text-secondary-foreground'}`}>
+          {SOURCE_LABELS[lead.source]}
+        </span>
       </div>
 
       {!compact && (
@@ -83,7 +77,6 @@ const LeadCard = ({ lead, compact, stale, extraActions }: LeadCardProps) => {
           <a href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="p-1 rounded-lg hover:bg-secondary transition-colors">
             <MessageCircle size={11} className="text-success" />
           </a>
-          {extraActions}
         </div>
       </div>
     </div>

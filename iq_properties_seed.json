@@ -1,0 +1,47 @@
+[
+  {
+    "name": "FORUM PRO BOYS",
+    "actualName": "FORUM PRO BOYS",
+    "area": "Koramangala",
+    "locality": "Silk Board, Koramangala, SG Palaya, Nexus Mall",
+    "nearbyLandmarks": "Nexus Mall, Christ University Central Campus, Dairy Circle, Koramangala 5th / 6th Block",
+    "price": "Triple Sharing 13k, Dual Sharing 16k, Private rooms 23k",
+    "priceMin": 13000,
+    "priceMax": 23000,
+    "managerName": "NA",
+    "managerContact": "8296120000",
+    "gender": "Boys",
+    "targetAudience": "Both",
+    "propertyType": "Premium"
+  },
+  {
+    "name": "FORUM 1 BOYS",
+    "actualName": "FORUM 1 BOYS",
+    "area": "Koramangala",
+    "locality": "silk board, Koramangala, sg palaya, nexus",
+    "nearbyLandmarks": "Nexus Mall, Christ University Central Campus, Dairy Circle, Koramangala 5th / 6th Block",
+    "price": "Triple Sharing 12k, Dual Sharing 15k, Private rooms 24k",
+    "priceMin": 12000,
+    "priceMax": 24000,
+    "managerName": "NA",
+    "managerContact": "7275630000",
+    "gender": "Boys",
+    "targetAudience": "Both",
+    "propertyType": "Premium"
+  },
+  {
+    "name": "KNOX COED",
+    "actualName": "KNOX COED",
+    "area": "Bellandur",
+    "locality": "KADUBEESANAHALLI",
+    "nearbyLandmarks": "Sony Software India, Embassy Tech Village",
+    "price": "Dual Sharing 13k, Private rooms 23k",
+    "priceMin": 13000,
+    "priceMax": 23000,
+    "managerName": "NA",
+    "managerContact": "7337770000",
+    "gender": "Co-live",
+    "targetAudience": "Working Professionals",
+    "propertyType": "Premium"
+  }
+]

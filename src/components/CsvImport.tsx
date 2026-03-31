@@ -28,16 +28,55 @@ const CsvImport = ({ onComplete }: { onComplete?: () => void }) => {
     const reader = new FileReader();
     reader.onload = (ev) => {
       const text = ev.target?.result as string;
-      const lines = text.split('\n').map(l => l.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
-      if (lines.length < 2) { toast.error('CSV must have a header row and at least one data row'); return; }
-      setHeaders(lines[0]);
-      setRows(lines.slice(1).filter(r => r.some(c => c)));
-      // Auto-map by name matching
+      const csvRows: string[][] = [];
+      let currentRow: string[] = [];
+      let currentField = '';
+      let inQuotes = false;
+
+      // Robust CSV parsing
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          currentRow.push(currentField.trim().replace(/^"|"$/g, ''));
+          currentField = '';
+        } else if ((char === '\n' || (char === '\r' && text[i+1] === '\n')) && !inQuotes) {
+          if (char === '\r') i++;
+          currentRow.push(currentField.trim().replace(/^"|"$/g, ''));
+          csvRows.push(currentRow);
+          currentRow = [];
+          currentField = '';
+        } else {
+          currentField += char;
+        }
+      }
+      if (currentRow.length > 0 || currentField) {
+        currentRow.push(currentField.trim().replace(/^"|"$/g, ''));
+        csvRows.push(currentRow);
+      }
+
+      if (csvRows.length === 0) {
+        toast.error('Invalid CSV format');
+        return;
+      }
+
+      const headers = csvRows[0];
+      const dataRows = csvRows.slice(1).filter(r => r.some(c => c));
+
+      setHeaders(headers);
+      setRows(dataRows);
+      
+      // Smart Auto-map
       const autoMap: Record<number, string> = {};
-      lines[0].forEach((h, i) => {
-        const lower = h.toLowerCase();
-        const match = LEAD_FIELDS.find(f => f.key !== 'skip' && (lower.includes(f.key.toLowerCase()) || lower.includes(f.label.toLowerCase())));
-        if (match) autoMap[i] = match.key;
+      headers.forEach((h, i) => {
+        const lower = h.toLowerCase().trim();
+        if (lower.includes('name')) autoMap[i] = 'name';
+        else if (lower.includes('phone') || lower.includes('mobile') || lower.includes('contact')) autoMap[i] = 'phone';
+        else if (lower.includes('email')) autoMap[i] = 'email';
+        else if (lower.includes('location') || lower.includes('locality')) autoMap[i] = 'preferredLocation';
+        else if (lower.includes('budget')) autoMap[i] = 'budget';
+        else if (lower.includes('note') || lower.includes('form full')) autoMap[i] = 'notes';
       });
       setMapping(autoMap);
       setStep('map');
@@ -46,24 +85,33 @@ const CsvImport = ({ onComplete }: { onComplete?: () => void }) => {
   }, []);
 
   const handleImport = async () => {
-    const nameIdx = Object.entries(mapping).find(([, v]) => v === 'name')?.[0];
-    const phoneIdx = Object.entries(mapping).find(([, v]) => v === 'phone')?.[0];
-    if (nameIdx === undefined || phoneIdx === undefined) {
-      toast.error('Name and Phone columns must be mapped');
-      return;
-    }
-
     setImporting(true);
+    let dummyCount = 1;
+
     try {
       const leads = rows.map(row => {
-        const lead: Record<string, any> = { status: 'new', source: 'website' };
+        const lead: Record<string, any> = { status: 'new', source: 'csv_import' };
+        
+        // Map fields based on user selection
         Object.entries(mapping).forEach(([idx, field]) => {
           if (field !== 'skip' && row[Number(idx)]) {
             lead[field] = row[Number(idx)];
           }
         });
+
+        // If Name is missing, use Dummy X
+        if (!lead.name || lead.name.trim() === '') {
+          lead.name = `Dummy ${dummyCount++}`;
+        }
+
         return lead;
-      }).filter(l => l.name && l.phone);
+      }).filter(l => l.phone && l.phone.trim().length >= 6);
+
+      if (leads.length === 0) {
+        toast.error('No leads found with valid phone numbers. Please make sure the Phone column is mapped.');
+        setImporting(false);
+        return;
+      }
 
       const res = await fetch('/api/leads/bulk', {
         method: 'POST',
@@ -84,7 +132,6 @@ const CsvImport = ({ onComplete }: { onComplete?: () => void }) => {
     }
   };
 
-
   if (step === 'upload' || step === 'done') {
     return (
       <div className="text-center py-8">
@@ -93,14 +140,18 @@ const CsvImport = ({ onComplete }: { onComplete?: () => void }) => {
             <Check size={14} /> Import complete!
           </div>
         )}
-        <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
-          <FileSpreadsheet size={24} className="text-accent" />
+        <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center mx-auto mb-4">
+          <FileSpreadsheet size={24} className="text-indigo-500" />
         </div>
-        <p className="text-xs text-muted-foreground mb-4">Upload a CSV file with lead data</p>
+        <p className="text-sm font-medium mb-1">Upload Leads CSV</p>
+        <p className="text-xs text-muted-foreground mb-6 max-w-[240px] mx-auto">Upload a file to automatically import leads into your dashboard</p>
         <label className="cursor-pointer">
           <input type="file" accept=".csv" onChange={handleFile} className="hidden" />
-          <Button variant="default" size="sm" className="gap-1.5" asChild>
-            <span><Upload size={13} /> {step === 'done' ? 'Import More' : 'Choose CSV File'}</span>
+          <Button variant="default" size="sm" className="bg-indigo-600 hover:bg-indigo-700 h-9 px-6 rounded-xl" asChild>
+            <div className="flex items-center gap-2">
+              <Upload size={14} />
+              <span>{step === 'done' ? 'Import More' : 'Choose CSV File'}</span>
+            </div>
           </Button>
         </label>
       </div>
@@ -109,56 +160,84 @@ const CsvImport = ({ onComplete }: { onComplete?: () => void }) => {
 
   if (step === 'map') {
     return (
-      <div className="space-y-4">
-        <h4 className="font-display font-semibold text-xs">Map Columns</h4>
-        <div className="space-y-2">
+      <div className="space-y-6">
+        <div className="space-y-1">
+          <h4 className="font-semibold text-sm">Map CSV Columns</h4>
+          <p className="text-xs text-muted-foreground">Link your file columns to the dashboard fields</p>
+        </div>
+        <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 scrollbar-thin">
           {headers.map((h, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <span className="text-xs text-muted-foreground w-32 truncate">{h}</span>
-              <span className="text-muted-foreground text-xs">→</span>
-              <Select value={mapping[i] || 'skip'} onValueChange={v => setMapping(m => ({ ...m, [i]: v }))}>
-                <SelectTrigger className="h-8 text-xs w-40"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {LEAD_FIELDS.map(f => <SelectItem key={f.key} value={f.key}>{f.label}</SelectItem>)}
-                </SelectContent>
-              </Select>
+            <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-secondary/30 border border-border/50">
+              <span className="text-xs font-medium truncate max-w-[150px]">{h}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-tight">Map to</span>
+                <Select value={mapping[i] || 'skip'} onValueChange={v => setMapping(m => ({ ...m, [i]: v }))}>
+                  <SelectTrigger className="h-8 text-xs w-32 bg-background"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {LEAD_FIELDS.map(f => <SelectItem key={f.key} value={f.key}>{f.label}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           ))}
         </div>
-        <Button size="sm" onClick={() => setStep('preview')} className="text-xs">Preview Import</Button>
+        <div className="flex justify-end pt-2 border-t border-border">
+          <Button size="sm" onClick={() => setStep('preview')} className="bg-indigo-600 hover:bg-indigo-700 rounded-xl px-6">
+            Continue to Preview
+          </Button>
+        </div>
       </div>
     );
   }
 
   // Preview
   return (
-    <div className="space-y-4">
-      <h4 className="font-display font-semibold text-xs">Preview ({rows.length} rows)</h4>
-      <div className="overflow-x-auto border border-border rounded-xl">
-        <table className="w-full text-xs">
-          <thead>
-            <tr className="bg-secondary">
-              {Object.entries(mapping).filter(([, v]) => v !== 'skip').map(([idx, field]) => (
-                <th key={idx} className="px-3 py-2 text-left font-medium text-muted-foreground capitalize">{field}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.slice(0, 5).map((row, ri) => (
-              <tr key={ri} className="border-t border-border">
-                {Object.entries(mapping).filter(([, v]) => v !== 'skip').map(([idx]) => (
-                  <td key={idx} className="px-3 py-2 text-foreground">{row[Number(idx)]}</td>
+    <div className="space-y-6">
+      <div className="space-y-1">
+        <div className="flex items-center justify-between">
+          <h4 className="font-semibold text-sm">Preview Leads</h4>
+          <span className="text-[10px] bg-indigo-500/10 text-indigo-500 px-2 py-0.5 rounded-full font-bold uppercase">{rows.length} Total</span>
+        </div>
+        <p className="text-xs text-muted-foreground">Confirm the import details below</p>
+      </div>
+      
+      <div className="overflow-hidden border border-border rounded-xl bg-background/50">
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="bg-secondary/50 border-b border-border">
+                {Object.entries(mapping).filter(([, v]) => v !== 'skip').map(([idx, field]) => (
+                  <th key={idx} className="px-4 py-2.5 text-left font-semibold text-muted-foreground uppercase tracking-tight text-[10px]">{field}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.slice(0, 5).map((row, ri) => (
+                <tr key={ri} className="border-b border-border/50 last:border-0 hover:bg-secondary/20 transition-colors">
+                  {Object.entries(mapping).filter(([, v]) => v !== 'skip').map(([idx]) => (
+                    <td key={idx} className="px-4 py-2 text-foreground/80 truncate max-w-[120px]">{row[Number(idx)] || <span className="text-muted-foreground italic">empty</span>}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-      {rows.length > 5 && <p className="text-[10px] text-muted-foreground">...and {rows.length - 5} more rows</p>}
-      <div className="flex gap-2">
-        <Button variant="outline" size="sm" onClick={() => setStep('map')} className="text-xs">Back</Button>
-        <Button size="sm" onClick={handleImport} disabled={importing} className="text-xs">
-          {importing ? 'Importing...' : `Import ${rows.length} Leads`}
+      
+      {rows.length > 5 && (
+        <div className="text-center">
+          <p className="text-[10px] text-muted-foreground inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/50">
+            <Check size={10} className="text-success" /> and {rows.length - 5} more detected leads
+          </p>
+        </div>
+      )}
+      
+      <div className="flex items-center justify-between pt-4 border-t border-border mt-2">
+        <Button variant="ghost" size="sm" onClick={() => setStep('map')} className="text-xs rounded-xl pr-4">
+          ← Back to Map
+        </Button>
+        <Button size="sm" onClick={handleImport} disabled={importing} className="bg-indigo-600 hover:bg-indigo-700 rounded-xl px-8 h-9 shadow-lg shadow-indigo-500/20">
+          {importing ? 'Processing...' : `Confirm Import`}
         </Button>
       </div>
     </div>

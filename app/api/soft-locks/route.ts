@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import SoftLock from '@/models/SoftLock';
+import mongoose from 'mongoose';
 
 export async function GET(req: Request) {
   try {
@@ -17,11 +18,11 @@ export async function GET(req: Request) {
     
     const locks = await query.sort({ createdAt: -1 });
     
-    const transformedLocks = locks.map(l => ({
+    const transformedLocks = (locks as any[]).map(l => ({
       ...l.toObject(),
       id: l._id,
       leads: l.leadId,
-      members: l.lockedBy
+      agents: l.lockedBy
     }));
 
     return NextResponse.json(transformedLocks);
@@ -34,6 +35,14 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     await connectToDatabase();
+    
+    // Fallbyck logic if lockedBy is missing (since admin auth isn't fully integrated here)
+    if (!body.lockedBy) {
+       const firstAdmin = await mongoose.model('Agent').findOne({ role: 'admin' }) as any;
+       body.lockedBy = firstAdmin?._id || new mongoose.Types.ObjectId();
+    }
+    if (!body.lockType) body.lockType = 'visit';
+    
     const lock = await SoftLock.create(body);
     return NextResponse.json(lock, { status: 201 });
   } catch (error: any) {

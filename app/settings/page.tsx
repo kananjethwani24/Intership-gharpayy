@@ -1,43 +1,20 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AppLayout from '@/components/AppLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAgents } from '@/hooks/useCrmData';
-import { useAuth } from '@/contexts/AuthContext';
-import { SuperAdminSettingsPanel } from '@/components/SuperAdminSettingsPanel';
-import { CreatorLeaderboardPanel } from '@/components/CreatorLeaderboardPanel';
+import { useAgents, useProperties, useCreateAgent, useUpdateAgent, useDeleteAgent, useCreateProperty, useDeleteProperty } from '@/hooks/useCrmData';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { KeyRound, UserCog, User, Save, Trophy } from 'lucide-react';
+import { Plus, Trash2, UserCog, Building2, User, Save } from 'lucide-react';
 
 const SettingsPage = () => {
-  const { user } = useAuth();
-  const { data: members } = useAgents();
-  const isCEO = user?.role === 'super_admin';
-  const isManager = user?.role === 'manager';
-  const isAdmin = user?.role === 'admin';
-  const isMember = user?.role === 'member';
-
-  if (isCEO) {
-    return (
-      <AppLayout title="Settings" subtitle="Super Admin Control Panel">
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
-        >
-          <div className="bg-card border rounded-lg p-6">
-            <h2 className="text-lg font-semibold mb-6">Manage Organization</h2>
-            <SuperAdminSettingsPanel />
-          </div>
-        </motion.div>
-      </AppLayout>
-    );
-  }
+  const user = { id: 'admin', email: 'admin@gharpayy.com', user_metadata: { full_name: 'Admin' } };
+  const { data: agents } = useAgents();
+  const { data: properties } = useProperties();
 
   return (
     <AppLayout title="Settings" subtitle="System configuration">
@@ -46,41 +23,21 @@ const SettingsPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
       >
-        <Tabs defaultValue={isManager ? 'admins' : isAdmin ? 'members' : 'profile'} className="space-y-6">
-          <TabsList className="flex flex-nowrap justify-start h-auto gap-2 w-full max-w-full overflow-x-auto bg-transparent p-0 pb-1">
-            {isManager && (
-              <TabsTrigger value="admins" className="shrink-0 text-[11px] sm:text-xs px-2.5 sm:px-3 gap-1.5 whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary border bg-background"><UserCog size={13} /> Admins</TabsTrigger>
-            )}
-            {isAdmin && (
-              <TabsTrigger value="members" className="shrink-0 text-[11px] sm:text-xs px-2.5 sm:px-3 gap-1.5 whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary border bg-background"><UserCog size={13} /> Members</TabsTrigger>
-            )}
-            {!isManager && !isAdmin && !isMember && (
-              <TabsTrigger value="team" className="shrink-0 text-[11px] sm:text-xs px-2.5 sm:px-3 gap-1.5 whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary border bg-background"><UserCog size={13} /> Team</TabsTrigger>
-            )}
-            <TabsTrigger value="profile" className="shrink-0 text-[11px] sm:text-xs px-2.5 sm:px-3 gap-1.5 whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary border bg-background"><User size={13} /> Profile</TabsTrigger>
-            <TabsTrigger value="leaderboard" className="shrink-0 text-[11px] sm:text-xs px-2.5 sm:px-3 gap-1.5 whitespace-nowrap data-[state=active]:bg-primary/10 data-[state=active]:text-primary border bg-background"><Trophy size={13} /> Leaderboard</TabsTrigger>
+        <Tabs defaultValue="team" className="space-y-6">
+          <TabsList className="grid grid-cols-3 w-full max-w-sm">
+            <TabsTrigger value="team" className="text-xs gap-1.5"><UserCog size={13} /> Team</TabsTrigger>
+            <TabsTrigger value="properties" className="text-xs gap-1.5"><Building2 size={13} /> Properties</TabsTrigger>
+            <TabsTrigger value="profile" className="text-xs gap-1.5"><User size={13} /> Profile</TabsTrigger>
           </TabsList>
 
-          {!isManager && !isAdmin && !isMember && (
-            <TabsContent value="team">
-              <TeamTab members={members || []} />
-            </TabsContent>
-          )}
-          {isAdmin && (
-            <TabsContent value="members">
-              <TeamTab members={members || []} title="Members" emptyLabel="No members in matching zones" />
-            </TabsContent>
-          )}
-          {isManager && (
-            <TabsContent value="admins">
-              <AdminsTab />
-            </TabsContent>
-          )}
-          <TabsContent value="leaderboard">
-            <CreatorLeaderboardPanel />
+          <TabsContent value="team">
+            <TeamTab agents={agents || []} />
+          </TabsContent>
+          <TabsContent value="properties">
+            <PropertiesTab properties={properties || []} />
           </TabsContent>
           <TabsContent value="profile">
-            <ProfileTab user={user || {}} />
+            <ProfileTab user={user} />
           </TabsContent>
         </Tabs>
       </motion.div>
@@ -88,75 +45,154 @@ const SettingsPage = () => {
   );
 };
 
-function AdminsTab() {
-  const [admins, setAdmins] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+function TeamTab({ agents }: { agents: any[] }) {
+  const [form, setForm] = useState({ name: '', email: '', phone: '' });
+  const createAgent = useCreateAgent();
+  const updateAgent = useUpdateAgent();
+  const deleteAgent = useDeleteAgent();
 
-  const loadAdmins = async () => {
+  const handleAdd = async () => {
+    if (!form.name) { toast.error('Name is required'); return; }
     try {
-      setLoading(true);
-      const res = await fetch('/api/admins');
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to load admins');
-      setAdmins(data);
-    } catch (err: any) {
-      toast.error(err.message);
-    } finally {
-      setLoading(false);
-    }
+      await createAgent.mutateAsync(form);
+      setForm({ name: '', email: '', phone: '' });
+      toast.success('Agent added');
+    } catch (err: any) { toast.error(err.message); }
   };
 
-  useEffect(() => {
-    loadAdmins();
-  }, []);
+  const handleToggle = async (id: string, isActive: boolean) => {
+    try {
+      await updateAgent.mutateAsync({ id, is_active: !isActive });
+      toast.success(isActive ? 'Agent deactivated' : 'Agent activated');
+    } catch (err: any) { toast.error(err.message); }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      if (!confirm('Are you sure?')) return;
+      await deleteAgent.mutateAsync(id);
+      toast.success('Agent removed');
+    } catch (err: any) { toast.error(err.message); }
+  };
 
   return (
     <div className="space-y-6">
       <div className="kpi-card">
-        <h3 className="font-display font-semibold text-xs mb-4">Admin List</h3>
-        {loading ? (
-          <p className="text-xs text-muted-foreground">Loading admins...</p>
-        ) : (
-          <div className="space-y-3">
-            {admins.map((admin) => (
-              <div key={admin.id} className="rounded-xl bg-secondary/50 p-3 space-y-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1">
-                    <p className="text-sm font-semibold text-foreground">Admin Details</p>
-                    <p className="text-[11px] text-muted-foreground"><span className="font-medium text-foreground">Name:</span> {admin.fullName}</p>
-                    <p className="text-[11px] text-muted-foreground"><span className="font-medium text-foreground">Email:</span> {admin.email}</p>
-                    <p className="text-[11px] text-muted-foreground"><span className="font-medium text-foreground">Phone:</span> {admin.phone || 'No phone'}</p>
-                  </div>
+        <h3 className="font-display font-semibold text-xs mb-4">Add Agent</h3>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="space-y-1.5">
+            <Label className="text-[10px]">Name *</Label>
+            <Input placeholder="Agent name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="text-xs" />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-[10px]">Email</Label>
+            <Input placeholder="email@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="text-xs" />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-[10px]">Phone</Label>
+            <Input placeholder="+91..." value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="text-xs" />
+          </div>
+        </div>
+        <Button size="sm" onClick={handleAdd} disabled={createAgent.isPending} className="mt-3 gap-1.5 text-xs">
+          <Plus size={12} /> {createAgent.isPending ? 'Adding...' : 'Add Agent'}
+        </Button>
+      </div>
+
+      <div className="kpi-card">
+        <h3 className="font-display font-semibold text-xs mb-4">Team Members</h3>
+        <div className="space-y-2">
+          {agents.map(a => (
+            <div key={a.id} className="flex items-center justify-between p-3 rounded-xl bg-secondary/50">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                  <span className="text-[10px] font-bold text-accent">{a.name.charAt(0)}</span>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-foreground">{a.name}</p>
+                  <p className="text-[10px] text-muted-foreground">{a.email || a.phone || 'No contact info'}</p>
                 </div>
               </div>
-            ))}
-            {admins.length === 0 && <p className="text-xs text-muted-foreground text-center py-4">No admins found</p>}
-          </div>
-        )}
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" className="text-[10px] h-7" onClick={() => handleToggle(a.id, (a as any).is_active)}>
+                  {(a as any).is_active ? 'Deactivate' : 'Activate'}
+                </Button>
+                <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-destructive hover:text-destructive" onClick={() => handleDelete(a.id)}>
+                  <Trash2 size={12} />
+                </Button>
+              </div>
+            </div>
+          ))}
+          {agents.length === 0 && <p className="text-xs text-muted-foreground text-center py-6">No agents yet</p>}
+        </div>
       </div>
     </div>
   );
 }
 
-function TeamTab({ members, title = 'Team Members', emptyLabel = 'No members yet' }: { members: any[]; title?: string; emptyLabel?: string }) {
+function PropertiesTab({ properties }: { properties: any[] }) {
+  const [form, setForm] = useState({ name: '', city: '', area: '', price_range: '', address: '' });
+  const createProperty = useCreateProperty();
+  const deleteProperty = useDeleteProperty();
+
+  const handleAdd = async () => {
+    if (!form.name) { toast.error('Name is required'); return; }
+    try {
+      await createProperty.mutateAsync(form);
+      toast.success('Property added');
+      setForm({ name: '', city: '', area: '', price_range: '', address: '' });
+    } catch (err: any) { toast.error(err.message); }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      if (!confirm('Are you sure?')) return;
+      await deleteProperty.mutateAsync(id);
+      toast.success('Property removed');
+    } catch (err: any) { toast.error(err.message); }
+  };
 
   return (
     <div className="space-y-6">
       <div className="kpi-card">
-        <h3 className="font-display font-semibold text-xs mb-4">{title}</h3>
+        <h3 className="font-display font-semibold text-xs mb-4">Add Property</h3>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1.5">
+            <Label className="text-[10px]">Name *</Label>
+            <Input placeholder="Property name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="text-xs" />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-[10px]">City</Label>
+            <Input placeholder="City" value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))} className="text-xs" />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-[10px]">Area</Label>
+            <Input placeholder="Area" value={form.area} onChange={e => setForm(f => ({ ...f, area: e.target.value }))} className="text-xs" />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-[10px]">Price Range</Label>
+            <Input placeholder="₹50L - 80L" value={form.price_range} onChange={e => setForm(f => ({ ...f, price_range: e.target.value }))} className="text-xs" />
+          </div>
+        </div>
+        <Button size="sm" onClick={handleAdd} disabled={createProperty.isPending} className="mt-3 gap-1.5 text-xs">
+          <Plus size={12} /> {createProperty.isPending ? 'Adding...' : 'Add Property'}
+        </Button>
+      </div>
+
+      <div className="kpi-card">
+        <h3 className="font-display font-semibold text-xs mb-4">Properties</h3>
         <div className="space-y-2">
-          {members.map(a => (
-            <div key={a.id} className="flex items-start justify-between gap-3 p-3 rounded-xl bg-secondary/50">
-              <div className="space-y-1">
-                <p className="text-xs font-semibold text-foreground">Member Details</p>
-                <p className="text-[11px] text-muted-foreground"><span className="font-medium text-foreground">Name:</span> {a.name}</p>
-                <p className="text-[11px] text-muted-foreground"><span className="font-medium text-foreground">Email:</span> {a.email || 'No email'}</p>
-                <p className="text-[11px] text-muted-foreground"><span className="font-medium text-foreground">Phone:</span> {a.phone || 'No phone'}</p>
-                <p className="text-[11px] text-muted-foreground"><span className="font-medium text-foreground">Zone:</span> {a.zones?.join(', ') || 'NA'}</p>
+          {properties.map(p => (
+            <div key={p.id} className="flex items-center justify-between p-3 rounded-xl bg-secondary/50">
+              <div>
+                <p className="text-xs font-medium text-foreground">{p.name}</p>
+                <p className="text-[10px] text-muted-foreground">{[p.area, p.city].filter(Boolean).join(', ')} {(p as any).price_range ? `· ${(p as any).price_range}` : ''}</p>
               </div>
+              <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-destructive hover:text-destructive" onClick={() => handleDelete(p.id)}>
+                <Trash2 size={12} />
+              </Button>
             </div>
           ))}
-          {members.length === 0 && <p className="text-xs text-muted-foreground text-center py-6">{emptyLabel}</p>}
+          {properties.length === 0 && <p className="text-xs text-muted-foreground text-center py-6">No properties yet</p>}
         </div>
       </div>
     </div>
@@ -164,94 +200,44 @@ function TeamTab({ members, title = 'Team Members', emptyLabel = 'No members yet
 }
 
 function ProfileTab({ user }: { user: any }) {
-  const [profileUser, setProfileUser] = useState<any>(user || {});
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        const res = await fetch('/api/auth/me', { cache: 'no-store' });
-        const data = await res.json();
-        if (data?.user) {
-          setProfileUser(data.user);
-          return;
-        }
-      } catch {}
-      setProfileUser(user || {});
-    };
-
-    loadProfile();
-  }, [user]);
-
-  const effectiveUser = profileUser || user || {};
-  const effectiveZones = Array.isArray(effectiveUser?.zones) && effectiveUser.zones.length > 0
-    ? effectiveUser.zones
-    : (effectiveUser?.zoneName ? [effectiveUser.zoneName] : []);
-
   const handleSave = async () => {
-    if (!password) {
-      toast.error('Please enter a new password');
-      return;
-    }
-    if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
-      return;
-    }
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-
     setSaving(true);
     try {
+      // Stub for profile update using fetch
       const res = await fetch('/api/auth/update', {
-        method: 'PATCH',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ name, password }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Password update failed');
-      toast.success('Password updated successfully');
+      if (!res.ok) throw new Error('Update failed');
+      toast.success('Profile updated (simulated)');
       setPassword('');
-      setConfirmPassword('');
     } catch (err: any) { toast.error(err.message); }
     finally { setSaving(false); }
   };
 
   return (
-    <div className="kpi-card max-w-lg">
+    <div className="kpi-card max-w-md">
       <h3 className="font-display font-semibold text-xs mb-4">Your Profile</h3>
       <div className="space-y-4">
         <div className="space-y-1.5">
-          <Label className="text-[10px]">Full Name</Label>
-          <Input value={effectiveUser?.fullName || ''} disabled className="text-xs bg-secondary" />
-        </div>
-        <div className="space-y-1.5">
           <Label className="text-[10px]">Email</Label>
-          <Input value={effectiveUser?.email || ''} disabled className="text-xs bg-secondary" />
+          <Input value={user?.email || ''} disabled className="text-xs bg-secondary" />
         </div>
         <div className="space-y-1.5">
-          <Label className="text-[10px]">Phone</Label>
-          <Input value={effectiveUser?.phone || 'N/A'} disabled className="text-xs bg-secondary" />
+          <Label className="text-[10px]">Full Name</Label>
+          <Input placeholder="Update your name" value={name} onChange={e => setName(e.target.value)} className="text-xs" />
         </div>
-        {(effectiveUser?.role === 'admin' || effectiveUser?.role === 'member') && (
-          <div className="space-y-1.5">
-            <Label className="text-[10px]">Zones</Label>
-            <Input value={effectiveZones.length > 0 ? effectiveZones.join(', ') : 'N/A'} disabled className="text-xs bg-secondary" />
-          </div>
-        )}
         <div className="space-y-1.5">
           <Label className="text-[10px]">New Password</Label>
-          <Input type="password" placeholder="Enter new password" value={password} onChange={e => setPassword(e.target.value)} className="text-xs" />
-        </div>
-        <div className="space-y-1.5">
-          <Label className="text-[10px]">Confirm New Password</Label>
-          <Input type="password" placeholder="Confirm new password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="text-xs" />
+          <Input type="password" placeholder="Leave blank to keep current" value={password} onChange={e => setPassword(e.target.value)} className="text-xs" />
         </div>
         <Button size="sm" onClick={handleSave} disabled={saving} className="gap-1.5 text-xs">
-          <Save size={12} /> {saving ? 'Updating...' : 'Change Password'}
+          <Save size={12} /> {saving ? 'Saving...' : 'Save Changes'}
         </Button>
       </div>
     </div>

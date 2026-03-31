@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface ChatMessage {
   id: string;
-  role: 'user' | 'bot' | 'member';
+  role: 'user' | 'bot' | 'agent';
   text: string;
   time: string;
 }
@@ -77,7 +77,7 @@ export default function PropertyChat({ propertyName, isOpen, onClose }: Property
       const auto = getAutoResponse(text);
       const botMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
-        role: auto ? 'bot' : 'member',
+        role: auto ? 'bot' : 'agent',
         text: auto || "Thanks for your question! I'm connecting you with a Gharpayy housing advisor who can help. They usually respond within 2 minutes. You'll also get a WhatsApp message shortly.",
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };

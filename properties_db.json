@@ -1,0 +1,852 @@
+[
+  {
+    "id": 1,
+    "name": "FORUM PRO BOYS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 2,
+    "name": "FORUM 1 BOYS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 3,
+    "name": "GT GIRLS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 4,
+    "name": "WYSE GIRLS (KORAMANGALA\nSG PALYA\nTHAVKHERE)",
+    "area": "KORAMANGALA\nSG PALYA\nTHAVKHERE"
+  },
+  {
+    "id": 5,
+    "name": "wink coed (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 6,
+    "name": "CINE COED (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 7,
+    "name": "SF VALLEY (whitefield)",
+    "area": "whitefield"
+  },
+  {
+    "id": 8,
+    "name": "fort boys (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 9,
+    "name": "quiq girls (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 10,
+    "name": "destiny boys (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 11,
+    "name": "byg girls (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 12,
+    "name": "meteor girls (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 13,
+    "name": "Quin GIRL KS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 14,
+    "name": "qual girls (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 15,
+    "name": "etv g8 girls (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 16,
+    "name": "comfy coed (Brookfeild)",
+    "area": "Brookfeild"
+  },
+  {
+    "id": 17,
+    "name": "aecy coed (Brookfeild)",
+    "area": "Brookfeild"
+  },
+  {
+    "id": 18,
+    "name": "dom girls (Domlur)",
+    "area": "Domlur"
+  },
+  {
+    "id": 19,
+    "name": "Klear coed (Marathahalli)",
+    "area": "Marathahalli"
+  },
+  {
+    "id": 20,
+    "name": "MUNE Coed (Spice garden)",
+    "area": "Spice garden"
+  },
+  {
+    "id": 21,
+    "name": "Jazz coed (Koramangala)",
+    "area": "Koramangala"
+  },
+  {
+    "id": 22,
+    "name": "GG BUBBLO GIRLS (Sg Palya)",
+    "area": "Sg Palya"
+  },
+  {
+    "id": 23,
+    "name": "Silq coed (BTM)",
+    "area": "BTM"
+  },
+  {
+    "id": 24,
+    "name": "Snowy Luxe (Whitfield)",
+    "area": "Whitfield"
+  },
+  {
+    "id": 25,
+    "name": "Gg Vistra (Sarjapur)",
+    "area": "Sarjapur"
+  },
+  {
+    "id": 26,
+    "name": "TREO COED (BELLANDUR/ETV)",
+    "area": "BELLANDUR/ETV"
+  },
+  {
+    "id": 27,
+    "name": "NEX COED (Koramangala)",
+    "area": "Koramangala"
+  },
+  {
+    "id": 28,
+    "name": "FLEX COED (Electronic city PHASE 2)",
+    "area": "Electronic city PHASE 2"
+  },
+  {
+    "id": 29,
+    "name": "S GIRLY RK (Koramangala)",
+    "area": "Koramangala"
+  },
+  {
+    "id": 30,
+    "name": "GRAND GIRLY (Koramangala)",
+    "area": "Koramangala"
+  },
+  {
+    "id": 31,
+    "name": "ZEXUS BOYS (Koramangala)",
+    "area": "Koramangala"
+  },
+  {
+    "id": 32,
+    "name": "MAGNUS COED (MANYATA \nNAGWARA)",
+    "area": "MANYATA \nNAGWARA"
+  },
+  {
+    "id": 33,
+    "name": "ZONEGL (BELLANDUR)",
+    "area": "BELLANDUR"
+  },
+  {
+    "id": 34,
+    "name": "BIGBROOK (Brookfield)",
+    "area": "Brookfield"
+  },
+  {
+    "id": 35,
+    "name": "PRIVE COED (MAHADEVPURA\nCV RAMAN)",
+    "area": "MAHADEVPURA\nCV RAMAN"
+  },
+  {
+    "id": 36,
+    "name": "LIVIO COED FLATLIKE (BELLANDUR/ \nKADUBEESANAHALLI)",
+    "area": "BELLANDUR/ \nKADUBEESANAHALLI"
+  },
+  {
+    "id": 37,
+    "name": "MEO GIRLS (WHITEFIELD)",
+    "area": "WHITEFIELD"
+  },
+  {
+    "id": 38,
+    "name": "MEXA COED (WHITEFIELD)",
+    "area": "WHITEFIELD"
+  },
+  {
+    "id": 39,
+    "name": "MYNT COED (BELLANDUR)",
+    "area": "BELLANDUR"
+  },
+  {
+    "id": 40,
+    "name": "AurA COED (AECS/ MARATHALLI)",
+    "area": "AECS/ MARATHALLI"
+  },
+  {
+    "id": 41,
+    "name": "PAVION COED (BELLANDUR)",
+    "area": "BELLANDUR"
+  },
+  {
+    "id": 42,
+    "name": "ITP LUXE COED (WHITEFIELD)",
+    "area": "WHITEFIELD"
+  },
+  {
+    "id": 43,
+    "name": "LEXUS COED (MARATHALLI)",
+    "area": "MARATHALLI"
+  },
+  {
+    "id": 44,
+    "name": "Zeeta coed (whitefield)",
+    "area": "whitefield"
+  },
+  {
+    "id": 45,
+    "name": "ZELUXE COED (AECS/BROOKFIELD)",
+    "area": "AECS/BROOKFIELD"
+  },
+  {
+    "id": 46,
+    "name": "ELUX COED (Bellandur)",
+    "area": "Bellandur"
+  },
+  {
+    "id": 47,
+    "name": "DORA BOYS (DOMLUR / EJIPURA)",
+    "area": "DOMLUR / EJIPURA"
+  },
+  {
+    "id": 48,
+    "name": "VeLuxe COED (VEGA CITY)",
+    "area": "VEGA CITY"
+  },
+  {
+    "id": 49,
+    "name": "Hgr  METRO COED (HSR / BTM)",
+    "area": "HSR / BTM"
+  },
+  {
+    "id": 50,
+    "name": "HS HUGO COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT"
+  },
+  {
+    "id": 51,
+    "name": "HS/EDGE COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT"
+  },
+  {
+    "id": 52,
+    "name": "VEGAS COED (VEGA CITY)",
+    "area": "VEGA CITY"
+  },
+  {
+    "id": 53,
+    "name": "ZONE BGM (bgm madadevpura)",
+    "area": "bgm madadevpura"
+  },
+  {
+    "id": 54,
+    "name": "HS AFFO COED (hsr layout)",
+    "area": "hsr layout"
+  },
+  {
+    "id": 55,
+    "name": "MSR GIRLS (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 56,
+    "name": "LUKAS COED (BTM LAYOUT)",
+    "area": "BTM LAYOUT"
+  },
+  {
+    "id": 57,
+    "name": "AUXX COED (MAHADEVPURA)",
+    "area": "MAHADEVPURA"
+  },
+  {
+    "id": 58,
+    "name": "MAXX COED (Thubarahalli)",
+    "area": "Thubarahalli"
+  },
+  {
+    "id": 59,
+    "name": "HOOD  COED (Kundanhalli)",
+    "area": "Kundanhalli"
+  },
+  {
+    "id": 60,
+    "name": "MUNE COED (Marathahalli. Aecs)",
+    "area": "Marathahalli. Aecs"
+  },
+  {
+    "id": 61,
+    "name": "BROOK LUXE COED (ACES/BROOKFIELD)",
+    "area": "ACES/BROOKFIELD"
+  },
+  {
+    "id": 62,
+    "name": "SJR AFFO COED (SARJAPUR/ BELLANDUR)",
+    "area": "SARJAPUR/ BELLANDUR"
+  },
+  {
+    "id": 63,
+    "name": "KoraVill Girls (KORAMANGALA/EJIPURA)",
+    "area": "KORAMANGALA/EJIPURA"
+  },
+  {
+    "id": 64,
+    "name": "WHITE AFFO COED (wfd)",
+    "area": "wfd"
+  },
+  {
+    "id": 65,
+    "name": "CAZZ COED (SAMPANGI RAM NAGAR)",
+    "area": "SAMPANGI RAM NAGAR"
+  },
+  {
+    "id": 66,
+    "name": "FINN AFFO COED (MAHADEVPURA)",
+    "area": "MAHADEVPURA"
+  },
+  {
+    "id": 67,
+    "name": "AMEX LUXE BALC COED (WHITEFIELD)",
+    "area": "WHITEFIELD"
+  },
+  {
+    "id": 68,
+    "name": "ZIVO COED (BTM LAYOUT)",
+    "area": "BTM LAYOUT"
+  },
+  {
+    "id": 69,
+    "name": "BEZEL LUXE COED (BROOKFIELD)",
+    "area": "BROOKFIELD"
+  },
+  {
+    "id": 70,
+    "name": "AZELOO LUXE COED (BROOKFIELD)",
+    "area": "BROOKFIELD"
+  },
+  {
+    "id": 71,
+    "name": "SJR FLAT LIKE COED (SARJAPUR)",
+    "area": "SARJAPUR"
+  },
+  {
+    "id": 72,
+    "name": "MAQ COED A ()",
+    "area": ""
+  },
+  {
+    "id": 73,
+    "name": "ESPLANADE GIRLS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 74,
+    "name": "homely GIRLS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 75,
+    "name": "homely BOYS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 76,
+    "name": "TOM BOYS (KORAMANGLA)",
+    "area": "KORAMANGLA"
+  },
+  {
+    "id": 77,
+    "name": "GQ girl (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 78,
+    "name": "AFFO GIRLS NV (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 79,
+    "name": "G Forum GIRLS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 80,
+    "name": "jack coed (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 81,
+    "name": "XOLD FLATLIKE COED (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 82,
+    "name": "John Boys (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 83,
+    "name": "JOY GIRLS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 84,
+    "name": "khb girls (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 85,
+    "name": "pink capital (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 86,
+    "name": "orange capital (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 87,
+    "name": "Fab Girls (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 88,
+    "name": "TAVZ COED (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 89,
+    "name": "roar colive (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 90,
+    "name": "sg colive (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 91,
+    "name": "silq boys (BTM)",
+    "area": "BTM"
+  },
+  {
+    "id": 92,
+    "name": "SNOOK COED (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 93,
+    "name": "tom boys (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 94,
+    "name": "HOMY GIRLS (Kormangala)",
+    "area": "Kormangala"
+  },
+  {
+    "id": 95,
+    "name": "MVS PEARLS-SOLD OUT (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 96,
+    "name": "QUEEN'S MCC GIRLS (Vasanth Nagar/Mcc)",
+    "area": "Vasanth Nagar/Mcc"
+  },
+  {
+    "id": 97,
+    "name": "BELL COED (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 98,
+    "name": "GLEN COED (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 99,
+    "name": "STANNY COED (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 100,
+    "name": "bliss Coed (whitefield)",
+    "area": "whitefield"
+  },
+  {
+    "id": 101,
+    "name": "gliss Coed (whitefield)",
+    "area": "whitefield"
+  },
+  {
+    "id": 102,
+    "name": "METROFIELD (whitefield)",
+    "area": "whitefield"
+  },
+  {
+    "id": 103,
+    "name": "whit coed (whitefield)",
+    "area": "whitefield"
+  },
+  {
+    "id": 104,
+    "name": "BALC PHIX  BGM COED (bgm madadevpura)",
+    "area": "bgm madadevpura"
+  },
+  {
+    "id": 105,
+    "name": "ESTEEM COED (bgm madadevpura)",
+    "area": "bgm madadevpura"
+  },
+  {
+    "id": 106,
+    "name": "bgm max coed (bgm madadevpura)",
+    "area": "bgm madadevpura"
+  },
+  {
+    "id": 107,
+    "name": "PHIX BGM (bgm madadevpura)",
+    "area": "bgm madadevpura"
+  },
+  {
+    "id": 108,
+    "name": "wise boys (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 109,
+    "name": "paradise girls (ypr campus)",
+    "area": "ypr campus"
+  },
+  {
+    "id": 110,
+    "name": "bgm kingdom (bgm madadevpura)",
+    "area": "bgm madadevpura"
+  },
+  {
+    "id": 111,
+    "name": "Ace Girls (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 112,
+    "name": "eco coed (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 113,
+    "name": "etv luxe coed (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 114,
+    "name": "ETV ZILLION COED (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 115,
+    "name": "brookstudio coed (Brookfield)",
+    "area": "Brookfield"
+  },
+  {
+    "id": 116,
+    "name": "bella gc flats GIRLS (bellandur)",
+    "area": "bellandur"
+  },
+  {
+    "id": 117,
+    "name": "byg coed (Koramangala)",
+    "area": "Koramangala"
+  },
+  {
+    "id": 118,
+    "name": "elite COED (Koramangala)",
+    "area": "Koramangala"
+  },
+  {
+    "id": 119,
+    "name": "ITP COED (Brookfeild)",
+    "area": "Brookfeild"
+  },
+  {
+    "id": 120,
+    "name": "itp one coed (Brookfeild)",
+    "area": "Brookfeild"
+  },
+  {
+    "id": 121,
+    "name": "thub coed (Brookfeild)",
+    "area": "Brookfeild"
+  },
+  {
+    "id": 122,
+    "name": "cool coed balc (Brookfeild)",
+    "area": "Brookfeild"
+  },
+  {
+    "id": 123,
+    "name": "Kmahalli coed (Marathahalli)",
+    "area": "Marathahalli"
+  },
+  {
+    "id": 124,
+    "name": "Pop coed (E City)",
+    "area": "E City"
+  },
+  {
+    "id": 125,
+    "name": "Quo coed (E City)",
+    "area": "E City"
+  },
+  {
+    "id": 126,
+    "name": "MIO coed (Nagawara)",
+    "area": "Nagawara"
+  },
+  {
+    "id": 127,
+    "name": "MTEK coed (Nagawara)",
+    "area": "Nagawara"
+  },
+  {
+    "id": 128,
+    "name": "MTPLUS COED (Nagawara)",
+    "area": "Nagawara"
+  },
+  {
+    "id": 129,
+    "name": "Spycc coed (Spice garden)",
+    "area": "Spice garden"
+  },
+  {
+    "id": 130,
+    "name": "ASTOR COED (WHITEFIELD/\n KADUGODI/ITPL)",
+    "area": "WHITEFIELD/\n KADUGODI/ITPL"
+  },
+  {
+    "id": 131,
+    "name": "Solaria Coed (Marathahalli)",
+    "area": "Marathahalli"
+  },
+  {
+    "id": 132,
+    "name": "Gg Nuovo BOYS (Hsr silk board)",
+    "area": "Hsr silk board"
+  },
+  {
+    "id": 133,
+    "name": "Gg Vistra (Marathahalli)",
+    "area": "Marathahalli"
+  },
+  {
+    "id": 134,
+    "name": "Gg Velvet (Mg road)",
+    "area": "Mg road"
+  },
+  {
+    "id": 135,
+    "name": "ZELITE COED (BELLANDUR)",
+    "area": "BELLANDUR"
+  },
+  {
+    "id": 136,
+    "name": "PHANTOM COED (BELLANDUR)",
+    "area": "BELLANDUR"
+  },
+  {
+    "id": 137,
+    "name": "ZEEST COED (MAHADEVPURA)",
+    "area": "MAHADEVPURA"
+  },
+  {
+    "id": 138,
+    "name": "WISTA  GIRLS C (MANYATA \nNAGWARA)",
+    "area": "MANYATA \nNAGWARA"
+  },
+  {
+    "id": 139,
+    "name": "CIA COED (MANYATA \nNAGWARA)",
+    "area": "MANYATA \nNAGWARA"
+  },
+  {
+    "id": 140,
+    "name": "KNIGHT COED (AECS/BROOKFIELD)",
+    "area": "AECS/BROOKFIELD"
+  },
+  {
+    "id": 141,
+    "name": "ZEQ COED (Mahadevapura,  Marathahalli)",
+    "area": "Mahadevapura,  Marathahalli"
+  },
+  {
+    "id": 142,
+    "name": "LUNA GIRLS (Jayanagar/Jp Nagar)",
+    "area": "Jayanagar/Jp Nagar"
+  },
+  {
+    "id": 143,
+    "name": "STM COED (Silk Board/Btm)",
+    "area": "Silk Board/Btm"
+  },
+  {
+    "id": 144,
+    "name": "CIA COED B (MANYATA/\n THANISANDRA\nBHARTIYA CITY)",
+    "area": "MANYATA/\n THANISANDRA\nBHARTIYA CITY"
+  },
+  {
+    "id": 145,
+    "name": "WINK BOYS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 146,
+    "name": "AIRA BOYS (koramangla)",
+    "area": "koramangla"
+  },
+  {
+    "id": 147,
+    "name": "EZY COED (INDIRANAGAR)",
+    "area": "INDIRANAGAR"
+  },
+  {
+    "id": 148,
+    "name": "ZION luXE COED (MARATHALLI)",
+    "area": "MARATHALLI"
+  },
+  {
+    "id": 149,
+    "name": "MYSTIC COED (MARATHALLI/ AECS)",
+    "area": "MARATHALLI/ AECS"
+  },
+  {
+    "id": 150,
+    "name": "MIVON COED (MAHADEVPURA\nCV RAMAN)",
+    "area": "MAHADEVPURA\nCV RAMAN"
+  },
+  {
+    "id": 151,
+    "name": "ZEAL COED (bgm madadevpura)",
+    "area": "bgm madadevpura"
+  },
+  {
+    "id": 152,
+    "name": "KNOX COED (BELLANDUR/ \nKADUBEESANAHALLI)",
+    "area": "BELLANDUR/ \nKADUBEESANAHALLI"
+  },
+  {
+    "id": 153,
+    "name": "KORVE COED (KORAMANGALA)",
+    "area": "KORAMANGALA"
+  },
+  {
+    "id": 154,
+    "name": "HS ARQ COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT"
+  },
+  {
+    "id": 155,
+    "name": "MAQ COED (Marathahalli. Aecs)",
+    "area": "Marathahalli. Aecs"
+  },
+  {
+    "id": 156,
+    "name": "KHB BOYS (Kormangala)",
+    "area": "Kormangala"
+  },
+  {
+    "id": 157,
+    "name": "KLM COED (MARATHALLI)",
+    "area": "MARATHALLI"
+  },
+  {
+    "id": 158,
+    "name": "FABLE GIRLS (BTM LAYOUT)",
+    "area": "BTM LAYOUT"
+  },
+  {
+    "id": 159,
+    "name": "TOVE BOYS (KORAMANGLA)",
+    "area": "KORAMANGLA"
+  },
+  {
+    "id": 160,
+    "name": "QUT GIRLS (KORAMANGLA)",
+    "area": "KORAMANGLA"
+  },
+  {
+    "id": 161,
+    "name": "zexx coed (KORAMANGLA)",
+    "area": "KORAMANGLA"
+  },
+  {
+    "id": 162,
+    "name": "ARK COED (Whitefield)",
+    "area": "Whitefield"
+  },
+  {
+    "id": 163,
+    "name": "SWISS LUXE COED (BROOKFIELD)",
+    "area": "BROOKFIELD"
+  },
+  {
+    "id": 164,
+    "name": "SO AFFO BOYS (SG PALYA)",
+    "area": "SG PALYA"
+  },
+  {
+    "id": 165,
+    "name": "ACE FLAT LIKE  COED (KORAMANGLA/SG PALYA)",
+    "area": "KORAMANGLA/SG PALYA"
+  },
+  {
+    "id": 166,
+    "name": "BIGR GIRLY (BANNERGHATTA)",
+    "area": "BANNERGHATTA"
+  },
+  {
+    "id": 167,
+    "name": "REO GIRLS (HSR LAYOUT)",
+    "area": "HSR LAYOUT"
+  },
+  {
+    "id": 168,
+    "name": "ZIO COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT"
+  },
+  {
+    "id": 169,
+    "name": "LIVELY  COED (BELLANDUR)",
+    "area": "BELLANDUR"
+  },
+  {
+    "id": 170,
+    "name": "ZEDD COED (KORAMANGALA)",
+    "area": "KORAMANGALA"
+  }
+]

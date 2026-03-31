@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/mongodb';
 import Visit from '@/models/Visit';
-import Lead from '@/models/Lead';
-import Property from '@/models/Property';
-import Member from '@/models/User';
+import Room from '@/models/Room';
 
 export async function GET() {
   try {
@@ -12,6 +10,7 @@ export async function GET() {
     const visits = await Visit.find({})
       .populate('leadId')
       .populate('propertyId')
+      .populate('roomId')
       .populate('assignedStaffId')
       .sort({ scheduledAt: 1 });
 
@@ -20,7 +19,8 @@ export async function GET() {
       id: v._id,
       leads: v.leadId,
       properties: v.propertyId,
-      members: v.assignedStaffId
+      rooms: v.roomId,
+      agents: v.assignedStaffId
     }));
 
     return NextResponse.json(transformedVisits);
@@ -33,6 +33,26 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     await connectToDatabase();
+
+    // System Law 1: No visit without Room ID
+    if (!body.roomId) {
+      return NextResponse.json({ error: 'System Law 1 Blocked: No visit can be scheduled without mapping to a specific Room ID.' }, { status: 400 });
+    }
+
+    const room = await Room.findById(body.roomId);
+    if (!room || (room.status !== 'vacant' && room.status !== 'vacating_soon')) {
+      return NextResponse.json({ error: 'Visit prohibited: The selected room must be strictly vacant or vacating soon.' }, { status: 400 });
+    }
+    
+    const existingVisit = await Visit.findOne({ roomId: body.roomId, outcome: { $exists: false } });
+    if (existingVisit) {
+      return NextResponse.json({ error: 'Leakage blocked: This room already has an active, scheduled visit.' }, { status: 400 });
+    }
+    
+    // Implicit Soft Lock
+    room.status = 'visit_scheduled';
+    await room.save();
+
     const visit = await Visit.create(body);
     return NextResponse.json(visit, { status: 201 });
   } catch (error: any) {

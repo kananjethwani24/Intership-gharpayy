@@ -1,0 +1,1702 @@
+[
+  {
+    "id": 1,
+    "name": "FORUM PRO BOYS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 1
+  },
+  {
+    "id": 2,
+    "name": "FORUM 1 BOYS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 2
+  },
+  {
+    "id": 3,
+    "name": "GT GIRLS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 4,
+    "name": "WYSE GIRLS (KORAMANGALA\nSG PALYA\nTHAVKHERE)",
+    "area": "KORAMANGALA\nSG PALYA\nTHAVKHERE",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 5,
+    "name": "wink coed (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 6,
+    "name": "CINE COED (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 7,
+    "name": "SF VALLEY (whitefield)",
+    "area": "whitefield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 8,
+    "name": "fort boys (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 9,
+    "name": "quiq girls (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 10,
+    "name": "destiny boys (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 11,
+    "name": "byg girls (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 12,
+    "name": "meteor girls (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 13,
+    "name": "Quin GIRL KS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 14,
+    "name": "qual girls (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 15,
+    "name": "etv g8 girls (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 16,
+    "name": "comfy coed (Brookfeild)",
+    "area": "Brookfeild",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 17,
+    "name": "aecy coed (Brookfeild)",
+    "area": "Brookfeild",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 18,
+    "name": "dom girls (Domlur)",
+    "area": "Domlur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 19,
+    "name": "Klear coed (Marathahalli)",
+    "area": "Marathahalli",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 20,
+    "name": "MUNE Coed (Spice garden)",
+    "area": "Spice garden",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 21,
+    "name": "Jazz coed (Koramangala)",
+    "area": "Koramangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 22,
+    "name": "GG BUBBLO GIRLS (Sg Palya)",
+    "area": "Sg Palya",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 23,
+    "name": "Silq coed (BTM)",
+    "area": "BTM",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 24,
+    "name": "Snowy Luxe (Whitfield)",
+    "area": "Whitfield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 25,
+    "name": "Gg Vistra (Sarjapur)",
+    "area": "Sarjapur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 26,
+    "name": "TREO COED (BELLANDUR/ETV)",
+    "area": "BELLANDUR/ETV",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 27,
+    "name": "NEX COED (Koramangala)",
+    "area": "Koramangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 28,
+    "name": "FLEX COED (Electronic city PHASE 2)",
+    "area": "Electronic city PHASE 2",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 29,
+    "name": "S GIRLY RK (Koramangala)",
+    "area": "Koramangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 30,
+    "name": "GRAND GIRLY (Koramangala)",
+    "area": "Koramangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 31,
+    "name": "ZEXUS BOYS (Koramangala)",
+    "area": "Koramangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 32,
+    "name": "MAGNUS COED (MANYATA \nNAGWARA)",
+    "area": "MANYATA \nNAGWARA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 33,
+    "name": "ZONEGL (BELLANDUR)",
+    "area": "BELLANDUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 34,
+    "name": "BIGBROOK (Brookfield)",
+    "area": "Brookfield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 35,
+    "name": "PRIVE COED (MAHADEVPURA\nCV RAMAN)",
+    "area": "MAHADEVPURA\nCV RAMAN",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 36,
+    "name": "LIVIO COED FLATLIKE (BELLANDUR/ \nKADUBEESANAHALLI)",
+    "area": "BELLANDUR/ \nKADUBEESANAHALLI",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 37,
+    "name": "MEO GIRLS (WHITEFIELD)",
+    "area": "WHITEFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 38,
+    "name": "MEXA COED (WHITEFIELD)",
+    "area": "WHITEFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 39,
+    "name": "MYNT COED (BELLANDUR)",
+    "area": "BELLANDUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 40,
+    "name": "AurA COED (AECS/ MARATHALLI)",
+    "area": "AECS/ MARATHALLI",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 41,
+    "name": "PAVION COED (BELLANDUR)",
+    "area": "BELLANDUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 42,
+    "name": "ITP LUXE COED (WHITEFIELD)",
+    "area": "WHITEFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 43,
+    "name": "LEXUS COED (MARATHALLI)",
+    "area": "MARATHALLI",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 44,
+    "name": "Zeeta coed (whitefield)",
+    "area": "whitefield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 45,
+    "name": "ZELUXE COED (AECS/BROOKFIELD)",
+    "area": "AECS/BROOKFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 46,
+    "name": "ELUX COED (Bellandur)",
+    "area": "Bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 47,
+    "name": "DORA BOYS (DOMLUR / EJIPURA)",
+    "area": "DOMLUR / EJIPURA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 48,
+    "name": "VeLuxe COED (VEGA CITY)",
+    "area": "VEGA CITY",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 49,
+    "name": "Hgr  METRO COED (HSR / BTM)",
+    "area": "HSR / BTM",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 50,
+    "name": "HS HUGO COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 51,
+    "name": "HS/EDGE COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 52,
+    "name": "VEGAS COED (VEGA CITY)",
+    "area": "VEGA CITY",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 53,
+    "name": "ZONE BGM (bgm madadevpura)",
+    "area": "bgm madadevpura",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 54,
+    "name": "HS AFFO COED (hsr layout)",
+    "area": "hsr layout",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 55,
+    "name": "MSR GIRLS (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 56,
+    "name": "LUKAS COED (BTM LAYOUT)",
+    "area": "BTM LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 57,
+    "name": "AUXX COED (MAHADEVPURA)",
+    "area": "MAHADEVPURA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 58,
+    "name": "MAXX COED (Thubarahalli)",
+    "area": "Thubarahalli",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 59,
+    "name": "HOOD  COED (Kundanhalli)",
+    "area": "Kundanhalli",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 60,
+    "name": "MUNE COED (Marathahalli. Aecs)",
+    "area": "Marathahalli. Aecs",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 61,
+    "name": "BROOK LUXE COED (ACES/BROOKFIELD)",
+    "area": "ACES/BROOKFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 62,
+    "name": "SJR AFFO COED (SARJAPUR/ BELLANDUR)",
+    "area": "SARJAPUR/ BELLANDUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 63,
+    "name": "KoraVill Girls (KORAMANGALA/EJIPURA)",
+    "area": "KORAMANGALA/EJIPURA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 64,
+    "name": "WHITE AFFO COED (wfd)",
+    "area": "wfd",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 65,
+    "name": "CAZZ COED (SAMPANGI RAM NAGAR)",
+    "area": "SAMPANGI RAM NAGAR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 66,
+    "name": "FINN AFFO COED (MAHADEVPURA)",
+    "area": "MAHADEVPURA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 67,
+    "name": "AMEX LUXE BALC COED (WHITEFIELD)",
+    "area": "WHITEFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 68,
+    "name": "ZIVO COED (BTM LAYOUT)",
+    "area": "BTM LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 69,
+    "name": "BEZEL LUXE COED (BROOKFIELD)",
+    "area": "BROOKFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 70,
+    "name": "AZELOO LUXE COED (BROOKFIELD)",
+    "area": "BROOKFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 71,
+    "name": "SJR FLAT LIKE COED (SARJAPUR)",
+    "area": "SARJAPUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 72,
+    "name": "MAQ COED A ()",
+    "area": "",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 3
+  },
+  {
+    "id": 73,
+    "name": "ESPLANADE GIRLS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 4
+  },
+  {
+    "id": 74,
+    "name": "homely GIRLS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 4
+  },
+  {
+    "id": 75,
+    "name": "homely BOYS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 4
+  },
+  {
+    "id": 76,
+    "name": "TOM BOYS (KORAMANGLA)",
+    "area": "KORAMANGLA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 4
+  },
+  {
+    "id": 77,
+    "name": "GQ girl (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 5
+  },
+  {
+    "id": 78,
+    "name": "AFFO GIRLS NV (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 6
+  },
+  {
+    "id": 79,
+    "name": "G Forum GIRLS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 7
+  },
+  {
+    "id": 80,
+    "name": "jack coed (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 8
+  },
+  {
+    "id": 81,
+    "name": "XOLD FLATLIKE COED (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 9
+  },
+  {
+    "id": 82,
+    "name": "John Boys (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 10
+  },
+  {
+    "id": 83,
+    "name": "JOY GIRLS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 11
+  },
+  {
+    "id": 84,
+    "name": "khb girls (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 12
+  },
+  {
+    "id": 85,
+    "name": "pink capital (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 13
+  },
+  {
+    "id": 86,
+    "name": "orange capital (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 14
+  },
+  {
+    "id": 87,
+    "name": "Fab Girls (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 15
+  },
+  {
+    "id": 88,
+    "name": "TAVZ COED (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 16
+  },
+  {
+    "id": 89,
+    "name": "roar colive (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 17
+  },
+  {
+    "id": 90,
+    "name": "sg colive (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 18
+  },
+  {
+    "id": 91,
+    "name": "silq boys (BTM)",
+    "area": "BTM",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 19
+  },
+  {
+    "id": 92,
+    "name": "SNOOK COED (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 20
+  },
+  {
+    "id": 93,
+    "name": "tom boys (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 21
+  },
+  {
+    "id": 94,
+    "name": "HOMY GIRLS (Kormangala)",
+    "area": "Kormangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 22
+  },
+  {
+    "id": 95,
+    "name": "MVS PEARLS-SOLD OUT (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 23
+  },
+  {
+    "id": 96,
+    "name": "QUEEN'S MCC GIRLS (Vasanth Nagar/Mcc)",
+    "area": "Vasanth Nagar/Mcc",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 24
+  },
+  {
+    "id": 97,
+    "name": "BELL COED (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 24
+  },
+  {
+    "id": 98,
+    "name": "GLEN COED (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 25
+  },
+  {
+    "id": 99,
+    "name": "STANNY COED (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 25
+  },
+  {
+    "id": 100,
+    "name": "bliss Coed (whitefield)",
+    "area": "whitefield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 25
+  },
+  {
+    "id": 101,
+    "name": "gliss Coed (whitefield)",
+    "area": "whitefield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 25
+  },
+  {
+    "id": 102,
+    "name": "METROFIELD (whitefield)",
+    "area": "whitefield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 26
+  },
+  {
+    "id": 103,
+    "name": "whit coed (whitefield)",
+    "area": "whitefield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 27
+  },
+  {
+    "id": 104,
+    "name": "BALC PHIX  BGM COED (bgm madadevpura)",
+    "area": "bgm madadevpura",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 28
+  },
+  {
+    "id": 105,
+    "name": "ESTEEM COED (bgm madadevpura)",
+    "area": "bgm madadevpura",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 29
+  },
+  {
+    "id": 106,
+    "name": "bgm max coed (bgm madadevpura)",
+    "area": "bgm madadevpura",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 30
+  },
+  {
+    "id": 107,
+    "name": "PHIX BGM (bgm madadevpura)",
+    "area": "bgm madadevpura",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 31
+  },
+  {
+    "id": 108,
+    "name": "wise boys (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 32
+  },
+  {
+    "id": 109,
+    "name": "paradise girls (ypr campus)",
+    "area": "ypr campus",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 33
+  },
+  {
+    "id": 110,
+    "name": "bgm kingdom (bgm madadevpura)",
+    "area": "bgm madadevpura",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 34
+  },
+  {
+    "id": 111,
+    "name": "Ace Girls (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 35
+  },
+  {
+    "id": 112,
+    "name": "eco coed (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 36
+  },
+  {
+    "id": 113,
+    "name": "etv luxe coed (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 37
+  },
+  {
+    "id": 114,
+    "name": "ETV ZILLION COED (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 37
+  },
+  {
+    "id": 115,
+    "name": "brookstudio coed (Brookfield)",
+    "area": "Brookfield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 38
+  },
+  {
+    "id": 116,
+    "name": "bella gc flats GIRLS (bellandur)",
+    "area": "bellandur",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 38
+  },
+  {
+    "id": 117,
+    "name": "byg coed (Koramangala)",
+    "area": "Koramangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 39
+  },
+  {
+    "id": 118,
+    "name": "elite COED (Koramangala)",
+    "area": "Koramangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 40
+  },
+  {
+    "id": 119,
+    "name": "ITP COED (Brookfeild)",
+    "area": "Brookfeild",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 41
+  },
+  {
+    "id": 120,
+    "name": "itp one coed (Brookfeild)",
+    "area": "Brookfeild",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 41
+  },
+  {
+    "id": 121,
+    "name": "thub coed (Brookfeild)",
+    "area": "Brookfeild",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 42
+  },
+  {
+    "id": 122,
+    "name": "cool coed balc (Brookfeild)",
+    "area": "Brookfeild",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 43
+  },
+  {
+    "id": 123,
+    "name": "Kmahalli coed (Marathahalli)",
+    "area": "Marathahalli",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 44
+  },
+  {
+    "id": 124,
+    "name": "Pop coed (E City)",
+    "area": "E City",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 45
+  },
+  {
+    "id": 125,
+    "name": "Quo coed (E City)",
+    "area": "E City",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 45
+  },
+  {
+    "id": 126,
+    "name": "MIO coed (Nagawara)",
+    "area": "Nagawara",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 46
+  },
+  {
+    "id": 127,
+    "name": "MTEK coed (Nagawara)",
+    "area": "Nagawara",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 47
+  },
+  {
+    "id": 128,
+    "name": "MTPLUS COED (Nagawara)",
+    "area": "Nagawara",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 47
+  },
+  {
+    "id": 129,
+    "name": "Spycc coed (Spice garden)",
+    "area": "Spice garden",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 48
+  },
+  {
+    "id": 130,
+    "name": "ASTOR COED (WHITEFIELD/\n KADUGODI/ITPL)",
+    "area": "WHITEFIELD/\n KADUGODI/ITPL",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 49
+  },
+  {
+    "id": 131,
+    "name": "Solaria Coed (Marathahalli)",
+    "area": "Marathahalli",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 50
+  },
+  {
+    "id": 132,
+    "name": "Gg Nuovo BOYS (Hsr silk board)",
+    "area": "Hsr silk board",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 51
+  },
+  {
+    "id": 133,
+    "name": "Gg Vistra (Marathahalli)",
+    "area": "Marathahalli",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 52
+  },
+  {
+    "id": 134,
+    "name": "Gg Velvet (Mg road)",
+    "area": "Mg road",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 53
+  },
+  {
+    "id": 135,
+    "name": "ZELITE COED (BELLANDUR)",
+    "area": "BELLANDUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 54
+  },
+  {
+    "id": 136,
+    "name": "PHANTOM COED (BELLANDUR)",
+    "area": "BELLANDUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 55
+  },
+  {
+    "id": 137,
+    "name": "ZEEST COED (MAHADEVPURA)",
+    "area": "MAHADEVPURA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 56
+  },
+  {
+    "id": 138,
+    "name": "WISTA  GIRLS C (MANYATA \nNAGWARA)",
+    "area": "MANYATA \nNAGWARA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 57
+  },
+  {
+    "id": 139,
+    "name": "CIA COED (MANYATA \nNAGWARA)",
+    "area": "MANYATA \nNAGWARA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 58
+  },
+  {
+    "id": 140,
+    "name": "KNIGHT COED (AECS/BROOKFIELD)",
+    "area": "AECS/BROOKFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 59
+  },
+  {
+    "id": 141,
+    "name": "ZEQ COED (Mahadevapura,  Marathahalli)",
+    "area": "Mahadevapura,  Marathahalli",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 60
+  },
+  {
+    "id": 142,
+    "name": "LUNA GIRLS (Jayanagar/Jp Nagar)",
+    "area": "Jayanagar/Jp Nagar",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 61
+  },
+  {
+    "id": 143,
+    "name": "STM COED (Silk Board/Btm)",
+    "area": "Silk Board/Btm",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 62
+  },
+  {
+    "id": 144,
+    "name": "CIA COED B (MANYATA/\n THANISANDRA\nBHARTIYA CITY)",
+    "area": "MANYATA/\n THANISANDRA\nBHARTIYA CITY",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 63
+  },
+  {
+    "id": 145,
+    "name": "WINK BOYS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 64
+  },
+  {
+    "id": 146,
+    "name": "AIRA BOYS (koramangla)",
+    "area": "koramangla",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 65
+  },
+  {
+    "id": 147,
+    "name": "EZY COED (INDIRANAGAR)",
+    "area": "INDIRANAGAR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 66
+  },
+  {
+    "id": 148,
+    "name": "ZION luXE COED (MARATHALLI)",
+    "area": "MARATHALLI",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 67
+  },
+  {
+    "id": 149,
+    "name": "MYSTIC COED (MARATHALLI/ AECS)",
+    "area": "MARATHALLI/ AECS",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 68
+  },
+  {
+    "id": 150,
+    "name": "MIVON COED (MAHADEVPURA\nCV RAMAN)",
+    "area": "MAHADEVPURA\nCV RAMAN",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 69
+  },
+  {
+    "id": 151,
+    "name": "ZEAL COED (bgm madadevpura)",
+    "area": "bgm madadevpura",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 70
+  },
+  {
+    "id": 152,
+    "name": "KNOX COED (BELLANDUR/ \nKADUBEESANAHALLI)",
+    "area": "BELLANDUR/ \nKADUBEESANAHALLI",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 71
+  },
+  {
+    "id": 153,
+    "name": "KORVE COED (KORAMANGALA)",
+    "area": "KORAMANGALA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 72
+  },
+  {
+    "id": 154,
+    "name": "HS ARQ COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 73
+  },
+  {
+    "id": 155,
+    "name": "MAQ COED (Marathahalli. Aecs)",
+    "area": "Marathahalli. Aecs",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 74
+  },
+  {
+    "id": 156,
+    "name": "KHB BOYS (Kormangala)",
+    "area": "Kormangala",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 75
+  },
+  {
+    "id": 157,
+    "name": "KLM COED (MARATHALLI)",
+    "area": "MARATHALLI",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 76
+  },
+  {
+    "id": 158,
+    "name": "FABLE GIRLS (BTM LAYOUT)",
+    "area": "BTM LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 77
+  },
+  {
+    "id": 159,
+    "name": "TOVE BOYS (KORAMANGLA)",
+    "area": "KORAMANGLA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 78
+  },
+  {
+    "id": 160,
+    "name": "QUT GIRLS (KORAMANGLA)",
+    "area": "KORAMANGLA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 79
+  },
+  {
+    "id": 161,
+    "name": "zexx coed (KORAMANGLA)",
+    "area": "KORAMANGLA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 80
+  },
+  {
+    "id": 162,
+    "name": "ARK COED (Whitefield)",
+    "area": "Whitefield",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 81
+  },
+  {
+    "id": 163,
+    "name": "SWISS LUXE COED (BROOKFIELD)",
+    "area": "BROOKFIELD",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 82
+  },
+  {
+    "id": 164,
+    "name": "SO AFFO BOYS (SG PALYA)",
+    "area": "SG PALYA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 83
+  },
+  {
+    "id": 165,
+    "name": "ACE FLAT LIKE  COED (KORAMANGLA/SG PALYA)",
+    "area": "KORAMANGLA/SG PALYA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 84
+  },
+  {
+    "id": 166,
+    "name": "BIGR GIRLY (BANNERGHATTA)",
+    "area": "BANNERGHATTA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 85
+  },
+  {
+    "id": 167,
+    "name": "REO GIRLS (HSR LAYOUT)",
+    "area": "HSR LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 86
+  },
+  {
+    "id": 168,
+    "name": "ZIO COED (HSR LAYOUT)",
+    "area": "HSR LAYOUT",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 87
+  },
+  {
+    "id": 169,
+    "name": "LIVELY  COED (BELLANDUR)",
+    "area": "BELLANDUR",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 88
+  },
+  {
+    "id": 170,
+    "name": "ZEDD COED (KORAMANGALA)",
+    "area": "KORAMANGALA",
+    "gender_allowed": null,
+    "room_config": null,
+    "amenities": null,
+    "base_rules": null,
+    "ownerId": 89
+  }
+]

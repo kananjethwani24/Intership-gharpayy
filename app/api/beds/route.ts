@@ -3,6 +3,8 @@ import connectToDatabase from '@/lib/mongodb';
 import Bed from '@/models/Bed';
 import Room from '@/models/Room';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);

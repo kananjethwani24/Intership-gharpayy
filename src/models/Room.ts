@@ -5,12 +5,14 @@ export interface IRoom extends Document {
   roomNumber: string;
   floor?: string;
   bedCount?: number;
-  status: 'available' | 'partially_available' | 'occupied' | 'maintenance' | 'reserved';
+  status: 'vacant' | 'visit_scheduled' | 'visit_done' | 'booked' | 'occupied' | 'vacating_soon';
   actualRent?: number;
   expectedRent?: number;
   roomType?: string;
   notes?: string;
   rentPerBed?: number;
+  isLocked: boolean;
+  vacatingDate?: Date;
   bathroomType?: 'attached' | 'common';
   furnishing?: 'unfurnished' | 'semi-furnished' | 'fully-furnished';
   createdAt: Date;
@@ -25,9 +27,11 @@ const RoomSchema: Schema = new Schema(
     bedCount: { type: Number, default: 0 },
     status: { 
       type: String, 
-      enum: ['available', 'partially_available', 'occupied', 'maintenance', 'reserved'],
-      default: 'available'
+      enum: ['vacant', 'visit_scheduled', 'visit_done', 'booked', 'occupied', 'vacating_soon'],
+      default: 'vacant'
     },
+    isLocked: { type: Boolean, default: false },
+    vacatingDate: { type: Date },
     actualRent: { type: Number },
     expectedRent: { type: Number },
     roomType: { type: String },
@@ -35,8 +39,19 @@ const RoomSchema: Schema = new Schema(
     rentPerBed: { type: Number },
     bathroomType: { type: String, enum: ['attached', 'common'], default: 'common' },
     furnishing: { type: String, enum: ['unfurnished', 'semi-furnished', 'fully-furnished'], default: 'unfurnished' },
+    lastConfirmedAt: { type: Date },
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
 );
+
+RoomSchema.virtual('beds', {
+  ref: 'Bed',
+  localField: '_id',
+  foreignField: 'roomId'
+});
 
 export default mongoose.models.Room || mongoose.model<IRoom>('Room', RoomSchema);

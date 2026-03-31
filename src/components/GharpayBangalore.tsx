@@ -1,0 +1,421 @@
+import { useState, useMemo } from "react";
+
+// ============================================================
+// ═══════════ BANGALORE GEO-INTELLIGENCE DATABASE ════════════
+// ============================================================
+
+// Haversine straight-line distance (km)
+function haversine(lat1: number, lng1: number, lat2: number, lng2: number) {
+  const R = 6371;
+  const dL = (lat2 - lat1) * Math.PI / 180;
+  const dG = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dL/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dG/2)**2;
+  return +(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))).toFixed(2);
+}
+
+// Road distance ≈ 1.35× straight-line (Bangalore correction factor)
+const roadDist = (lat1: number, lng1: number, lat2: number, lng2: number) => +(haversine(lat1,lng1,lat2,lng2)*1.35).toFixed(1);
+
+const AREAS = [
+  // ── CENTRAL ──────────────────────────────────────────────
+  { id:"mg_road",         name:"MG Road",                      pincode:"560001", lat:12.9757, lng:77.6077, tier:"luxury",    type:"commercial",   region:"Central",  desc:"CBD, Purple metro line, Brigade Road adjacent" },
+  { id:"richmond_town",   name:"Richmond Town",                pincode:"560025", lat:12.9605, lng:77.5983, tier:"luxury",    type:"residential",  region:"Central",  desc:"Upscale old-money neighbourhood near Ulsoor" },
+  { id:"shivajinagar",    name:"Shivajinagar",                 pincode:"560020", lat:12.9867, lng:77.5966, tier:"mid",       type:"mixed",        region:"Central",  desc:"Govt offices, bus terminals, commercial" },
+  { id:"frazer_town",     name:"Frazer Town",                  pincode:"560005", lat:12.9880, lng:77.6224, tier:"luxury",    type:"residential",  region:"Central",  desc:"Leafy, cosmopolitan, older bungalows & apartments" },
+  { id:"cox_town",        name:"Cox Town",                     pincode:"560005", lat:12.9904, lng:77.6200, tier:"premium",   type:"residential",  region:"Central",  desc:"Quiet lanes, heritage buildings" },
+  { id:"sadashivanagar",  name:"Sadashivanagar",               pincode:"560080", lat:13.0062, lng:77.5828, tier:"luxury",    type:"residential",  region:"Central",  desc:"Most expensive zip in Bangalore, diplomatic enclave" },
+  { id:"dollar_colony",   name:"Dollar Colony / Palace Gutta", pincode:"560020", lat:13.0000, lng:77.5813, tier:"luxury",    type:"residential",  region:"Central",  desc:"Adjacent to Palace Grounds, extremely premium" },
+  { id:"basavanagudi",    name:"Basavanagudi",                  pincode:"560004", lat:12.9434, lng:77.5750, tier:"premium",   type:"residential",  region:"Central",  desc:"Old Bangalore, Bull Temple Rd, leafy residential" },
+
+  // ── KORAMANGALA ───────────────────────────────────────────
+  { id:"korm_1",  name:"Koramangala 1st Block", pincode:"560034", lat:12.9318, lng:77.6152, tier:"premium",  type:"residential", region:"South", desc:"Quiet, near Christ University" },
+  { id:"korm_2",  name:"Koramangala 2nd Block", pincode:"560034", lat:12.9330, lng:77.6180, tier:"premium",  type:"residential", region:"South", desc:"Residential, near NGV" },
+  { id:"korm_3",  name:"Koramangala 3rd Block", pincode:"560034", lat:12.9340, lng:77.6220, tier:"premium",  type:"mixed",       region:"South", desc:"Restaurants, co-working, residential" },
+  { id:"korm_4",  name:"Koramangala 4th Block", pincode:"560034", lat:12.9352, lng:77.6245, tier:"premium",  type:"mixed",       region:"South", desc:"Central Koramangala, IIMB area" },
+  { id:"korm_5",  name:"Koramangala 5th Block", pincode:"560095", lat:12.9363, lng:77.6270, tier:"premium",  type:"commercial",  region:"South", desc:"Forum Mall, startups, dining" },
+  { id:"korm_6",  name:"Koramangala 6th Block", pincode:"560095", lat:12.9373, lng:77.6290, tier:"premium",  type:"mixed",       region:"South", desc:"Hipster cafes, startup culture" },
+  { id:"korm_7",  name:"Koramangala 7th Block", pincode:"560095", lat:12.9335, lng:77.6290, tier:"premium",  type:"mixed",       region:"South", desc:"Dense residential + commercial" },
+  { id:"korm_8",  name:"Koramangala 8th Block", pincode:"560095", lat:12.9320, lng:77.6310, tier:"premium",  type:"residential", region:"South", desc:"Quieter, SGPalya end" },
+  { id:"sg_palya",name:"SGPalya",               pincode:"560029", lat:12.9285, lng:77.6330, tier:"mid",      type:"residential", region:"South", desc:"Adjoins Koramangala 8th, affordable pocket" },
+
+  // ── BTM LAYOUT ────────────────────────────────────────────
+  { id:"btm_1",   name:"BTM Layout Sector 1",  pincode:"560029", lat:12.9180, lng:77.6080, tier:"mid",      type:"residential", region:"South", desc:"Western BTM, near Jayanagar" },
+  { id:"btm_2",   name:"BTM Layout Sector 2",  pincode:"560076", lat:12.9165, lng:77.6101, tier:"mid",      type:"mixed",       region:"South", desc:"Main commercial BTM, dense" },
+
+  // ── HSR LAYOUT ────────────────────────────────────────────
+  { id:"hsr_1",   name:"HSR Layout Sector 1",  pincode:"560102", lat:12.9180, lng:77.6389, tier:"premium",  type:"residential", region:"South", desc:"North HSR, near Koramangala" },
+  { id:"hsr_2",   name:"HSR Layout Sector 2",  pincode:"560102", lat:12.9150, lng:77.6389, tier:"premium",  type:"residential", region:"South", desc:"Central HSR" },
+  { id:"hsr_3",   name:"HSR Layout Sector 3",  pincode:"560102", lat:12.9116, lng:77.6389, tier:"premium",  type:"residential", region:"South", desc:"Central HSR, startup hubs" },
+  { id:"hsr_4",   name:"HSR Layout Sector 4",  pincode:"560102", lat:12.9090, lng:77.6389, tier:"premium",  type:"residential", region:"South", desc:"Quiet residential sector" },
+  { id:"hsr_5",   name:"HSR Layout Sector 5",  pincode:"560102", lat:12.9060, lng:77.6389, tier:"premium",  type:"residential", region:"South", desc:"Near BDA complex" },
+  { id:"hsr_6",   name:"HSR Layout Sector 6",  pincode:"560102", lat:12.9030, lng:77.6389, tier:"premium",  type:"residential", region:"South", desc:"South HSR near Silk Board" },
+  { id:"hsr_7",   name:"HSR Layout Sector 7",  pincode:"560102", lat:12.9000, lng:77.6389, tier:"premium",  type:"residential", region:"South", desc:"Southernmost HSR, quieter" },
+
+  // ── JAYANAGAR ─────────────────────────────────────────────
+  { id:"jaya_1",  name:"Jayanagar 1st Block",  pincode:"560041", lat:12.9312, lng:77.5938, tier:"premium",  type:"residential", region:"South", desc:"North Jayanagar, near South End Circle" },
+  { id:"jaya_2",  name:"Jayanagar 2nd Block",  pincode:"560041", lat:12.9295, lng:77.5938, tier:"premium",  type:"residential", region:"South", desc:"Established residential" },
+  { id:"jaya_3",  name:"Jayanagar 3rd Block",  pincode:"560041", lat:12.9280, lng:77.5938, tier:"premium",  type:"residential", region:"South", desc:"Leafy streets" },
+  { id:"jaya_4t", name:"Jayanagar 4th T Block",pincode:"560041", lat:12.9265, lng:77.5970, tier:"premium",  type:"mixed",       region:"South", desc:"Shopping hub, Jayanagar metro" },
+  { id:"jaya_5",  name:"Jayanagar 5th Block",  pincode:"560041", lat:12.9250, lng:77.5938, tier:"premium",  type:"residential", region:"South", desc:"Near metro station" },
+  { id:"jaya_6",  name:"Jayanagar 6th Block",  pincode:"560041", lat:12.9235, lng:77.5950, tier:"premium",  type:"residential", region:"South", desc:"Central-south Jayanagar" },
+  { id:"jaya_7",  name:"Jayanagar 7th Block",  pincode:"560082", lat:12.9220, lng:77.5938, tier:"premium",  type:"residential", region:"South", desc:"Well-planned layouts" },
+  { id:"jaya_8",  name:"Jayanagar 8th Block",  pincode:"560082", lat:12.9200, lng:77.5938, tier:"mid",      type:"residential", region:"South", desc:"Near JP Nagar boundary" },
+  { id:"jaya_9",  name:"Jayanagar 9th Block",  pincode:"560041", lat:12.9185, lng:77.5938, tier:"mid",      type:"residential", region:"South", desc:"Southernmost Jayanagar block" },
+
+  // ── JP NAGAR ──────────────────────────────────────────────
+  { id:"jpn_1",   name:"JP Nagar Phase 1",     pincode:"560078", lat:12.9200, lng:77.5850, tier:"premium",  type:"residential", region:"South", desc:"Adjacent to Jayanagar, premium" },
+  { id:"jpn_2",   name:"JP Nagar Phase 2",     pincode:"560078", lat:12.9150, lng:77.5850, tier:"premium",  type:"residential", region:"South", desc:"IIMB nearby" },
+  { id:"jpn_3",   name:"JP Nagar Phase 3",     pincode:"560078", lat:12.9100, lng:77.5844, tier:"mid",      type:"residential", region:"South", desc:"Good connectivity" },
+  { id:"jpn_4",   name:"JP Nagar Phase 4",     pincode:"560078", lat:12.9050, lng:77.5844, tier:"mid",      type:"residential", region:"South", desc:"Bannerghatta Road adjacent" },
+  { id:"jpn_5",   name:"JP Nagar Phase 5",     pincode:"560062", lat:12.9000, lng:77.5844, tier:"mid",      type:"residential", region:"South", desc:"Near Arekere" },
+  { id:"jpn_6",   name:"JP Nagar Phase 6",     pincode:"560062", lat:12.8950, lng:77.5844, tier:"mid",      type:"residential", region:"South", desc:"South extension" },
+  { id:"jpn_7",   name:"JP Nagar Phase 7",     pincode:"560062", lat:12.8900, lng:77.5844, tier:"mid",      type:"residential", region:"South", desc:"Near Puttenahalli Lake" },
+
+  // ── BANASHANKARI / SOUTH ─────────────────────────────────
+  { id:"banashankari",name:"Banashankari",      pincode:"560050", lat:12.9232, lng:77.5476, tier:"mid",      type:"residential", region:"South", desc:"Metro terminus (south), temple area" },
+  { id:"bannerhatta", name:"Bannerghatta Road", pincode:"560076", lat:12.8900, lng:77.5976, tier:"mid",      type:"mixed",       region:"South", desc:"Extended residential, Arekere, Gottigere" },
+  { id:"elec_city_1", name:"Electronic City Phase 1", pincode:"560100",lat:12.8491,lng:77.6741,tier:"affordable",type:"it_hub", region:"South", desc:"Infosys, HCL, Wipro campuses" },
+  { id:"elec_city_2", name:"Electronic City Phase 2", pincode:"560100",lat:12.8399,lng:77.6770,tier:"affordable",type:"it_hub", region:"South", desc:"Extended IT zone, SJR iPark" },
+
+  // ── SARJAPUR / ORR / BELLANDUR ────────────────────────────
+  { id:"sarjapur_road",name:"Sarjapur Road",    pincode:"560034", lat:12.9102, lng:77.6805, tier:"mid",      type:"it_corridor", region:"South-East", desc:"ORR to Sarjapur, high-rise apartments" },
+  { id:"bellandur",   name:"Bellandur",         pincode:"560103", lat:12.9256, lng:77.6720, tier:"mid",      type:"mixed",       region:"South-East", desc:"Ecospace, Pritech Park, lake area" },
+  { id:"haralur",     name:"Haralur Road",      pincode:"560102", lat:12.9050, lng:77.6650, tier:"mid",      type:"residential", region:"South-East", desc:"HSR extension, new apartments" },
+  { id:"carmelaram",  name:"Carmelaram",        pincode:"560035", lat:12.8989, lng:77.7072, tier:"affordable",type:"residential",region:"South-East", desc:"Near Sarjapur, growing IT suburb" },
+
+  // ── EAST BANGALORE ────────────────────────────────────────
+  { id:"indiranagar",name:"Indiranagar",        pincode:"560038", lat:12.9784, lng:77.6408, tier:"luxury",   type:"mixed",       region:"East", desc:"100 Feet Road, metro, premium nightlife" },
+  { id:"indir_1",    name:"Indiranagar 1st Stage",pincode:"560038",lat:12.9784,lng:77.6408, tier:"luxury",   type:"residential", region:"East", desc:"Heritage residential stretch" },
+  { id:"indir_2",    name:"Indiranagar 2nd Stage",pincode:"560038",lat:12.9800,lng:77.6450, tier:"luxury",   type:"mixed",       region:"East", desc:"100 Feet Road commercial strip" },
+  { id:"domlur",     name:"Domlur",             pincode:"560071", lat:12.9609, lng:77.6387, tier:"premium",  type:"mixed",       region:"East", desc:"HAL/ISRO vicinity, IT offices" },
+  { id:"ejipura",    name:"Ejipura / Viveknagar",pincode:"560047",lat:12.9530, lng:77.6350, tier:"mid",      type:"residential", region:"East", desc:"Between Koramangala & Indiranagar" },
+  { id:"old_airport",name:"Old Airport Road",   pincode:"560017", lat:12.9607, lng:77.6491, tier:"premium",  type:"mixed",       region:"East", desc:"HAL, Manipal Hospital, Ulsoor" },
+  { id:"cv_raman",   name:"CV Raman Nagar",     pincode:"560093", lat:12.9869, lng:77.6634, tier:"mid",      type:"residential", region:"East", desc:"Bagmane Tech Park nearby" },
+  { id:"marathahalli",name:"Marathahalli",      pincode:"560037", lat:12.9545, lng:77.7011, tier:"mid",      type:"mixed",       region:"East", desc:"ORR junction, heavy traffic, IT hub" },
+  { id:"whitefield", name:"Whitefield",         pincode:"560066", lat:12.9698, lng:77.7499, tier:"mid",      type:"it_hub",      region:"East", desc:"Largest IT hub, ITPL, Phoenix Mall" },
+  { id:"itpl_area",  name:"ITPL / Brookefield", pincode:"560037", lat:12.9845, lng:77.7268, tier:"mid",      type:"it_hub",      region:"East", desc:"ITPL campus, Tin Factory nearby" },
+  { id:"hoodi",      name:"Hoodi",              pincode:"560048", lat:12.9879, lng:77.7084, tier:"mid",      type:"mixed",       region:"East", desc:"Between KR Puram & Whitefield" },
+  { id:"varthur",    name:"Varthur",            pincode:"560087", lat:12.9395, lng:77.7350, tier:"affordable",type:"residential",region:"East", desc:"Growing suburb near Whitefield" },
+  { id:"kadugodi",   name:"Kadugodi",           pincode:"560067", lat:12.9937, lng:77.7484, tier:"affordable",type:"residential",region:"East", desc:"Near Whitefield, affordable" },
+  { id:"kr_puram",   name:"KR Puram",           pincode:"560036", lat:13.0074, lng:77.6946, tier:"affordable",type:"residential",region:"East", desc:"Railway station, growing area" },
+  { id:"banaswadi",  name:"Banaswadi",          pincode:"560043", lat:13.0105, lng:77.6528, tier:"mid",      type:"residential", region:"East", desc:"Between HBR & Indiranagar" },
+
+  // ── NORTH BANGALORE ───────────────────────────────────────
+  { id:"hebbal",     name:"Hebbal",             pincode:"560024", lat:13.0358, lng:77.5970, tier:"premium",  type:"mixed",       region:"North", desc:"Manyata Tech Park, flyover, lake" },
+  { id:"nagawara",   name:"Nagawara",           pincode:"560045", lat:13.0428, lng:77.6246, tier:"mid",      type:"mixed",       region:"North", desc:"Manyata feeder zone" },
+  { id:"thanisandra",name:"Thanisandra",        pincode:"560077", lat:13.0574, lng:77.6216, tier:"mid",      type:"residential", region:"North", desc:"Growing residential, new apartments" },
+  { id:"hennur",     name:"Hennur Road",        pincode:"560043", lat:13.0480, lng:77.6358, tier:"affordable",type:"residential",region:"North", desc:"Budget apartments, upcoming area" },
+  { id:"hbr_layout", name:"HBR Layout",        pincode:"560045", lat:13.0249, lng:77.6397, tier:"mid",      type:"residential", region:"North", desc:"HBR main road connectivity" },
+  { id:"rt_nagar",   name:"RT Nagar",           pincode:"560032", lat:13.0205, lng:77.5914, tier:"mid",      type:"residential", region:"North", desc:"North Bangalore, established" },
+  { id:"yelahanka",  name:"Yelahanka",          pincode:"560064", lat:13.1007, lng:77.5963, tier:"mid",      type:"residential", region:"North", desc:"Airport corridor, growing fast" },
+  { id:"yelahanka_new",name:"Yelahanka New Town",pincode:"560064",lat:13.0971, lng:77.5920, tier:"mid",      type:"residential", region:"North", desc:"Planned township, good infra" },
+  { id:"jakkur",     name:"Jakkur",             pincode:"560064", lat:13.0661, lng:77.5864, tier:"mid",      type:"residential", region:"North", desc:"Airport road, Jakkur Lake" },
+  { id:"devanahalli",name:"Devanahalli",        pincode:"562110", lat:13.2479, lng:77.7167, tier:"affordable",type:"residential",region:"North", desc:"Near KIAL, logistics, growing" },
+  { id:"kogilu",     name:"Kogilu",             pincode:"560064", lat:13.0650, lng:77.5900, tier:"affordable",type:"residential",region:"North", desc:"Near Yelahanka, budget" },
+
+  // ── WEST BANGALORE ────────────────────────────────────────
+  { id:"rajajinagar",name:"Rajajinagar",        pincode:"560010", lat:12.9988, lng:77.5562, tier:"premium",  type:"residential", region:"West", desc:"Metro connected, old Bangalore premium" },
+  { id:"malleswaram",name:"Malleswaram",        pincode:"560003", lat:13.0032, lng:77.5700, tier:"premium",  type:"residential", region:"West", desc:"Heritage, Brahmin agrahara roots, premium" },
+  { id:"mathikere",  name:"Mathikere",          pincode:"560054", lat:13.0132, lng:77.5600, tier:"mid",      type:"residential", region:"West", desc:"MSRIT area, residential" },
+  { id:"yeshwanthpur",name:"Yeshwanthpur",      pincode:"560022", lat:13.0227, lng:77.5450, tier:"mid",      type:"mixed",       region:"West", desc:"Railway junction, metro, industrial" },
+  { id:"peenya",     name:"Peenya",             pincode:"560058", lat:13.0286, lng:77.5211, tier:"affordable",type:"industrial",  region:"West", desc:"Industrial estate, metro" },
+  { id:"vijayanagar",name:"Vijayanagar",        pincode:"560040", lat:12.9793, lng:77.5364, tier:"mid",      type:"residential", region:"West", desc:"Metro (Purple line), dense residential" },
+  { id:"nagarbhavi", name:"Nagarbhavi",         pincode:"560072", lat:12.9730, lng:77.5101, tier:"mid",      type:"residential", region:"West", desc:"RGU campus nearby, large layouts" },
+  { id:"rr_nagar",   name:"RR Nagar",           pincode:"560098", lat:12.9179, lng:77.5175, tier:"mid",      type:"residential", region:"West", desc:"Large residential township, PES University" },
+  { id:"kengeri",    name:"Kengeri",            pincode:"560060", lat:12.9140, lng:77.4829, tier:"affordable",type:"residential", region:"West", desc:"Purple metro terminus, affordable" },
+  { id:"mysore_road",name:"Mysore Road",        pincode:"560026", lat:12.9500, lng:77.5100, tier:"affordable",type:"mixed",       region:"West", desc:"NICE road, growing commercial" },
+];
+
+const TECH_PARKS = [
+  { id:"manyata",    name:"Manyata Tech Park",           lat:13.0461, lng:77.6214, area:"Hebbal/Nagawara",        companies:"Goldman Sachs, SAP, Mphasis, L&T Infotech" },
+  { id:"embassy_tv", name:"Embassy Tech Village",        lat:12.9287, lng:77.6889, area:"Devarabeesanahalli/ORR", companies:"IBM, Accenture, Cisco, Dell" },
+  { id:"bagmane",    name:"Bagmane Tech Park",           lat:12.9869, lng:77.6634, area:"CV Raman Nagar",         companies:"Cognizant, Nokia, Citibank" },
+  { id:"prestige_tp",name:"Prestige Tech Park",          lat:12.9213, lng:77.6871, area:"ORR/Marathahalli",       companies:"Accenture, Qualcomm, Akamai" },
+  { id:"ecity_hub",  name:"Electronic City (Infosys/Wipro)", lat:12.8491, lng:77.6741, area:"Electronic City Ph1", companies:"Infosys, Wipro, HCL, TCS, Siemens" },
+  { id:"itpl",       name:"International Tech Park ITPL",lat:12.9845, lng:77.7268, area:"Whitefield",            companies:"Multiple MNCs, Infosys BPO" },
+  { id:"global_tv",  name:"Embassy Global Tech Village", lat:12.9204, lng:77.6780, area:"Bellandur/ORR",          companies:"Flipkart, Target India" },
+  { id:"cessna",     name:"Cessna Business Park",        lat:12.9342, lng:77.6910, area:"Kadubeesanahalli/ORR",   companies:"Capgemini, Ernst & Young" },
+  { id:"rga_tech",   name:"RGA Tech Park",               lat:12.9067, lng:77.6698, area:"Sarjapur Road",          companies:"Oracle, Microland" },
+  { id:"rmz_infinity",name:"RMZ Infinity",               lat:12.9885, lng:77.7034, area:"Old Madras Road",        companies:"Amazon, JP Morgan" },
+  { id:"ecospace",   name:"EcoSpace Business Park",      lat:12.9345, lng:77.6898, area:"Bellandur/ORR",          companies:"SAP Labs, Tech Mahindra, KPMG" },
+  { id:"kirloskar_tp",name:"Kirloskar Tech Park",        lat:13.0440, lng:77.5870, area:"Hebbal",                 companies:"ABB, Ericsson" },
+  { id:"intel_campus",name:"Intel Campus Whitefield",    lat:12.9712, lng:77.7332, area:"Whitefield",             companies:"Intel" },
+  { id:"bosch",      name:"Bosch / Robert Bosch Campus", lat:12.9200, lng:77.6100, area:"Adugodi/Hosur Road",     companies:"Bosch" },
+  { id:"igate_tech", name:"Pritech Park SEZ",            lat:12.9350, lng:77.6850, area:"Bellandur",              companies:"SAP, Mindtree" },
+  { id:"rmz_ecoworld",name:"RMZ Ecoworld",               lat:12.9145, lng:77.6929, area:"Bellandur/Devarabeesanahalli", companies:"J.P. Morgan, ANZ, ThoughtWorks" },
+  { id:"salarpuria_tecdzone",name:"Salarpuria Techzone", lat:12.9400, lng:77.6897, area:"ORR/Marathahalli",       companies:"Multiple IT companies" },
+];
+
+const METRO_STATIONS = [
+  // Purple Line (East-West)
+  {id:"m_kengeri",    name:"Kengeri",              lat:12.9140, lng:77.4829, line:"Purple"},
+  {id:"m_pattanagere",name:"Pattanagere",          lat:12.9220, lng:77.4935, line:"Purple"},
+  {id:"m_govindaraj", name:"Govindarajanagar",     lat:12.9340, lng:77.5070, line:"Purple"},
+  {id:"m_mysore_rd",  name:"Mysore Road",          lat:12.9494, lng:77.5234, line:"Purple"},
+  {id:"m_deepanjali", name:"Deepanjali Nagar",     lat:12.9557, lng:77.5316, line:"Purple"},
+  {id:"m_attiguppe",  name:"Attiguppe",            lat:12.9622, lng:77.5398, line:"Purple"},
+  {id:"m_vijay",      name:"Vijayanagar",          lat:12.9680, lng:77.5480, line:"Purple"},
+  {id:"m_magadi_rd",  name:"Magadi Road",          lat:12.9694, lng:77.5542, line:"Purple"},
+  {id:"m_city_rly",   name:"City Railway Station", lat:12.9772, lng:77.5724, line:"Purple"},
+  {id:"m_majestic",   name:"Kempegowda (Majestic)",lat:12.9766, lng:77.5713, line:"Purple/Green"},
+  {id:"m_cubbon",     name:"Cubbon Park",          lat:12.9762, lng:77.5933, line:"Purple"},
+  {id:"m_mg_road",    name:"MG Road",              lat:12.9757, lng:77.6077, line:"Purple"},
+  {id:"m_trinity",    name:"Trinity",              lat:12.9730, lng:77.6168, line:"Purple"},
+  {id:"m_halasuru",   name:"Halasuru",             lat:12.9729, lng:77.6265, line:"Purple"},
+  {id:"m_indiranagar",name:"Indiranagar",          lat:12.9776, lng:77.6384, line:"Purple"},
+  {id:"m_sv_road",    name:"Swami Vivekananda Rd", lat:12.9777, lng:77.6499, line:"Purple"},
+  {id:"m_baiyappa",   name:"Baiyappanahalli",      lat:12.9873, lng:77.6612, line:"Purple"},
+  // Green Line (North-South)
+  {id:"m_nagasandra", name:"Nagasandra",           lat:13.0536, lng:77.5137, line:"Green"},
+  {id:"m_dasarahalli",name:"Dasarahalli",          lat:13.0438, lng:77.5207, line:"Green"},
+  {id:"m_jalahalli",  name:"Jalahalli",            lat:13.0336, lng:77.5260, line:"Green"},
+  {id:"m_peenya_ind", name:"Peenya Industry",      lat:13.0303, lng:77.5199, line:"Green"},
+  {id:"m_peenya",     name:"Peenya",               lat:13.0235, lng:77.5198, line:"Green"},
+  {id:"m_goragup",    name:"Goraguntepalya",       lat:13.0134, lng:77.5252, line:"Green"},
+  {id:"m_yeshwantp",  name:"Yeshwanthpur",         lat:13.0215, lng:77.5399, line:"Green"},
+  {id:"m_sandal",     name:"Sandal Soap Factory",  lat:13.0179, lng:77.5502, line:"Green"},
+  {id:"m_mahalakshmi",name:"Mahalakshmi",          lat:13.0065, lng:77.5573, line:"Green"},
+  {id:"m_rajajin",    name:"Rajajinagar",          lat:12.9988, lng:77.5562, line:"Green"},
+  {id:"m_kuvempu",    name:"Kuvempu Road",         lat:12.9919, lng:77.5607, line:"Green"},
+  {id:"m_srirampura", name:"Srirampura",           lat:12.9839, lng:77.5627, line:"Green"},
+  {id:"m_mantri_sq",  name:"Mantri Square (Sampige Rd)", lat:12.9797, lng:77.5680, line:"Green"},
+  {id:"m_chickpet",   name:"Chickpet",             lat:12.9656, lng:77.5728, line:"Green"},
+  {id:"m_kr_market",  name:"KR Market",            lat:12.9590, lng:77.5742, line:"Green"},
+  {id:"m_natl_college",name:"National College",    lat:12.9490, lng:77.5756, line:"Green"},
+  {id:"m_lalbagh",    name:"Lalbagh",              lat:12.9445, lng:77.5845, line:"Green"},
+  {id:"m_south_end",  name:"South End Circle",     lat:12.9399, lng:77.5887, line:"Green"},
+  {id:"m_jayanagar",  name:"Jayanagar",            lat:12.9250, lng:77.5938, line:"Green"},
+  {id:"m_rv_road",    name:"RV Road",              lat:12.9189, lng:77.5875, line:"Green"},
+  {id:"m_banashankari",name:"Banashankari",        lat:12.9232, lng:77.5476, line:"Green"},
+  {id:"m_jp_nagar",   name:"Jayaprakash Nagar",    lat:12.9105, lng:77.5624, line:"Green"},
+  {id:"m_yelachenahalli",name:"Yelachenahalli",    lat:12.8980, lng:77.5710, line:"Green"},
+  // Yellow Line (Phase 2)
+  {id:"m_silk_board", name:"Silk Board",           lat:12.9174, lng:77.6228, line:"Yellow"},
+  {id:"m_hsr_m",      name:"HSR Layout",           lat:12.9116, lng:77.6389, line:"Yellow"},
+  {id:"m_agara",      name:"Agara",                lat:12.9090, lng:77.6266, line:"Yellow"},
+  {id:"m_iblur",      name:"Iblur Junction",       lat:12.9025, lng:77.6597, line:"Yellow"},
+  {id:"m_bellandur_m",name:"Bellandur Road",       lat:12.9210, lng:77.6717, line:"Yellow"},
+  {id:"m_kadubeesana",name:"Kadubeesanahalli",     lat:12.9454, lng:77.6952, line:"Yellow"},
+  {id:"m_marathahalli_m",name:"Marathahalli Bridge",lat:12.9545, lng:77.7011,line:"Yellow"},
+  // Pink Line (Phase 2B)
+  {id:"m_nagawara_p", name:"Nagawara",             lat:13.0428, lng:77.6246, line:"Pink"},
+  {id:"m_thanisandra_p",name:"Thanisandra",        lat:13.0574, lng:77.6216, line:"Pink"},
+];
+
+const LANDMARKS = [
+  {id:"christ_univ",  name:"Christ University",          lat:12.9345, lng:77.6078, type:"University",  area:"Hosur Road/Dairy Circle"},
+  {id:"iimb",         name:"IIM Bangalore",              lat:12.9326, lng:77.6052, type:"University",  area:"Bannerghatta Road"},
+  {id:"rvce",         name:"RV College of Engineering",  lat:12.9228, lng:77.4990, type:"University",  area:"Mysore Road"},
+  {id:"msrit",        name:"MS Ramaiah Institute",       lat:13.0212, lng:77.5601, type:"University",  area:"Mathikere"},
+  {id:"pes_univ",     name:"PES University",             lat:12.9332, lng:77.5356, type:"University",  area:"RR Nagar"},
+  {id:"blr_univ",     name:"Bangalore University",       lat:12.9556, lng:77.5091, type:"University",  area:"Jnanabharathi"},
+  {id:"nimhans",      name:"NIMHANS",                    lat:12.9427, lng:77.5934, type:"Hospital",    area:"Hosur Road"},
+  {id:"manipal",      name:"Manipal Hospital (OAR)",     lat:12.9607, lng:77.6491, type:"Hospital",    area:"Old Airport Road"},
+  {id:"forum_mall",   name:"Forum Mall Koramangala",     lat:12.9363, lng:77.6270, type:"Mall",        area:"Koramangala 5th Block"},
+  {id:"phoenix_wf",   name:"Phoenix Market City",        lat:12.9645, lng:77.7476, type:"Mall",        area:"Whitefield"},
+  {id:"silk_board",   name:"Silk Board Junction",        lat:12.9174, lng:77.6228, type:"Junction",    area:"Silk Board"},
+  {id:"airport",      name:"Kempegowda Intl Airport",    lat:13.1986, lng:77.7066, type:"Airport",     area:"Devanahalli"},
+  {id:"city_rly",     name:"KSR City Railway Station",   lat:12.9769, lng:77.5714, type:"Railway",     area:"Majestic"},
+  {id:"ypr_rly",      name:"Yesvantpur Railway Station", lat:13.0224, lng:77.5393, type:"Railway",     area:"Yeshwanthpur"},
+  {id:"brigade_road", name:"Brigade Road",               lat:12.9719, lng:77.6074, type:"Commercial",  area:"MG Road / CBD"},
+  {id:"ubs_ecity",    name:"UB City",                    lat:12.9715, lng:77.5959, type:"Luxury Mall", area:"Vittal Mallya Road"},
+];
+
+function nearestMetro(lat: number, lng: number, n=3) {
+  return METRO_STATIONS
+    .map(m => ({...m, dist: haversine(lat,lng,m.lat,m.lng)}))
+    .sort((a,b)=>a.dist-b.dist).slice(0,n);
+}
+
+function nearestTechParks(lat: number, lng: number, n=3) {
+  return TECH_PARKS
+    .map(tp => ({...tp, dist: haversine(lat,lng,tp.lat,tp.lng)}))
+    .sort((a,b)=>a.dist-b.dist).slice(0,n);
+}
+
+function nearestLandmarks(lat: number, lng: number, n=4) {
+  return LANDMARKS
+    .map(l => ({...l, dist: haversine(lat,lng,l.lat,l.lng)}))
+    .sort((a,b)=>a.dist-b.dist).slice(0,n);
+}
+
+function areaDistances(fromId: string) {
+  const from = AREAS.find(a=>a.id===fromId);
+  if(!from) return [];
+  return AREAS
+    .filter(a=>a.id!==fromId)
+    .map(a=>({...a, dist: haversine(from.lat,from.lng,a.lat,a.lng)}))
+    .sort((a,b)=>a.dist-b.dist);
+}
+
+const TIER_COLORS: Record<string, string> = {
+  luxury:     "#D4A853",
+  premium:    "#7EB8A4",
+  mid:        "#6B9BD2",
+  affordable: "#A0A0A0",
+  it_hub:     "#C17ED1",
+  it_corridor:"#C17ED1",
+  industrial: "#888",
+};
+
+const LINE_COLORS: Record<string, string> = {
+  "Purple":       "#9B59B6",
+  "Green":        "#27AE60",
+  "Purple/Green": "#E67E22",
+  "Yellow":       "#F1C40F",
+  "Pink":         "#E91E8C",
+};
+
+export default function GharpayApp() {
+  const [tab, setTab]               = useState("matcher");
+  const [leadText, setLeadText]     = useState("");
+  const [leadName, setLeadName]     = useState("");
+  const [leadPhone, setLeadPhone]   = useState("");
+  const [leadEmail, setLeadEmail]   = useState("");
+  const [loading, setLoading]       = useState(false);
+  const [result, setResult]         = useState<any>(null);
+  const [error, setError]           = useState<string | null>(null);
+  const [exploreFrom, setExploreFrom] = useState("korm_5");
+  const [distFrom, setDistFrom]     = useState("korm_5");
+  const [distTo, setDistTo]         = useState("indiranagar");
+
+  const buildKnowledgeSnapshot = () => {
+    const areaList = AREAS.map(a =>
+      `${a.name} (PIN:${a.pincode}, tier:${a.tier}, region:${a.region}, type:${a.type})`
+    ).join(" | ");
+    const parkList = TECH_PARKS.map(p => `${p.name} [${p.area}]`).join(", ");
+    const metroList = METRO_STATIONS.map(m => `${m.name} (${m.line})`).join(", ");
+    return `AREAS: ${areaList}\nTECH_PARKS: ${parkList}\nMETRO: ${metroList}`;
+  };
+
+  function enrichResult(ext: any) {
+    const matchedAreas = (ext.matched_area_ids || [])
+      .map((id: string) => AREAS.find(a=>a.id===id))
+      .filter(Boolean)
+      .map((area: any) => {
+        const metros  = nearestMetro(area.lat, area.lng, 3);
+        const parks   = nearestTechParks(area.lat, area.lng, 3);
+        const lmarks  = nearestLandmarks(area.lat, area.lng, 4);
+        let officeInfo = null;
+        if(ext.matched_office_park_id) {
+          const op = TECH_PARKS.find(p=>p.id===ext.matched_office_park_id);
+          if(op) officeInfo = { ...op, dist: haversine(area.lat,area.lng,op.lat,op.lng) };
+        }
+        return { ...area, metros, parks, lmarks, officeInfo };
+      });
+    setResult({ ...ext, matchedAreas });
+  }
+
+  async function matchLead() {
+    if(!leadText.trim()) { setError("Please enter lead details."); return; }
+    setLoading(true); setError(null); setResult(null);
+
+    const snapshot = buildKnowledgeSnapshot();
+    const systemPrompt = `You are the geo-intelligence engine for Gharpay, a Bangalore property matching startup.
+Given a sales lead, extract structured intent and match it to the best Bangalore residential areas.
+Bangalore knowledge base:
+${snapshot}
+Return ONLY valid JSON:
+{
+  "extracted": {
+    "name": "string or null",
+    "budget_inr": "string like '50-80L', '1-2Cr', '30k-50k/mo' or null",
+    "budget_tier": "luxury|premium|mid|affordable",
+    "property_type": "buy|rent|pg|commercial|unknown",
+    "office_location": "extracted office/company/area string or null",
+    "matched_office_park_id": "id from TECH_PARKS or null",
+    "matched_area_ids": ["up to 5 best area ids from AREAS"],
+    "notes": "brief reasoning"
+  }
+}`;
+
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY || "" 
+        },
+        body: JSON.stringify({
+          model: "claude-3-5-sonnet-20240620",
+          max_tokens: 1000,
+          system: systemPrompt,
+          messages: [{ role: "user", content: `Lead text: ${leadText}` }]
+        })
+      });
+      const data = await res.json();
+      const parsed = JSON.parse(data.content[0].text);
+      enrichResult(parsed.extracted);
+    } catch(e) {
+      setError("AI matching failed.");
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const exploreArea = AREAS.find(a=>a.id===exploreFrom);
+  const fromArea = AREAS.find(a=>a.id===distFrom);
+  const toArea = AREAS.find(a=>a.id===distTo);
+
+  return (
+    <div style={{ fontFamily: "monospace", background: "#0C0C0E", color: "#E8E2D9", minHeight: "100vh" }}>
+      <header style={{ padding: "20px", borderBottom: "1px solid #2A2A35", display: "flex", gap: "20px" }}>
+        <h1 style={{ color: "#D4A853" }}>GHARPAY GEO-INTEL</h1>
+        <nav style={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
+          {["matcher","explorer","distances"].map(t => (
+            <button key={t} onClick={() => setTab(t)} style={{ background: tab === t ? "#D4A853" : "transparent", color: tab === t ? "#000" : "#888" }}>
+              {t.toUpperCase()}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      {tab === "matcher" && (
+        <main style={{ display: "grid", gridTemplateColumns: "400px 1fr", padding: "20px" }}>
+          <section>
+            <textarea value={leadText} onChange={e=>setLeadText(e.target.value)} rows={10} style={{ width: "100%", background: "#111", color: "#fff" }} />
+            <button onClick={matchLead} disabled={loading}>{loading ? "Matching..." : "Match Lead"}</button>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+          </section>
+          <section style={{ paddingLeft: "20px" }}>
+            {result && (
+              <div>
+                <h2>Matches for {result.name || "Lead"}</h2>
+                {result.matchedAreas.map((a: any) => (
+                  <div key={a.id} style={{ border: "1px solid #333", padding: "10px", margin: "10px 0" }}>
+                    <h3>{a.name} ({a.tier})</h3>
+                    <p>{a.desc}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        </main>
+      )}
+
+      {tab === "explorer" && exploreArea && (
+        <main style={{ padding: "20px" }}>
+          <h2>Exploring {exploreArea.name}</h2>
+          <select value={exploreFrom} onChange={e=>setExploreFrom(e.target.value)}>
+            {AREAS.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+          </select>
+          <p>{exploreArea.desc}</p>
+        </main>
+      )}
+
+      {tab === "distances" && fromArea && toArea && (
+        <main style={{ padding: "20px" }}>
+          <h2>Distance Calculator</h2>
+          <div style={{ display: "flex", gap: "20px" }}>
+             <select value={distFrom} onChange={e=>setDistFrom(e.target.value)}>{AREAS.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select>
+             <span>to</span>
+             <select value={distTo} onChange={e=>setDistTo(e.target.value)}>{AREAS.map(a=><option key={a.id} value={a.id}>{a.name}</option>)}</select>
+          </div>
+          <p>Straight: {haversine(fromArea.lat, fromArea.lng, toArea.lat, toArea.lng)} km</p>
+          <p>Road (est): {roadDist(fromArea.lat, fromArea.lng, toArea.lat, toArea.lng)} km</p>
+        </main>
+      )}
+    </div>
+  );
+}

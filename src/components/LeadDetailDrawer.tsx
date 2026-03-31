@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,9 +10,8 @@ import { useUpdateLead, useAgents, type LeadWithRelations } from '@/hooks/useCrm
 import { useConversations, useFollowUps, useCreateFollowUp } from '@/hooks/useLeadDetails';
 import { useActivityLog } from '@/hooks/useActivityLog';
 import { useBookingsByLead } from '@/hooks/useBookings';
-import { useAuth } from '@/contexts/AuthContext';
 import { format, formatDistanceToNow } from 'date-fns';
-import { Phone, Mail, MapPin, IndianRupee, Clock, MessageCircle, CalendarCheck, User, Star, Send, Bell, ArrowRightLeft, Eye, Activity, Sparkles, Loader2, Receipt, CalendarDays, Briefcase, Home, Users, StickyNote } from 'lucide-react';
+import { Phone, Mail, MapPin, IndianRupee, Clock, MessageCircle, CalendarCheck, User, Star, Send, Bell, ArrowRightLeft, Eye, Activity, Sparkles, Loader2, Receipt, Calendar, ChevronDown, ChevronUp, RefreshCw, Building2, CheckCircle2, PhoneCall } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Props {
@@ -36,9 +35,7 @@ const ACTION_ICONS: Record<string, typeof Activity> = {
 
 const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
   const updateLead = useUpdateLead();
-  const { data: members } = useAgents();
-  const { user } = useAuth();
-  const canAssignLead = ['super_admin', 'manager', 'admin'].includes(user?.role || '');
+  const { data: agents } = useAgents();
   const { data: conversations } = useConversations(lead?.id);
   const { data: followUps } = useFollowUps(lead?.id);
   const { data: activityLog } = useActivityLog(lead?.id);
@@ -48,13 +45,50 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
   const [reminderDate, setReminderDate] = useState('');
   const [aiSummary, setAiSummary] = useState<any>(null);
   const [aiLoading, setAiLoading] = useState(false);
-  const [selectedAgentId, setSelectedAgentId] = useState<string>('');
-  const [selectedStatus, setSelectedStatus] = useState<string>('');
 
+  // ── Suggestions state ────────────────────────────────────────────────────
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
+  const [suggestionsError, setSuggestionsError] = useState<string | null>(null);
+  const [lastFetchedLeadId, setLastFetchedLeadId] = useState<string | null>(null);
+
+  // Reset suggestions whenever a different lead is opened
   useEffect(() => {
-    setSelectedAgentId(lead?.assignedMemberId || '');
-    setSelectedStatus(lead?.status || '');
-  }, [lead?.id, lead?.assignedMemberId, lead?.status]);
+    setSuggestionsOpen(false);
+    setSuggestions([]);
+    setSuggestionsError(null);
+    setLastFetchedLeadId(null);
+  }, [lead?.id]);
+
+  const fetchSuggestions = useCallback(async (leadId: string, force = false) => {
+    if (!leadId) return;
+    if (!force && lastFetchedLeadId === leadId && suggestions.length > 0) return;
+    setSuggestionsLoading(true);
+    setSuggestionsError(null);
+    try {
+      const res = await fetch(`/api/leads/suggestions?leadId=${encodeURIComponent(leadId)}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error((await res.json()).error || 'Failed to load suggestions');
+      const data = await res.json();
+      setSuggestions(data.suggestions || []);
+      setLastFetchedLeadId(leadId);
+    } catch (e: any) {
+      setSuggestionsError(e.message || 'Could not load suggestions');
+    } finally {
+      setSuggestionsLoading(false);
+    }
+  }, [lastFetchedLeadId, suggestions.length]);
+
+  const handleToggleSuggestions = () => {
+    const next = !suggestionsOpen;
+    setSuggestionsOpen(next);
+    if (next && lead?.id) fetchSuggestions(lead.id);
+  };
+
+  const handleRefreshSuggestions = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (lead?.id) fetchSuggestions(lead.id, true);
+  };
 
   const handleAiSummary = async () => {
     if (!lead) return;
@@ -65,7 +99,7 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          lead: { ...lead, agent_name: lead.members?.name },
+          lead: { ...lead, agent_name: lead.agents?.name },
           conversations: conversations?.slice(0, 5),
           visits: [],
           bookings: bookings?.map((b: any) => ({ property_name: b.properties?.name, booking_status: b.bookingStatus, monthly_rent: b.monthlyRent })),
@@ -85,38 +119,18 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
 
   const stage = PIPELINE_STAGES.find(s => s.key === lead.status);
   const score = lead.leadScore ?? 0;
-  const parsedMetadata = ((lead as any).parsedMetadata || {}) as Record<string, any>;
-  const parsedTechParks: string[] = Array.isArray(parsedMetadata.techParks) ? parsedMetadata.techParks : [];
-  const parsedMapLinks: string[] = Array.isArray(parsedMetadata.mapLinks) ? parsedMetadata.mapLinks : [];
-  const parsedExtraEntries = Object.entries((parsedMetadata.extraFields || {}) as Record<string, string>);
 
-  const handleStatusChange = (status: string) => {
-    setSelectedStatus(status);
-  };
-
-  const handleAgentChange = (agentId: string) => {
-    setSelectedAgentId(agentId);
-  };
-
-  const handleSaveAgentChange = async () => {
-    const updates: any = { id: lead.id };
-    let hasChanges = false;
-
-    if (selectedStatus && selectedStatus !== lead.status) {
-      updates.status = selectedStatus;
-      hasChanges = true;
-    }
-
-    if (canAssignLead && selectedAgentId !== lead.assignedMemberId) {
-      updates.assignedMemberId = selectedAgentId || null;
-      hasChanges = true;
-    }
-
-    if (!hasChanges) return;
-
+  const handleStatusChange = async (status: string) => {
     try {
-      await updateLead.mutateAsync(updates);
-      toast.success('Lead updated');
+      await updateLead.mutateAsync({ id: lead.id, status: status as any });
+      toast.success(`Status updated to ${PIPELINE_STAGES.find(s => s.key === status)?.label}`);
+    } catch (err: any) { toast.error(err.message); }
+  };
+
+  const handleAgentChange = async (agentId: string) => {
+    try {
+      await updateLead.mutateAsync({ id: lead.id, assignedAgentId: agentId });
+      toast.success('Agent reassigned');
     } catch (err: any) { toast.error(err.message); }
   };
 
@@ -125,7 +139,7 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
     try {
       await createFollowUp.mutateAsync({
         leadId: lead.id,
-        agentId: lead.assignedMemberId,
+        agentId: lead.assignedAgentId,
         reminderDate: new Date(reminderDate).toISOString(),
         note: note || null,
       });
@@ -138,7 +152,7 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
   const formatAction = (action: string, metadata: any) => {
     switch (action) {
       case 'status_change': return `Status changed from ${(metadata.from || '').replace(/_/g, ' ')} to ${(metadata.to || '').replace(/_/g, ' ')}`;
-      case 'agent_reassigned': return 'Member reassigned';
+      case 'agent_reassigned': return 'Agent reassigned';
       case 'visit_scheduled': return `Visit scheduled for ${metadata.scheduled_at ? format(new Date(metadata.scheduled_at), 'MMM d, h:mm a') : 'TBD'}`;
       case 'visit_outcome': return `Visit outcome: ${metadata.outcome || 'unknown'}`;
       default: return action.replace(/_/g, ' ');
@@ -147,189 +161,98 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
 
   return (
     <Sheet open={open} onOpenChange={onClose}>
-      <SheetContent className="w-full sm:max-w-[540px] overflow-y-auto p-0">
+      <SheetContent className="w-full sm:max-w-[520px] overflow-y-auto p-0">
 
-        <div className="p-5 sm:p-6 border-b border-border bg-gradient-to-b from-secondary/20 to-background space-y-4">
+        <div className="p-6 border-b border-border">
           <SheetHeader>
-            <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start justify-between">
               <div>
-                <SheetTitle className="font-display text-xl leading-tight">{lead.name}</SheetTitle>
-                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                <SheetTitle className="font-display text-lg">{lead.name}</SheetTitle>
+                <div className="flex items-center gap-2 mt-1">
                   <span className={`badge-pipeline text-[10px] text-primary-foreground ${stage?.color}`}>
                     {stage?.label}
                   </span>
                   <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${scoreColor(score)}`}>
                     <Star size={10} /> {score}/100
                   </span>
-                  {lead.isDuplicate ? (
-                    <span className="text-[9px] px-2 py-0.5 rounded-full border border-border text-muted-foreground">
-                      Duplicate Phone
-                    </span>
-                  ) : null}
                 </div>
               </div>
             </div>
           </SheetHeader>
 
-          <div className="rounded-2xl border border-border bg-card/70 p-4">
-            <p className="text-[10px] font-semibold tracking-wide text-muted-foreground mb-3">LEAD PROFILE</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="flex items-center gap-2 text-xs text-foreground"><Phone size={12} className="text-muted-foreground" /> {lead.phone}</div>
-              {lead.email ? <div className="flex items-center gap-2 text-xs text-foreground"><Mail size={12} className="text-muted-foreground" /> {lead.email}</div> : null}
-              {lead.preferredLocation ? <div className="flex items-center gap-2 text-xs text-foreground"><MapPin size={12} className="text-muted-foreground" /> {lead.preferredLocation}</div> : null}
-              {lead.budget ? <div className="flex items-center gap-2 text-xs text-foreground"><IndianRupee size={12} className="text-muted-foreground" /> {lead.budget}</div> : null}
-              {lead.moveInDate ? <div className="flex items-center gap-2 text-xs text-foreground"><CalendarDays size={12} className="text-muted-foreground" /> Move-in: {lead.moveInDate}</div> : null}
-              {lead.profession ? <div className="flex items-center gap-2 text-xs text-foreground"><Briefcase size={12} className="text-muted-foreground" /> {lead.profession}</div> : null}
-              {lead.roomType ? <div className="flex items-center gap-2 text-xs text-foreground"><Home size={12} className="text-muted-foreground" /> Room: {lead.roomType}</div> : null}
-              {lead.needPreference ? <div className="flex items-center gap-2 text-xs text-foreground"><Users size={12} className="text-muted-foreground" /> Need: {lead.needPreference}</div> : null}
-              <div className="flex items-center gap-2 text-xs text-foreground"><Clock size={12} className="text-muted-foreground" /> {(lead as any).firstResponseTimeMin != null ? `${(lead as any).firstResponseTimeMin}m response` : 'No response yet'}</div>
-              <div className="flex items-center gap-2 text-xs text-foreground"><User size={12} className="text-muted-foreground" /> {(lead as any).members?.name || 'Unassigned'}</div>
-              {lead.specialRequests ? (
-                <div className="sm:col-span-2 rounded-lg bg-secondary/60 px-3 py-2 text-xs text-foreground flex items-start gap-2">
-                  <StickyNote size={12} className="text-muted-foreground mt-0.5" />
-                  <span><span className="font-medium">Special requests:</span> {lead.specialRequests}</span>
-                </div>
-              ) : null}
-              {lead.notes ? (
-                <div className="sm:col-span-2 rounded-lg bg-secondary/60 px-3 py-2 text-xs text-foreground flex items-start gap-2">
-                  <StickyNote size={12} className="text-muted-foreground mt-0.5" />
-                  <span><span className="font-medium">Notes:</span> {lead.notes}</span>
-                </div>
-              ) : null}
-
-              {((lead as any).zone || parsedTechParks.length > 0 || parsedMapLinks.length > 0 || parsedMetadata.fullAddress || parsedMetadata.buildingName || parsedMetadata.sourceFormat || parsedMetadata.moveInUrgency || parsedMetadata.quality || parsedMetadata.inBLR !== undefined || parsedExtraEntries.length > 0) ? (
-                <div className="sm:col-span-2 rounded-lg bg-secondary/60 px-3 py-3 text-xs text-foreground space-y-2">
-                  <div className="text-[10px] font-semibold text-muted-foreground">Parsed Insights</div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {(lead as any).zone ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full border border-primary text-primary font-semibold bg-primary/5">
-                        {(lead as any).zone}
-                      </span>
-                    ) : null}
-                    {parsedMetadata.sourceFormat ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full border border-border text-muted-foreground">
-                        Source: {parsedMetadata.sourceFormat}
-                      </span>
-                    ) : null}
-                    {parsedMetadata.moveInUrgency ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full border border-border text-muted-foreground capitalize">
-                        Urgency: {parsedMetadata.moveInUrgency}
-                      </span>
-                    ) : null}
-                    {parsedMetadata.quality ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full border border-border text-muted-foreground capitalize">
-                        Quality: {parsedMetadata.quality}
-                      </span>
-                    ) : null}
-                    {parsedMetadata.inBLR !== undefined ? (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full border border-border text-muted-foreground">
-                        In BLR: {parsedMetadata.inBLR === null ? 'Unknown' : (parsedMetadata.inBLR ? 'Yes' : 'No')}
-                      </span>
-                    ) : null}
-                  </div>
-
-
-
-                  {parsedTechParks.length > 0 ? (
-                    <div>
-                      <p className="text-[10px] text-muted-foreground mb-1">Tech Parks</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {parsedTechParks.map((park, idx) => (
-                          <span key={`${park}-${idx}`} className="text-[10px] px-2 py-0.5 rounded border border-border text-foreground">
-                            {park}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {parsedMetadata.fullAddress ? (
-                    <p className="text-[11px] text-foreground"><span className="text-muted-foreground">Address:</span> {parsedMetadata.fullAddress}</p>
-                  ) : null}
-                  {parsedMetadata.buildingName ? (
-                    <p className="text-[11px] text-foreground"><span className="text-muted-foreground">Building:</span> {parsedMetadata.buildingName}</p>
-                  ) : null}
-
-                  {parsedMapLinks.length > 0 ? (
-                    <div className="flex flex-wrap gap-1.5">
-                      {parsedMapLinks.slice(0, 3).map((url, idx) => (
-                        <a
-                          key={`${url}-${idx}`}
-                          href={url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-[10px] px-2 py-0.5 rounded border border-border text-muted-foreground hover:text-foreground"
-                        >
-                          Map Link {idx + 1}
-                        </a>
-                      ))}
-                    </div>
-                  ) : null}
-
-                  {parsedExtraEntries.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {parsedExtraEntries.slice(0, 8).map(([k, v]) => (
-                        <div key={k} className="rounded border border-border px-2 py-1.5">
-                          <p className="text-[10px] text-muted-foreground capitalize">{k}</p>
-                          <p className="text-[11px] text-foreground break-words">{String(v)}</p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
+          {/* Contact info */}
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Phone size={12} /> {lead.phone}
+            </div>
+            {lead.email && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Mail size={12} /> {lead.email}
+              </div>
+            )}
+            {lead.preferredLocation && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <MapPin size={12} /> {lead.preferredLocation}
+              </div>
+            )}
+            {lead.budget && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <IndianRupee size={12} /> {lead.budget}
+              </div>
+            )}
+            <div className="flex items-center gap-2 text-xs text-muted-foreground capitalize">
+              <User size={12} /> {lead.gender} • {lead.occupation}
+            </div>
+            {lead.movingDate && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Calendar size={12} /> Moving: {lead.movingDate}
+              </div>
+            )}
+            {lead.stayDuration && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Clock size={12} /> Stay: {lead.stayDuration}
+              </div>
+            )}
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Clock size={12} /> {(lead as any).firstResponseTimeMin != null ? `${(lead as any).firstResponseTimeMin}m response` : 'No response yet'}
+            </div>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <User size={12} /> {(lead as any).agents?.name || 'Unassigned'}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="rounded-xl border border-border bg-card p-3">
-              <label className="text-[10px] font-medium text-muted-foreground mb-1.5 block">Change Status</label>
-              <Select value={selectedStatus || lead.status} onValueChange={handleStatusChange}>
+          {/* Quick actions */}
+          <div className="grid grid-cols-2 gap-3 mt-4">
+            <div>
+              <label className="text-[10px] text-muted-foreground mb-1 block">Change Status</label>
+              <Select value={lead.status} onValueChange={handleStatusChange}>
                 <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {PIPELINE_STAGES.map(s => <SelectItem key={s.key} value={s.key}>{s.label}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
+            <div>
+              <label className="text-[10px] text-muted-foreground mb-1 block">Assign Agent</label>
+              <Select value={lead.assignedAgentId || ''} onValueChange={handleAgentChange}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Select" /></SelectTrigger>
+                <SelectContent>
+                  {agents?.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
 
-            {canAssignLead ? (
-              <div className="rounded-xl border border-border bg-card p-3">
-                <label className="text-[10px] font-medium text-muted-foreground mb-1.5 block">Assign Member</label>
-                <div className="flex items-center gap-2">
-                  <Select value={selectedAgentId || ''} onValueChange={handleAgentChange}>
-                    <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Select" /></SelectTrigger>
-                    <SelectContent>
-                      {members?.map(a => <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            ) : null}
           </div>
 
-          <Button
-            size="sm"
-            className="w-full h-9 text-xs"
-            onClick={handleSaveAgentChange}
-            disabled={
-              updateLead.isPending ||
-              (
-                (selectedStatus || lead.status) === lead.status &&
-                (!canAssignLead || selectedAgentId === lead.assignedMemberId)
-              )
-            }
-          >
-            {updateLead.isPending ? 'Saving...' : 'Save'}
-          </Button>
-
-          <div className="space-y-3">
-            {!aiSummary ? (
+          {/* AI Summary */}
+          <div className="mt-4">
+            {!aiSummary && (
               <Button variant="outline" size="sm" className="w-full gap-2 text-xs rounded-xl" onClick={handleAiSummary} disabled={aiLoading}>
                 {aiLoading ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
                 {aiLoading ? 'Analyzing with AI...' : 'AI Lead Analysis'}
               </Button>
-            ) : (
+            )}
+            {aiSummary && (
               <div className="p-3 rounded-xl bg-accent/5 border border-accent/20 space-y-2">
                 <div className="flex items-center gap-2">
                   <Sparkles size={12} className="text-accent" />
@@ -346,29 +269,190 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
                 </div>
               </div>
             )}
+          </div>
 
-            {bookings && bookings.length > 0 ? (
-              <div className="rounded-xl border border-border bg-card/70 p-3 space-y-2">
-                <p className="text-[10px] font-semibold text-muted-foreground flex items-center gap-1"><Receipt size={10} /> BOOKINGS</p>
-                {bookings.map((b: any) => (
-                  <div key={b.id} className="flex items-center justify-between p-2.5 rounded-xl bg-secondary/50 text-xs">
-                    <div>
-                      <p className="font-medium text-foreground">{b.properties?.name || 'TBD'}</p>
-                      <p className="text-[10px] text-muted-foreground">{b.rooms?.room_number}{b.beds?.bed_number ? ` / ${b.beds.bed_number}` : ''}</p>
+          {/* ── PG Suggestions ─────────────────────────────────────────────── */}
+          <div className="mt-4 rounded-xl border border-border overflow-hidden">
+            {/* Header / Toggle — must be a div, not button, to avoid nested-button error */}
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={handleToggleSuggestions}
+              onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleToggleSuggestions()}
+              className="w-full flex items-center justify-between px-4 py-3 bg-secondary/40 hover:bg-secondary/60 transition-colors cursor-pointer select-none"
+            >
+              <div className="flex items-center gap-2">
+                <Building2 size={13} className="text-accent" />
+                <span className="text-xs font-semibold text-foreground">Suggested PGs</span>
+                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 font-medium">LIVE rooms only</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {suggestionsOpen && (
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={handleRefreshSuggestions}
+                    onKeyDown={e => { e.stopPropagation(); if (e.key === 'Enter') handleRefreshSuggestions(e as any); }}
+                    className="p-1 rounded-md hover:bg-secondary transition-colors"
+                    title="Refresh suggestions"
+                  >
+                    <RefreshCw size={11} className={`text-muted-foreground ${suggestionsLoading ? 'animate-spin' : ''}`} />
+                  </span>
+                )}
+                {suggestionsOpen ? <ChevronUp size={14} className="text-muted-foreground" /> : <ChevronDown size={14} className="text-muted-foreground" />}
+              </div>
+            </div>
+
+            {/* Content */}
+            {suggestionsOpen && (
+              <div className="p-3 space-y-2 bg-card">
+                {/* Loading */}
+                {suggestionsLoading && (
+                  <div className="flex items-center justify-center gap-2 py-6">
+                    <Loader2 size={14} className="animate-spin text-accent" />
+                    <span className="text-xs text-muted-foreground">Matching PGs from live sheet…</span>
+                  </div>
+                )}
+
+                {/* Error */}
+                {!suggestionsLoading && suggestionsError && (
+                  <div className="text-center py-4">
+                    <p className="text-xs text-destructive">{suggestionsError}</p>
+                    <button onClick={() => lead?.id && fetchSuggestions(lead.id, true)} className="mt-2 text-[10px] text-accent hover:underline">Try again</button>
+                  </div>
+                )}
+
+                {/* Empty */}
+                {!suggestionsLoading && !suggestionsError && suggestions.length === 0 && (
+                  <p className="text-center text-xs text-muted-foreground py-6">No matching live PGs found for this lead's criteria.</p>
+                )}
+
+                {/* PG Cards */}
+                {!suggestionsLoading && suggestions.map((pg, idx) => (
+                  <div key={pg.id || idx} className="rounded-xl border border-border bg-secondary/20 p-3 space-y-2 hover:border-accent/40 transition-colors">
+                    {/* Row 1: Name + score */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[9px] font-bold text-accent/70">#{idx + 1}</span>
+                          <p className="text-xs font-semibold text-foreground truncate">{pg.name}</p>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground mt-0.5">{pg.area}{pg.locality ? ` · ${pg.locality}` : ''}</p>
+                      </div>
+                      <div className="shrink-0 flex flex-col items-end gap-1">
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                          pg.score >= 70 ? 'bg-emerald-500/15 text-emerald-600' :
+                          pg.score >= 45 ? 'bg-amber-500/15 text-amber-600' :
+                          'bg-secondary text-muted-foreground'
+                        }`}>{pg.score}pts</span>
+                        <span className="flex items-center gap-0.5 text-[9px] text-emerald-600">
+                          <CheckCircle2 size={9} /> Live
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <Badge variant="outline" className="text-[9px]">{b.booking_status}</Badge>
-                      {b.monthly_rent && <p className="text-[10px] text-foreground mt-0.5">₹{Number(b.monthly_rent).toLocaleString()}</p>}
+
+                    {/* Row 2: Tags */}
+                    <div className="flex flex-wrap gap-1">
+                      {pg.gender && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 border border-blue-500/20">{pg.gender}</span>
+                      )}
+                      {pg.propertyType && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 border border-purple-500/20">{pg.propertyType}</span>
+                      )}
+                      {pg.targetAudience && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-secondary border border-border text-muted-foreground">{pg.targetAudience}</span>
+                      )}
+                      {pg.distanceKm !== null && pg.distanceKm !== undefined && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-secondary border border-border text-muted-foreground">~{pg.distanceKm} km</span>
+                      )}
+                    </div>
+
+                    {/* Row 3: Price */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        {pg.roomEntries && pg.roomEntries.length > 0 ? (
+                          <div className="flex flex-wrap gap-1">
+                            {pg.roomEntries.slice(0, 3).map((r: any) => (
+                              <span key={r.label} className="text-[9px] px-1.5 py-0.5 rounded-md bg-card border border-border text-foreground">
+                                {r.label}: <span className="font-semibold">₹{r.price.toLocaleString()}</span>
+                              </span>
+                            ))}
+                          </div>
+                        ) : pg.minPrice > 0 ? (
+                          <span className="text-xs font-semibold text-foreground">from ₹{pg.minPrice.toLocaleString()}</span>
+                        ) : (
+                          <span className="text-[10px] text-muted-foreground">Price on request</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Row 4: Actions */}
+                    <div className="flex items-center gap-2 pt-1 border-t border-border">
+                      {pg.managerContact && (
+                        <a
+                          href={`tel:${pg.managerContact}`}
+                          onClick={e => e.stopPropagation()}
+                          className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground transition-colors"
+                        >
+                          <PhoneCall size={10} /> {pg.managerName || 'Call'}
+                        </a>
+                      )}
+                      {pg.managerContact && (
+                        <a
+                          href={`https://wa.me/${pg.managerContact.replace(/[^0-9]/g, '')}`}
+                          target="_blank" rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 border border-emerald-500/20 transition-colors"
+                        >
+                          <MessageCircle size={10} /> WhatsApp
+                        </a>
+                      )}
+                      {pg.mapsLink && (
+                        <a
+                          href={pg.mapsLink}
+                          target="_blank" rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-lg bg-secondary hover:bg-secondary/80 text-muted-foreground transition-colors ml-auto"
+                        >
+                          <MapPin size={10} /> Map
+                        </a>
+                      )}
                     </div>
                   </div>
                 ))}
+
+                {/* Match breakdown legend */}
+                {!suggestionsLoading && suggestions.length > 0 && (
+                  <p className="text-[9px] text-muted-foreground text-center pt-1">
+                    Scored on: Location · Gender · Budget · Food preference — synced live from Google Sheet
+                  </p>
+                )}
               </div>
-            ) : null}
+            )}
           </div>
+
+          {/* Bookings */}
+          {bookings && bookings.length > 0 && (
+            <div className="mt-4 space-y-2">
+              <p className="text-[10px] font-semibold text-muted-foreground flex items-center gap-1"><Receipt size={10} /> BOOKINGS</p>
+              {bookings.map((b: any) => (
+                <div key={b.id} className="flex items-center justify-between p-2.5 rounded-xl bg-secondary/50 text-xs">
+                  <div>
+                    <p className="font-medium text-foreground">{b.properties?.name || 'TBD'}</p>
+                    <p className="text-[10px] text-muted-foreground">{b.rooms?.room_number}{b.beds?.bed_number ? ` / ${b.beds.bed_number}` : ''}</p>
+                  </div>
+                  <div className="text-right">
+                    <Badge variant="outline" className="text-[9px]">{b.booking_status}</Badge>
+                    {b.monthly_rent && <p className="text-[10px] text-foreground mt-0.5">₹{Number(b.monthly_rent).toLocaleString()}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="timeline" className="p-5 sm:p-6">
+        <Tabs defaultValue="timeline" className="p-6">
           <TabsList className="w-full grid grid-cols-3">
             <TabsTrigger value="timeline" className="text-xs">Activity</TabsTrigger>
             <TabsTrigger value="conversations" className="text-xs">Messages</TabsTrigger>
@@ -387,8 +471,8 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
                   <div>
                     <p className="font-medium text-foreground text-xs">{formatAction(entry.action, entry.metadata)}</p>
                     <p className="text-[10px] text-muted-foreground">{format(new Date(entry.created_at), 'MMM d, yyyy h:mm a')}</p>
-                    {(entry as any).members?.name && (
-                      <p className="text-[10px] text-muted-foreground">by {(entry as any).members.name}</p>
+                    {(entry as any).agents?.name && (
+                      <p className="text-[10px] text-muted-foreground">by {(entry as any).agents.name}</p>
                     )}
                   </div>
                 </div>
@@ -439,7 +523,7 @@ const LeadDetailDrawer = ({ lead, open, onClose }: Props) => {
               {conversations?.map(c => (
                 <div key={c.id} className={`p-3 rounded-lg text-xs ${c.direction === 'inbound' ? 'bg-secondary/50' : 'bg-primary/5 border border-primary/10'}`}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-medium text-foreground capitalize">{c.direction === 'inbound' ? lead.name : 'Member'}</span>
+                    <span className="font-medium text-foreground capitalize">{c.direction === 'inbound' ? lead.name : 'Agent'}</span>
                     <span className="text-[10px] text-muted-foreground">{format(new Date(c.createdAt), 'MMM d, h:mm a')}</span>
                   </div>
                   <p className="text-muted-foreground">{c.message}</p>

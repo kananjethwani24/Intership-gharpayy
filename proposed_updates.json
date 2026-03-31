@@ -1,0 +1,344 @@
+[
+  {
+    "csvName": "BELL COED",
+    "dbName": "BELL COED (bellandur)",
+    "dbId": 97,
+    "availability": 15
+  },
+  {
+    "csvName": "TREO COED",
+    "dbName": "TREO COED (BELLANDUR/ETV)",
+    "dbId": 26,
+    "availability": 20
+  },
+  {
+    "csvName": "ZILLION COED",
+    "dbName": "ETV ZILLION COED (bellandur)",
+    "dbId": 114,
+    "availability": 20
+  },
+  {
+    "csvName": "ZONEGL",
+    "dbName": "ZONEGL (BELLANDUR)",
+    "dbId": 33,
+    "availability": 40
+  },
+  {
+    "csvName": "STM COED",
+    "dbName": "STM COED (Silk Board/Btm)",
+    "dbId": 143,
+    "availability": 10
+  },
+  {
+    "csvName": "SILQ COED",
+    "dbName": "Silq coed (BTM)",
+    "dbId": 23,
+    "availability": 5
+  },
+  {
+    "csvName": "POP COED",
+    "dbName": "Pop coed (E City)",
+    "dbId": 124,
+    "availability": 20
+  },
+  {
+    "csvName": "flex coed",
+    "dbName": "FLEX COED (Electronic city PHASE 2)",
+    "dbId": 28,
+    "availability": 10
+  },
+  {
+    "csvName": "NEX COED",
+    "dbName": "NEX COED (Koramangala)",
+    "dbId": 27,
+    "availability": 50
+  },
+  {
+    "csvName": "S GIRLY",
+    "dbName": "S GIRLY RK (Koramangala)",
+    "dbId": 29,
+    "availability": 20
+  },
+  {
+    "csvName": "JOY GIRLS",
+    "dbName": "JOY GIRLS (koramangla)",
+    "dbId": 83,
+    "availability": 20
+  },
+  {
+    "csvName": "ZEXUS BOYS",
+    "dbName": "ZEXUS BOYS (Koramangala)",
+    "dbId": 31,
+    "availability": 50
+  },
+  {
+    "csvName": "WYSE GIRLS",
+    "dbName": "WYSE GIRLS (KORAMANGALA\nSG PALYA\nTHAVKHERE)",
+    "dbId": 4,
+    "availability": 10
+  },
+  {
+    "csvName": "AIRA BOYS",
+    "dbName": "AIRA BOYS (koramangla)",
+    "dbId": 146,
+    "availability": 10
+  },
+  {
+    "csvName": "ROAR COED",
+    "dbName": "roar colive (koramangla)",
+    "dbId": 89,
+    "availability": 5
+  },
+  {
+    "csvName": "SG COLIVE",
+    "dbName": "sg colive (koramangla)",
+    "dbId": 90,
+    "availability": 10
+  },
+  {
+    "csvName": "ORANGE CAPITAL GIRLS",
+    "dbName": "orange capital (koramangla)",
+    "dbId": 86,
+    "availability": 5
+  },
+  {
+    "csvName": "WINK BOYS",
+    "dbName": "WINK BOYS (koramangla)",
+    "dbId": 145,
+    "availability": 10
+  },
+  {
+    "csvName": "G FORUM",
+    "dbName": "G Forum GIRLS (koramangla)",
+    "dbId": 79,
+    "availability": 10
+  },
+  {
+    "csvName": "ZEEST COED",
+    "dbName": "ZEEST COED (MAHADEVPURA)",
+    "dbId": 137,
+    "availability": 10
+  },
+  {
+    "csvName": "BLISS COED",
+    "dbName": "bliss Coed (whitefield)",
+    "dbId": 100,
+    "availability": 5
+  },
+  {
+    "csvName": "BIGBROOK",
+    "dbName": "BIGBROOK (Brookfield)",
+    "dbId": 34,
+    "availability": 40
+  },
+  {
+    "csvName": "CIA COED B",
+    "dbName": "CIA COED B (MANYATA/\n THANISANDRA\nBHARTIYA CITY)",
+    "dbId": 144,
+    "availability": 20
+  },
+  {
+    "csvName": "MAGNUS COED",
+    "dbName": "MAGNUS COED (MANYATA \nNAGWARA)",
+    "dbId": 32,
+    "availability": 100
+  },
+  {
+    "csvName": "CIA COED",
+    "dbName": "CIA COED (MANYATA \nNAGWARA)",
+    "dbId": 139,
+    "availability": 50
+  },
+  {
+    "csvName": "ZION luXECOED",
+    "dbName": "ZION luXE COED (MARATHALLI)",
+    "dbId": 148,
+    "availability": 40
+  },
+  {
+    "csvName": "VELVET GIRLS",
+    "dbName": "Gg Velvet (Mg road)",
+    "dbId": 134,
+    "availability": 20
+  },
+  {
+    "csvName": "METROFIELD COED",
+    "dbName": "METROFIELD (whitefield)",
+    "dbId": 102,
+    "availability": 10
+  },
+  {
+    "csvName": "WHIT COED",
+    "dbName": "whit coed (whitefield)",
+    "dbId": 103,
+    "availability": 10
+  },
+  {
+    "csvName": "ITP COED",
+    "dbName": "ITP COED (Brookfeild)",
+    "dbId": 119,
+    "availability": 5
+  },
+  {
+    "csvName": "ASTOR COED",
+    "dbName": "ASTOR COED (WHITEFIELD/\n KADUGODI/ITPL)",
+    "dbId": 130,
+    "availability": 15
+  },
+  {
+    "csvName": "BIGR GIRLY",
+    "dbName": "BIGR GIRLY (BANNERGHATTA)",
+    "dbId": 166,
+    "availability": 20
+  },
+  {
+    "csvName": "LUKAS COED",
+    "dbName": "LUKAS COED (BTM LAYOUT)",
+    "dbId": 56,
+    "availability": 11
+  },
+  {
+    "csvName": "MIVON COED",
+    "dbName": "MIVON COED (MAHADEVPURA\nCV RAMAN)",
+    "dbId": 150,
+    "availability": 100
+  },
+  {
+    "csvName": "HS ARQ COED",
+    "dbName": "HS ARQ COED (HSR LAYOUT)",
+    "dbId": 154,
+    "availability": 70
+  },
+  {
+    "csvName": "LIVIO COED FLATLIKE",
+    "dbName": "LIVIO COED FLATLIKE (BELLANDUR/ \nKADUBEESANAHALLI)",
+    "dbId": 36,
+    "availability": 100
+  },
+  {
+    "csvName": "MTP COED",
+    "dbName": "MTPLUS COED (Nagawara)",
+    "dbId": 128,
+    "availability": 50
+  },
+  {
+    "csvName": "MYSTIC COED",
+    "dbName": "MYSTIC COED (MARATHALLI/ AECS)",
+    "dbId": 149,
+    "availability": 80
+  },
+  {
+    "csvName": "PRIVE COED",
+    "dbName": "PRIVE COED (MAHADEVPURA\nCV RAMAN)",
+    "dbId": 35,
+    "availability": 30
+  },
+  {
+    "csvName": "ZEAL COED",
+    "dbName": "ZEAL COED (bgm madadevpura)",
+    "dbId": 151,
+    "availability": 80
+  },
+  {
+    "csvName": "LIVIO COED FLATLIKE",
+    "dbName": "LIVIO COED FLATLIKE (BELLANDUR/ \nKADUBEESANAHALLI)",
+    "dbId": 36,
+    "availability": 80
+  },
+  {
+    "csvName": "MEO GIRLS",
+    "dbName": "MEO GIRLS (WHITEFIELD)",
+    "dbId": 37,
+    "availability": 100
+  },
+  {
+    "csvName": "MYNT COED",
+    "dbName": "MYNT COED (BELLANDUR)",
+    "dbId": 39,
+    "availability": 50
+  },
+  {
+    "csvName": "PAVION COED",
+    "dbName": "PAVION COED (BELLANDUR)",
+    "dbId": 41,
+    "availability": 70
+  },
+  {
+    "csvName": "ITP LUXE COED",
+    "dbName": "ITP LUXE COED (WHITEFIELD)",
+    "dbId": 42,
+    "availability": 70
+  },
+  {
+    "csvName": "AURA COED",
+    "dbName": "AurA COED (AECS/ MARATHALLI)",
+    "dbId": 40,
+    "availability": 70
+  },
+  {
+    "csvName": "PAVION COED",
+    "dbName": "PAVION COED (BELLANDUR)",
+    "dbId": 41,
+    "availability": 70
+  },
+  {
+    "csvName": "KORVE COED",
+    "dbName": "KORVE COED (KORAMANGALA)",
+    "dbId": 153,
+    "availability": 70
+  },
+  {
+    "csvName": "MAQ COED",
+    "dbName": "MAQ COED A ()",
+    "dbId": 72,
+    "availability": 70
+  },
+  {
+    "csvName": "KHB BOYS",
+    "dbName": "KHB BOYS (Kormangala)",
+    "dbId": 156,
+    "availability": 70
+  },
+  {
+    "csvName": "KLM COED",
+    "dbName": "KLM COED (MARATHALLI)",
+    "dbId": 157,
+    "availability": 20
+  },
+  {
+    "csvName": "Zeeta coed",
+    "dbName": "Zeeta coed (whitefield)",
+    "dbId": 44,
+    "availability": 50
+  },
+  {
+    "csvName": "FABLE GIRLS",
+    "dbName": "FABLE GIRLS (BTM LAYOUT)",
+    "dbId": 158,
+    "availability": 15
+  },
+  {
+    "csvName": "TOM BOYS",
+    "dbName": "TOM BOYS (KORAMANGLA)",
+    "dbId": 76,
+    "availability": 30
+  },
+  {
+    "csvName": "TOVE BOYS",
+    "dbName": "TOVE BOYS (KORAMANGLA)",
+    "dbId": 159,
+    "availability": 10
+  },
+  {
+    "csvName": "QUT GIRLS",
+    "dbName": "QUT GIRLS (KORAMANGLA)",
+    "dbId": 160,
+    "availability": 30
+  },
+  {
+    "csvName": "ZEXX COED",
+    "dbName": "zexx coed (KORAMANGLA)",
+    "dbId": 161,
+    "availability": 100
+  }
+]

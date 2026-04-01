@@ -65,6 +65,7 @@ export const SUBZONE_MAPPING: Record<string, { zone: ZoneKey; subzone: string }>
   'btm': { zone: 'KORA', subzone: 'BTM Layout (All Stages)' },
   'jayanagar': { zone: 'KORA', subzone: 'Jayanagar / JP Nagar' },
   'jp nagar': { zone: 'KORA', subzone: 'Jayanagar / JP Nagar' },
+  'j p nagar': { zone: 'KORA', subzone: 'Jayanagar / JP Nagar' },
   'indiranagar': { zone: 'KORA', subzone: 'Indiranagar / Domlur' },
   'domlur': { zone: 'KORA', subzone: 'Indiranagar / Domlur' },
   'mg road': { zone: 'KORA', subzone: 'Richmond Town / MG Road' },
@@ -73,6 +74,10 @@ export const SUBZONE_MAPPING: Record<string, { zone: ZoneKey; subzone: string }>
   'bannerghatta': { zone: 'KORA', subzone: 'Bannerghatta Road / Arekere' },
   'electronic city': { zone: 'KORA', subzone: 'Electronic City Phase 1 & 2' },
   'e city': { zone: 'KORA', subzone: 'Electronic City Phase 1 & 2' },
+  'ecity': { zone: 'KORA', subzone: 'Electronic City Phase 1 & 2' },
+  'e-city': { zone: 'KORA', subzone: 'Electronic City Phase 1 & 2' },
+  'indranagar': { zone: 'KORA', subzone: 'Indiranagar / Domlur' },
+  'indira nagar': { zone: 'KORA', subzone: 'Indiranagar / Domlur' },
 
   // MWB
   'bellandur': { zone: 'MWB', subzone: 'Bellandur / Ecoworld / Kadubeesanahalli' },
@@ -116,9 +121,12 @@ export function getZoneByArea(area: string): { zone: ZoneKey; subzone: string } 
   
   const normalizedArea = area.toLowerCase().trim();
   
-  for (const [key, value] of Object.entries(SUBZONE_MAPPING)) {
+  // Sort keys by length descending to match longest possible area first (e.g. "jp nagar" before "jp")
+  const sortedKeys = Object.keys(SUBZONE_MAPPING).sort((a, b) => b.length - a.length);
+  
+  for (const key of sortedKeys) {
     if (normalizedArea.includes(key.toLowerCase())) {
-      return value as { zone: ZoneKey; subzone: string };
+      return SUBZONE_MAPPING[key] as { zone: ZoneKey; subzone: string };
     }
   }
   

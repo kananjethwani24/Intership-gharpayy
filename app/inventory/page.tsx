@@ -11,8 +11,9 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react'; // Re-
 import AppLayout from '@/components/AppLayout';
 import { 
   Search, MapPin, Check, ChevronDown, ChevronUp, 
-  Calendar, X, LayoutGrid, List, DollarSign
+  Calendar, X, LayoutGrid, List, DollarSign, FileText
 } from 'lucide-react';
+import brochureMap from '@/data/brochureMap.json';
 import { PG_DATA, type PGEntry } from '@/data/pgMasterData';
 import { fetchLivePGData } from '@/lib/sheetsSync';
 import { ROOM_MASTER, getRoomsForPG, type Room } from '@/data/roomMasterData';
@@ -166,6 +167,20 @@ const StatusBtn = ({ label, color, bg, border, active, onClick }: any) => (
     {label}
   </button>
 );
+
+function getBrochureUrl(name: string): string | null {
+  if (!name) return null;
+  const map = brochureMap as Record<string, string>;
+  const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const key = normalize(name.replace(/^gharpayy\s+/i, '').replace(/^gg\s+/i, ''));
+  if (map[key]) return `/brochures/${map[key]}`;
+  const first = name.trim().split(/\s+/)[0]?.toLowerCase();
+  if (map[first]) return `/brochures/${map[first]}`;
+  const all = Object.keys(map);
+  const substr = all.find(k => key.includes(k) || k.includes(key));
+  if (substr) return `/brochures/${map[substr]}`;
+  return null;
+}
 
 // ─── MAIN PROPERTY CARD ───────────────────────────────
 const PropertyCard = ({
@@ -327,6 +342,10 @@ const PropertyCard = ({
         </button>
         
         <div style={{ display: 'flex', gap: 6 }}>
+          <button onClick={() => { const url = getBrochureUrl(pg.name); if(url) window.open(url, '_blank'); }} title="Download Brochure"
+            style={{ background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '10px', display: 'flex', alignItems: 'center', color: '#000', cursor: 'pointer', boxShadow: '1px 1px 0 #000' }}>
+            <FileText size={14} strokeWidth={3} />
+          </button>
           <button onClick={copyWA} title="Copy WhatsApp Offer"
             style={{ background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '10px', display: 'flex', alignItems: 'center', color: copiedWA ? '#16A34A' : '#000', cursor: 'pointer', boxShadow: '1px 1px 0 #000' }}>
             {copiedWA ? <Check size={14} strokeWidth={3} /> : <DollarSign size={14} strokeWidth={3} />}

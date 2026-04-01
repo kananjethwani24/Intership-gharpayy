@@ -141,15 +141,18 @@ export function normalizeArea(a: string): string {
   if (cleaned.includes('whitefield') || cleaned.includes('itpl')) return 'Whitefield';
   if (cleaned.includes('mahadevapura') || cleaned.includes('bgm')) return 'Mahadevapura';
   if (cleaned.includes('bannerghatta') || cleaned.includes('bg road')) return 'Bannerghatta';
-  if (cleaned.includes('electronic city') || cleaned.includes('ecity')) return 'Electronic City';
+  if (cleaned.includes('electronic city') || cleaned.includes('ecity') || cleaned.includes('e-city') || cleaned.includes('e city')) return 'Electronic City';
   if (cleaned.includes('kundalahalli')) return 'Kundalahalli';
-  if (cleaned.includes('indiranagar')) return 'Indiranagar';
+  if (cleaned.includes('indiranagar') || cleaned.includes('indranagar') || cleaned.includes('indira nagar')) return 'Indiranagar';
   if (cleaned.includes('jayanagar')) return 'Jayanagar';
-  if (cleaned.includes('jp nagar')) return 'JP Nagar';
+  if (cleaned.includes('jp nagar') || cleaned.includes('j p nagar')) return 'JP Nagar';
   if (cleaned.includes('hebbal')) return 'Hebbal';
   if (cleaned.includes('mathikere')) return 'Mathikere';
-  if (cleaned.includes('yeshwanthpur')) return 'Yeshwanthpur';
+  if (cleaned.includes('yeshwanthpur') || cleaned.includes('yeshwanth')) return 'Yeshwanthpur';
   if (cleaned.includes('kadubeesanahalli')) return 'Kadubeesanahalli';
+  if (cleaned.includes('domlur')) return 'Domlur';
+  if (cleaned.includes('sarjapur')) return 'Sarjapur Road';
+  if (cleaned.includes('cv raman') || cleaned.includes('c.v. raman')) return 'CV Raman Nagar';
   if (cleaned.includes('bangalore') || cleaned.includes('bengaluru')) return 'Bengaluru';
 
   // Fallback: title case the string

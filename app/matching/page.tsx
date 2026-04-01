@@ -5,8 +5,11 @@ import AppLayout from '@/components/AppLayout';
 import { useLeads, useUpdateLead, useCreateVisit, useAgents } from '@/hooks/useCrmData';
 import {
   Sparkles, MapPin, Users, Loader2, ChevronRight, Navigation,
-  Search, Brain, Target, DollarSign, X, SlidersHorizontal, Calendar, Check, ChevronDown, List, Grid, Map, ShieldAlert
+  Search, Brain, Target, DollarSign, X, SlidersHorizontal, Calendar, Check, ChevronDown, ChevronUp, List, Grid, Map, ShieldAlert, FileText
 } from 'lucide-react';
+import brochureMap from '@/data/brochureMap.json';
+import { useRoomStore, type VisitData, type RoomState } from '@/hooks/useInventoryStore';
+import { ROOM_MASTER, getRoomsForPG, type Room } from '@/data/roomMasterData';
 import { haversine, resolveLocationToCoords } from '@/lib/areaCoordinates';
 import { parseRoomEntries } from '@/lib/parseRoomEntries';
 import { ZONES, SUBZONE_MAPPING, getZoneByArea } from '@/lib/zones';
@@ -74,39 +77,59 @@ const ALL_PG_AREAS = Array.from(new Set(PG_DATA.map(p => p.area).filter(Boolean)
 const HOT_ZONES = ALL_PG_AREAS;
 
 // ─── HELPERS ───────────────────────────────────────────────────
-function detectAreaFromText(text: string): string {
-  if (!text) return '';
+// Robust area/landmark detection from text — returns an array of ALL matches
+function detectAreasFromText(text: string): string[] {
+  if (!text) return [];
   const lower = text.toLowerCase();
+  const cleaned = lower.replace(/[\s\/-]/g, ''); 
+  
+  const matches = new Set<string>();
 
-  // 1. Check PG_DATA areas first (longest match wins — prevents "bel" matching before "bellandur")
+  // 1. Try PG_DATA areas
   const pgAreas = Array.from(new Set(PG_DATA.map(p => p.area.toLowerCase()))).sort((a, b) => b.length - a.length);
   for (const area of pgAreas) {
-    if (lower.includes(area)) return area;
+    const areaLower = area.toLowerCase();
+    const areaCleaned = areaLower.replace(/\s/g, '');
+    if (lower.includes(areaLower) || cleaned.includes(areaCleaned)) {
+      matches.add(normalizeArea(areaLower));
+    }
   }
 
-  // 2. Check LEAD_MATCHER_INTEL areas (sorted longest first)
-  const sortedAreas = Object.keys(LEAD_MATCHER_INTEL).sort((a, b) => b.length - a.length);
-  for (const area of sortedAreas) {
-    if (lower.includes(area.toLowerCase())) return area;
-  }
+  // 2. Extra keywords check
+  if (lower.includes('hsr')) matches.add('HSR Layout');
+  if (lower.includes('btm')) matches.add('BTM Layout');
+  if (lower.includes('kora')) matches.add('Koramangala');
+  if (lower.includes('bellandur')) matches.add('Bellandur');
+  if (lower.includes('jp') || lower.includes('j.p')) matches.add('JP Nagar');
+  if (lower.includes('jaya')) matches.add('Jayanagar');
+  if (lower.includes('whitefield')) matches.add('Whitefield');
+  if (lower.includes('e city') || lower.includes('ecity') || lower.includes('e-city')) matches.add('Electronic City');
+  if (lower.includes('indira') || lower.includes('indra')) matches.add('Indiranagar');
+  if (lower.includes('domlur')) matches.add('Domlur');
+  if (lower.includes('sarjapur')) matches.add('Sarjapur Road');
+  if (lower.includes('hebbal') || lower.includes('manyata')) matches.add('Hebbal');
 
-  // 3. Check company map (only after area names, to avoid short keys like "bel" matching "bellandur")
-  for (const [company, area] of Object.entries(COMPANY_AREA_MAP)) {
-    // Only match if the company key is at least 4 chars to avoid false positives
-    if (company.length >= 4 && lower.includes(company.toLowerCase())) return area;
-  }
+  return Array.from(matches);
+}
 
-  // 4. Keyword fallbacks
-  if (lower.includes('marathalli')) return 'marathahalli';
-  if (lower.includes('ecity')) return 'electronic city';
-  if (lower.includes('kora')) return 'koramangala';
-  if (lower.includes('hsr')) return 'hsr layout';
-  if (lower.includes('indira')) return 'indiranagar';
-  if (lower.includes('bell')) return 'bellandur';
-  if (lower.includes('ypr') || lower.includes('yeshwanth')) return 'yeshwanthpur';
-  if (lower.includes('manyata') || lower.includes('hebbal')) return 'hebbal / manyata';
+// Wrapper for single area detection (returns the first match)
+function detectAreaFromText(text: string): string {
+  const areas = detectAreasFromText(text);
+  return areas.length > 0 ? areas[0] : '';
+}
 
-  return '';
+function getBrochureUrl(name: string): string | null {
+  if (!name) return null;
+  const map = brochureMap as Record<string, string>;
+  const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const key = normalize(name.replace(/^gharpayy\s+/i, '').replace(/^gg\s+/i, ''));
+  if (map[key]) return `/brochures/${map[key]}`;
+  const first = name.trim().split(/\s+/)[0]?.toLowerCase();
+  if (map[first]) return `/brochures/${map[first]}`;
+  const all = Object.keys(map);
+  const substr = all.find(k => key.includes(k) || k.includes(key));
+  if (substr) return `/brochures/${map[substr]}`;
+  return null;
 }
 
 function parseLeadText(raw: string) {
@@ -336,189 +359,258 @@ function IntelPanel({ area }: { area: string }) {
   );
 }
 
-// ─── PROPERTY CARD ─────────────────────────────────────────────
-function PropertyCard({ p, idx, onClick, onScheduleVisit, lead, viewMode = 'grid' }: { p: PGEntry; idx: number; onClick: () => void; onScheduleVisit: (pg: PGEntry) => void; lead?: any; viewMode?: 'grid' | 'list' }) {
-  const minPrice = getMinPrice(p);
-  const area = p.locality || p.area || 'Unknown';
-  const zoneInfo = getZoneByArea(area);
-  const zone = zoneInfo.zone;
-  const matchPercent = calculateMatchScore(p, lead);
 
-  const priceLabel = formatPrice(minPrice) || (minPrice > 0 ? `from ₹${Math.round(minPrice/1000)}k/mo` : '—');
-  const priceColor = minPrice > 0 ? T.gold : T.t2;
-  const priceBreakdown = [
-    p.triplePrice && p.triplePrice > 0 && p.triplePrice < 500000 ? `T:₹${Math.round(p.triplePrice/1000)}k` : null,
-    p.doublePrice && p.doublePrice > 0 && p.doublePrice < 500000 ? `D:₹${Math.round(p.doublePrice/1000)}k` : null,
-    p.singlePrice && p.singlePrice > 0 && p.singlePrice < 500000 ? `S:₹${Math.round(p.singlePrice/1000)}k` : null,
-  ].filter(Boolean).join(' ');
+// ─── STATUS CFG AND ROOM ROW ───────────────────────────────────────
+const STATUS_CFG: Record<string, { label: string; color: string; bg: string; dot: string }> = {
+  LOCKED:      { label: 'Live',       color: '#22C55E', bg: 'rgba(34,197,94,0.1)',   dot: '#22C55E' },
+  AVAILABLE:   { label: 'Live',       color: '#22C55E', bg: 'rgba(34,197,94,0.1)',   dot: '#22C55E' },
+  APPROVED:    { label: 'Live',       color: '#22C55E', bg: 'rgba(34,197,94,0.1)',   dot: '#22C55E' },
+  SOFT_LOCKED: { label: 'Tour Hold', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)',   dot: '#60A5FA' },
+  HARD_LOCKED: { label: 'Pre-Booked',color: '#A78BFA', bg: 'rgba(167,139,250,0.1)',  dot: '#A78BFA' },
+  OCCUPIED:    { label: 'Occupied',   color: '#EF4444', bg: 'rgba(239,68,68,0.1)',   dot: '#EF4444' },
+};
 
-  const copyWa = () => {
-    const t_was = p.triplePrice ? Math.round((p.triplePrice + 2000)/1000) : 15;
-    const t_now = p.triplePrice ? Math.round(p.triplePrice/1000) : 13;
-    const d_was = p.doublePrice ? Math.round((p.doublePrice + 2000)/1000) : 18;
-    const d_now = p.doublePrice ? Math.round(p.doublePrice/1000) : 16;
-    const s_was = p.singlePrice ? Math.round((p.singlePrice + 2000)/1000) : 27;
-    const s_now = p.singlePrice ? Math.round(p.singlePrice/1000) : 23;
+const RoomRow = ({ room, state }: { room: Room; state: RoomState }) => {
+  const cfg = STATUS_CFG[state.status] || STATUS_CFG.LOCKED;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: 6, marginBottom: 4 }}>
+      <div style={{ width: 28, height: 28, borderRadius: 5, background: T.bg3, display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1px solid ${T.line}`, fontFamily: T.mono, fontSize: 10, color: T.t0, fontWeight: 700 }}>{room.num}</div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontFamily: T.sans, fontSize: 11, color: T.t0, fontWeight: 600 }}>{room.type}</div>
+      </div>
+      <div style={{ background: cfg.bg, borderRadius: 3, padding: '1px 4px', border: `1px solid ${cfg.color}20` }}>
+        <span style={{ fontFamily: T.mono, fontSize: 7, color: cfg.color, fontWeight: 700 }}>{cfg.label.toUpperCase()}</span>
+      </div>
+      <div style={{ textAlign: 'right', minWidth: 60 }}>
+        <div style={{ fontFamily: T.mono, fontSize: 11, color: T.t1, fontWeight: 700 }}>₹{(state.retailPrice || state.expectedRent || room.basePrice).toLocaleString()}</div>
+      </div>
+    </div>
+  );
+};
 
-    const msg = `⚡️ Welcome to Gharpayy ${p.name.toUpperCase()} - ${(p.gender || 'COED').toUpperCase()}! ⚡️ ❤️ We're thrilled you loved our rooms.🚀 *Exclusive Offer Alert:* **2K OFF MONTHLY** \n\n` +
+// ─── MAIN PROPERTY CARD ───────────────────────────────
+const PropertyCard = ({
+  pg, idx, pgRooms, onScheduleVisit, onClick, lead, viewMode = 'grid'
+}: {
+  pg: PGEntry;
+  idx: number;
+  pgRooms: (Room & { state: RoomState })[];
+  onScheduleVisit: () => void;
+  onClick?: () => void;
+  lead?: any;
+  viewMode?: 'grid' | 'list';
+}) => {
+  const [expanded, setExpanded]           = useState(false);
+  const [roomsExpanded, setRoomsExpanded]   = useState(false);
+  const [copiedWA, setCopiedWA]             = useState(false);
+  const [copiedMap, setCopiedMap]           = useState(false);
+  
+  const minPrice = getMinPrice(pg);
+  const matchPercent = lead ? calculateMatchScore(pg, lead) : 100;
+
+  const genderConfig = pg.gender?.toLowerCase().includes('girl') || pg.gender?.toLowerCase().includes('female')
+    ? { color: '#EC4899', bg: 'rgba(236,72,153,0.08)', border: 'rgba(236,72,153,0.22)', label: 'Girls' }
+    : pg.gender?.toLowerCase().includes('boy') || pg.gender?.toLowerCase().includes('male')
+      ? { color: T.blue, bg: T.blueD, border: T.blueB, label: 'Boys' }
+      : { color: T.t1, bg: T.bg3, border: T.line, label: 'coed' };
+
+  const copyWA = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const t_was = pg.triplePrice ? Math.round((pg.triplePrice + 2000)/1000) : 15;
+    const t_now = pg.triplePrice ? Math.round(pg.triplePrice/1000) : 13;
+    const d_was = pg.doublePrice ? Math.round((pg.doublePrice + 2000)/1000) : 18;
+    const d_now = pg.doublePrice ? Math.round(pg.doublePrice/1000) : 16;
+    const s_was = pg.singlePrice ? Math.round((pg.singlePrice + 2000)/1000) : 27;
+    const s_now = pg.singlePrice ? Math.round(pg.singlePrice/1000) : 23;
+
+    const msg = `⚡️ Welcome to Gharpayy ${pg.name.toUpperCase()} - ${(pg.gender || 'COED').toUpperCase()}! ⚡️ ❤️ We're thrilled you loved our rooms.🚀 *Exclusive Offer Alert:* **2K OFF MONTHLY** \n\n` +
       `🧡Triple Sharing. - ~Was ${t_was}K~, **now only ${t_now}k!*\n` +
       `💛Dual Sharing. - ~Originally ${d_was}K~, **now just ${d_now}K!*\n` +
       `❤️Private rooms - ~Formerly ${s_was}k~, **now specially priced at ${s_now}K!*\n\n` +
       `💥 Act Fast: Lock in your reservation NOW and save 2000+ RS every month on a 12-month stay! *Offer expires in 4 hours. *Prebook* now for just 20k!*🔥   enjoy complimentary good food.`;
-    
+
     navigator.clipboard.writeText(msg);
+    setCopiedWA(true);
+    setTimeout(() => setCopiedWA(false), 2000);
     toast.success('Exclusive Offer Message Copied! ⚡️');
   };
 
-  const copyMap = () => {
-    const link = p.mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((p.name || '') + ' ' + (p.locality || p.area || '') + ' Bangalore')}`;
-    const pName = p.name.toUpperCase();
+  const copyMap = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const link = pg.mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((pg.name || '') + ' ' + (pg.locality || pg.area || '') + ' Bangalore')}`;
+    const pName = pg.name.toUpperCase();
     const displayName = pName.startsWith('GHARPAYY') ? pName : `GHARPAYY ${pName}`;
     const msg = `📍 ${displayName}\n` +
       `🚀 Attention: Pre-Booking Required! _enjoy a seamless experience upon arrival!_\n\n` +
       `🎯 DESTINATION ${link} |\n\n` +
       `Secure your spot before you regret it! See you soon in Bangalore! ✨ 🚀`;
     navigator.clipboard.writeText(msg);
+    setCopiedMap(true);
+    setTimeout(() => setCopiedMap(false), 2000);
     toast.success('Location Message copied! 📍');
   };
 
-
-  const gc = p.gender?.toLowerCase().includes('girl') || p.gender?.toLowerCase().includes('female')
-    ? { bg: '#FFEDF5', color: '#DB2777', border: '#FBCFE8', label: 'Girls' }
-    : p.gender?.toLowerCase().includes('boy') || p.gender?.toLowerCase().includes('male')
-      ? { bg: '#EFF6FF', color: '#2563EB', border: '#DBEAFE', label: 'Boys' }
-      : { bg: T.bg3, color: T.t1, border: T.line, label: 'coed' };
-
-  if (viewMode === 'list') {
-    return (
-      <div className="gp-fade"
-        style={{ background:'#fff', border:`1.5px solid #000`, borderRadius:10, padding:"10px 16px", display:"flex", alignItems:"center", gap:12, transition:"all .15s", cursor:"pointer" }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "3px 3px 0 #000"; (e.currentTarget as HTMLElement).style.background = '#FFFBF5'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "none"; (e.currentTarget as HTMLElement).style.background = '#fff'; }}
-      >
-        {/* Match % badge */}
-        <div style={{ width:38, height:38, borderRadius:8, background: matchPercent >= 80 ? '#22C55E' : matchPercent >= 50 ? '#F59E0B' : '#EF4444', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, border:'1.5px solid #000' }}>
-          <span style={{ color:'#fff', fontSize:10, fontWeight:900, lineHeight:1 }}>{matchPercent}%</span>
-        </div>
-
-        {/* Name + location */}
-        <div style={{ flex:1, minWidth:0 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
-            <span onClick={onClick} style={{ fontSize:13, fontWeight:900, color:T.t0, letterSpacing:'-0.01em', cursor:'pointer' }}>{p.name?.toUpperCase()}</span>
-            <span style={{ background: gc.bg, color: gc.color, border:`1px solid #000`, borderRadius:4, fontSize:8, fontWeight:900, padding:'1px 6px', textTransform:'uppercase', flexShrink:0 }}>{gc.label}</span>
-            <span style={{ background:'#FEF3C7', color:'#92400E', border:`1px solid #000`, borderRadius:4, fontSize:8, fontWeight:900, padding:'1px 6px', textTransform:'uppercase', flexShrink:0 }}>{p.propertyType || 'Mid'}</span>
-          </div>
-          <div style={{ fontSize:10, color:T.t2, display:'flex', alignItems:'center', gap:3, marginTop:2 }}>
-            <MapPin size={9} /> <span style={{ overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.locality || p.area}</span>
-          </div>
-        </div>
-
-        {/* Price */}
-        <div style={{ textAlign:'right', flexShrink:0 }}>
-          <div style={{ color: priceColor, fontWeight:900, fontSize:13, whiteSpace:'nowrap' }}>{priceLabel}</div>
-          <div style={{ fontFamily:T.mono, fontSize:8, color:T.t2, marginTop:1, whiteSpace:'nowrap' }}>{priceBreakdown}</div>
-        </div>
-
-        {/* Actions */}
-        <div style={{ display:'flex', gap:6, flexShrink:0 }}>
-          <button onClick={copyMap} title="Maps" style={{ background:'#fff', border:'1.5px solid #000', borderRadius:6, padding:'6px 8px', cursor:'pointer', display:'flex', alignItems:'center', gap:4, fontSize:10, fontWeight:700 }}>
-            <MapPin size={12} strokeWidth={3} />
-          </button>
-          <button onClick={copyWa} title="Copy WA" style={{ background:T.gold, border:'1.5px solid #000', borderRadius:6, padding:'6px 10px', cursor:'pointer', display:'flex', alignItems:'center', gap:4, fontSize:10, fontWeight:900, color:'#000' }}>
-            <DollarSign size={12} strokeWidth={3} /> WA
-          </button>
-          <button onClick={() => onScheduleVisit(p)} style={{ background:'#000', border:'1.5px solid #000', borderRadius:6, padding:'6px 10px', fontSize:10, fontWeight:900, cursor:'pointer', color:'#fff', whiteSpace:'nowrap' }}>
-            TOUR
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const isList = viewMode === 'list';
 
   return (
-    <div className="gp-fade"
-      style={{ background:T.bg2, border:`1.5px solid #000`, borderRadius:12, padding:"16px 18px", transition:"all .2s", display:"flex", flexDirection:"column", gap:12, animationDelay:`${idx * 0.04}s`, position: 'relative' }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "#000"; (e.currentTarget as HTMLElement).style.boxShadow = "6px 6px 0 #000"; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "#000"; (e.currentTarget as HTMLElement).style.boxShadow = "none"; }}
-    >
-      {/* Top Header Row */}
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-            <h4 onClick={onClick} style={{ fontSize:15, fontWeight:900, color:T.t0, margin:0, letterSpacing: '-0.01em' }}>{p.name?.toUpperCase()}</h4>
-            <span style={{ fontSize: 9, fontWeight: 900, color: T.gold, background: T.goldD, padding: '1px 5px', borderRadius: 4, fontFamily: T.mono }}>{p.pid}</span>
-            <span style={{ 
-              background: matchPercent >= 80 ? '#22C55E' : matchPercent >= 50 ? '#F59E0B' : '#EF4444', 
-              color: '#fff', 
-              borderRadius: 4, 
-              fontSize: 9, 
-              fontWeight: 900, 
-              padding: '2px 8px',
-              border: '1.5px solid #000'
-            }}>{matchPercent}% MATCH</span>
+    <div className={`gp-card ${isList ? 'inventory-list-card' : ''}`} style={{ 
+      background: T.bg2, 
+      border: `1px solid ${T.line}`, 
+      borderRadius: 12, 
+      overflow: 'hidden', 
+      height: 'fit-content',
+      transition: 'all 0.2s'
+    }}>
+      
+      {/* Small Header */}
+      <div style={{ padding: '14px 16px', flex: isList ? '1' : 'none' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              {isList && lead && (<div style={{ width:38, height:38, borderRadius:8, background: matchPercent >= 80 ? '#22C55E' : matchPercent >= 50 ? '#F59E0B' : '#EF4444', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, border:'1.5px solid #000', marginRight: 10 }}><span style={{ color:'#fff', fontSize:10, fontWeight:900, lineHeight:1 }}>{matchPercent}%</span></div>)}
+              <h3 onClick={onClick} style={{ fontFamily: T.sans, fontWeight: 800, fontSize: 14, color: '#111827', margin: 0, letterSpacing: '-0.01em', cursor: 'pointer' }}>{pg.name.toUpperCase()}</h3>
+              <span style={{ fontFamily: T.mono, fontSize: 8, color: T.gold, fontWeight: 800, background: T.goldD, padding: '2px 4px', borderRadius: 4 }}>{pg.pid}</span>
+              {!isList && lead && (<span style={{ background: matchPercent >= 80 ? '#22C55E' : matchPercent >= 50 ? '#F59E0B' : '#EF4444', color: '#fff', borderRadius: 4, fontSize: 9, fontWeight: 900, padding: '2px 8px', border: '1.5px solid #000' }}>{matchPercent}% MATCH</span>)}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4 }}>
+              <MapPin size={10} style={{ color: T.t2 }} />
+              <span style={{ fontFamily: T.mono, fontSize: 9, color: T.t2, fontWeight: 600 }}>{pg.area}</span>
+              {pg.landmarks && <span style={{ fontFamily: T.mono, fontSize: 8, color: T.t2, marginLeft: 6 }}>• {pg.landmarks}</span>}
+            </div>
           </div>
-          <div style={{ display:"flex", gap:4, alignItems:"center", color:T.t2, fontSize:11 }}>
-            <MapPin size={10} /> <span>{p.locality || p.area}</span>
+            {!isList && (
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ color: T.gold, fontWeight: 900, fontSize: 13, textTransform: 'uppercase' }}>{formatPrice(minPrice)}</div>
+                <div style={{ fontFamily: T.mono, fontSize: 8, color: T.t2, fontWeight: 700, marginTop: 2 }}>
+                  {[
+                    pg.triplePrice && pg.triplePrice > 0 ? `T:₹${Math.round(pg.triplePrice/1000)}k` : null,
+                    pg.doublePrice && pg.doublePrice > 0 ? `D:₹${Math.round(pg.doublePrice/1000)}k` : null,
+                    pg.singlePrice && pg.singlePrice > 0 ? `S:₹${Math.round(pg.singlePrice/1000)}k` : null,
+                  ].filter(Boolean).join(' ')}
+                </div>
+              </div>
+            )}
+          </div>
+  
+          {/* Essential Badges Only */}
+          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginTop: 10 }}>
+            <span style={{ background: genderConfig.bg, color: genderConfig.color, border: `1px solid ${genderConfig.border}`, borderRadius: 6, fontFamily: T.mono, fontSize: 8, fontWeight: 800, padding: '2px 8px' }}>
+              {genderConfig.label.toUpperCase()}
+            </span>
+            {pg.propertyType && <span style={{ background: '#FEF3C7', color: '#92400E', border: '1px solid #FDE68A', borderRadius: 6, fontFamily: T.mono, fontSize: 8, fontWeight: 800, padding: '2px 8px' }}>{pg.propertyType.toUpperCase()}</span>}
+            
+            {/* Inventory Status Badges */}
+            {pgRooms && pgRooms.some(r => r.state.status === 'APPROVED') && <span style={{ background: '#DCFCE7', color: '#15803D', border: '1px solid #BBF7D0', borderRadius: 6, fontFamily: T.mono, fontSize: 8, fontWeight: 800, padding: '2px 8px' }}>LIVE</span>}
+            {pgRooms && pgRooms.some(r => r.state.status === 'SOFT_LOCKED') && <span style={{ background: '#DBEAFE', color: '#1D4ED8', border: '1px solid #BFDBFE', borderRadius: 6, fontFamily: T.mono, fontSize: 8, fontWeight: 800, padding: '2px 8px' }}>BOOKED</span>}
+            {pg.managerContact && <span style={{ background: '#F3F4F6', color: '#374151', border: '1px solid #D1D5DB', borderRadius: 6, fontFamily: T.mono, fontSize: 8, fontWeight: 800, padding: '2px 8px' }}>MGR: {pg.managerContact}</span>}
           </div>
         </div>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ color: priceColor, fontWeight: 900, fontSize: 13, textTransform: "uppercase" }}>
-            {priceLabel}
-          </div>
-          <div style={{ fontFamily: T.mono, fontSize: 9, color: T.t2, marginTop: 2 }}>
-            {priceBreakdown}
-          </div>
-        </div>
-      </div>
-
-      {/* Badges */}
-      <div style={{ display: "flex", gap: 6 }}>
-        <span style={{ background: gc.bg, color: gc.color, border: `1.5px solid #000`, borderRadius: 6, fontFamily: T.mono, fontSize: 9, fontWeight: 900, padding: "3px 10px", textTransform: 'uppercase' }}>
-          {gc.label}
-        </span>
-        <span style={{ background: '#fff', color: '#000', border: '1.5px solid #000', borderRadius: 6, fontFamily: T.mono, fontSize: 9, fontWeight: 900, padding: "3px 10px", textTransform: 'uppercase' }}>
-          {p.propertyType || 'Mid'}
-        </span>
-      </div>
-
-      {/* Welcome Vibe Box */}
-      <div style={{ background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '8px 12px', fontSize: 11, color: T.t0, position: 'relative', overflow: 'hidden', fontWeight: 800 }}>
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 4, background: T.gold }} />
-        <span style={{ fontWeight: 900 }}>"</span> Welcome to Gharpayy {p.name}! ✨ Rooms starting from <span style={{ color: T.gold }}>{priceLabel}</span>... <span style={{ fontWeight: 900 }}>"</span>
-      </div>
-
-      {/* Quick Amenities Icons Row */}
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '6px 12px', fontSize: 10, color: '#000', fontWeight: 900 }}>
-          <Users size={12} /> {p.availability || 0} Rooms Left
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '6px 12px', fontSize: 10, color: '#000', fontWeight: 900 }}>
-          <ShieldAlert size={12} /> Dep: {p.deposit || '1M'}
-        </div>
-        {p.managerContact && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '6px 12px', fontSize: 10, color: '#000', fontWeight: 900 }}>
-            <Target size={12} /> Mgr: {p.managerContact}
+  
+        {isList && (
+          <div className="list-price-panel" style={{ width: 140, display: 'flex', flexDirection: 'column', justifyContent: 'center', borderLeft: `1px solid ${T.line}`, padding: '0 12px', background: '#fff' }}>
+            <div style={{ color: T.gold, fontWeight: 900, fontSize: 13 }}>{formatPrice(minPrice)}</div>
+            <div style={{ fontFamily: T.mono, fontSize: 8, color: T.t2, fontWeight: 700, marginTop: 2 }}>
+              {[
+                pg.triplePrice && pg.triplePrice > 0 ? `T:₹${Math.round(pg.triplePrice/1000)}k` : null,
+                pg.doublePrice && pg.doublePrice > 0 ? `D:₹${Math.round(pg.doublePrice/1000)}k` : null,
+                pg.singlePrice && pg.singlePrice > 0 ? `S:₹${Math.round(pg.singlePrice/1000)}k` : null,
+              ].filter(Boolean).join(' ')}
+            </div>
           </div>
         )}
+
+      {/* ── ROOMS DRAWER (Collapsible) - Hide in List View initially to keep it clean */}
+      {!isList && pgRooms && pgRooms.length > 0 && (
+        <div style={{ borderTop: `1px solid ${T.line}` }}>
+          <button onClick={() => setRoomsExpanded(!roomsExpanded)}
+            style={{ width: '100%', background: roomsExpanded ? 'rgba(255,255,255,0.03)' : 'transparent', border: 'none', borderBottom: roomsExpanded ? `1px solid ${T.line}` : 'none', padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', color: '#111827', fontFamily: T.mono, fontSize: 9 }}>
+            <span style={{ fontWeight: 900 }}>ROOM INVENTORY ({pgRooms.filter(r => r.state && r.state.status !== 'LOCKED').length})</span>
+            {roomsExpanded ? <ChevronUp size={12} strokeWidth={3} /> : <ChevronDown size={12} strokeWidth={3} />}
+          </button>
+          {roomsExpanded && (
+            <div style={{ padding: '8px 12px' }}>
+              {pgRooms.map(r => <RoomRow key={r.id} room={r} state={r.state} />)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* compact Actions */}
+      <div style={{ 
+        padding: '12px 16px', 
+        display: 'flex', 
+        gap: 8, 
+        borderTop: isList ? 'none' : `1px solid ${T.line}`,
+        borderLeft: isList ? `1px solid ${T.line}` : 'none',
+        width: isList ? 'auto' : '100%',
+        alignItems: 'center',
+        background: '#fff'
+      }}>
+        <button onClick={onScheduleVisit}
+          style={{ flex: isList ? 'none' : 2, background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '10px 14px', fontSize: 11, color: '#000', fontWeight: 900, display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', boxShadow: '1px 1px 0 #000' }}>
+          <Calendar size={13} strokeWidth={3} /> TOUR
+        </button>
+        
+        <div style={{ display: 'flex', gap: 6 }}>
+          {getBrochureUrl(pg.name) && (
+          <button onClick={(e) => { e.stopPropagation(); window.open(getBrochureUrl(pg.name), '_blank'); }} title="Download Brochure"
+            style={{ background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '10px', display: 'flex', alignItems: 'center', color: '#000', cursor: 'pointer', boxShadow: '1px 1px 0 #000' }}>
+            <FileText size={14} strokeWidth={3} />
+          </button>
+          )}
+          <button onClick={copyWA} title="Copy WhatsApp Offer"
+            style={{ background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '10px', display: 'flex', alignItems: 'center', color: copiedWA ? '#16A34A' : '#000', cursor: 'pointer', boxShadow: '1px 1px 0 #000' }}>
+            {copiedWA ? <Check size={14} strokeWidth={3} /> : <DollarSign size={14} strokeWidth={3} />}
+          </button>
+          
+          <button onClick={copyMap} title="Copy Map Location"
+            style={{ background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '10px', display: 'flex', alignItems: 'center', color: copiedMap ? '#16A34A' : '#000', cursor: 'pointer', boxShadow: '1px 1px 0 #000' }}>
+            {copiedMap ? <Check size={14} strokeWidth={3} /> : <MapPin size={14} strokeWidth={3} />}
+          </button>
+        </div>
+
+        <button onClick={() => setExpanded(!expanded)}
+          style={{ flex: isList ? 'none' : 1, width: isList ? 'auto' : 'auto', background: 'none', border: 'none', padding: '8px', fontSize: 11, color: T.t2, fontWeight: 600, cursor: 'pointer' }}>
+          {expanded ? 'Hide' : 'Details'}
+        </button>
       </div>
 
-      {/* Footer Actions */}
-      <div style={{ display:"flex", gap:8, marginTop: 4 }}>
-        <button onClick={copyMap}
-          style={{ flex: 1, background: '#fff', border: `1.5px solid #000`, borderRadius: 8, padding: '10px', fontSize: 11, fontWeight: 900, color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, cursor: 'pointer', boxShadow: '2px 2px 0 #000' }}>
-          <MapPin size={12} strokeWidth={3} /> Maps
-        </button>
-        <button onClick={copyWa}
-          style={{ flex: 2, background: T.gold, border: `1.5px solid #000`, borderRadius: 8, padding: '10px', fontSize: 11, fontWeight: 900, color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, cursor: 'pointer', boxShadow: '2px 2px 0 #000' }}>
-          <DollarSign size={12} strokeWidth={3} /> Copy WA Card
-        </button>
-      </div>
-      <div style={{ display:"flex", justifyContent:"flex-end" }}>
-        <button onClick={onClick} style={{ background: 'none', border: 'none', color: T.t2, fontSize: 11, cursor: 'pointer', fontWeight: 800 }}>Tour Details</button>
-      </div>
+      {/* Details Drawer */}
+      {expanded && (
+        <div style={{ borderTop: `1px solid ${T.line}`, padding: '16px 14px', background: T.bg3, animation: 'fadeIn 0.2s', width: isList ? '100%' : 'auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 12 }}>
+            <div><div style={{ fontFamily: T.mono, fontSize: 8, color: '#111827', fontWeight: 900, marginBottom: 2 }}>DEPOSIT</div><div style={{ fontSize: 10, color: T.t1 }}>{pg.deposit || '—'}</div></div>
+            <div><div style={{ fontFamily: T.mono, fontSize: 8, color: '#111827', fontWeight: 900, marginBottom: 2 }}>MIN STAY</div><div style={{ fontSize: 10, color: T.t1 }}>{pg.minStay || '—'}</div></div>
+            <div><div style={{ fontFamily: T.mono, fontSize: 8, color: '#111827', fontWeight: 900, marginBottom: 2 }}>MEALS</div><div style={{ fontSize: 10, color: T.t1 }}>{pg.meals || '—'}</div></div>
+          </div>
+          {pg.vibe && (
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontFamily: T.mono, fontSize: 8, color: '#111827', fontWeight: 900, marginBottom: 4 }}>BRAND VIBE</div>
+              <div style={{ fontSize: 11, color: T.t1, lineHeight: 1.5 }}>{pg.vibe}</div>
+            </div>
+          )}
+          {pg.houseRules && (
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ fontFamily: T.mono, fontSize: 8, color: '#111827', fontWeight: 900, marginBottom: 4 }}>HOUSE RULES</div>
+              <div style={{ fontSize: 11, color: T.t1, fontWeight: 700, textTransform: 'uppercase' }}>{pg.houseRules}</div>
+            </div>
+          )}
+          {pg.amenities && (
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+              {pg.amenities.slice(0, 12).map((a: any) => <span key={a} style={{ background: '#fff', border: `1.5px solid #000`, color: '#000', fontWeight: 800, padding: '3px 8px', borderRadius: 6, fontSize: 9 }}>{a}</span>)}
+              {(pg.commonAreas || []).map((a: any) => <span key={a} style={{ background: T.amberD, border: `1.5px solid ${T.amber}`, color: T.amber, fontWeight: 800, padding: '3px 8px', borderRadius: 6, fontSize: 9 }}>🏠 {a}</span>)}
+            </div>
+          )}
+          {pg.safety && pg.safety.length > 0 && (
+             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {pg.safety.map((s: any) => <span key={s} style={{ background: T.redD, border: `1.5px solid ${T.red}`, color: T.red, fontWeight: 800, padding: '3px 8px', borderRadius: 6, fontSize: 9 }}>🛡️ {s}</span>)}
+             </div>
+          )}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 // ─── DETAIL MODAL ──────────────────────────────────────────────
 function DetailModal({ p, onClose }: { p: PGEntry; onClose: () => void }) {
@@ -744,6 +836,7 @@ function ScheduleTourDialog({ pg, lead, onClose }: { pg: PGEntry; lead: any; onC
 
 // ─── MAIN PAGE ─────────────────────────────────────────────────
 export default function MatchingPage() {
+  const { getRoom } = useRoomStore();
   const { data: leads } = useLeads();
   const [waRawText, setWaRawText] = useState('');
   const [pgSearchQuery, setPgSearchQuery] = useState('');
@@ -853,10 +946,10 @@ export default function MatchingPage() {
   const executeSearch = useCallback(async (query: string, km = rangeKm) => {
     if (!query) return;
     setIsPgLoading(true);
-    const detectedArea = detectAreaFromText(query);
-    setIntelArea(detectedArea || query.toLowerCase());
+    const detectedAreas = detectAreasFromText(query);
+    setIntelArea(detectedAreas.length > 0 ? detectedAreas[0] : query.toLowerCase());
     let origin: any = resolveLocationToCoords(query);
-    if (!origin) origin = await geocodeAddress(query);
+    if (!origin && query.length > 3) origin = await geocodeAddress(query);
     setPgResolvedOrigin(origin);
 
     const normalizedQuery = query.toLowerCase();
@@ -872,13 +965,15 @@ export default function MatchingPage() {
         const pArea = (p.area || '').toLowerCase();
         const pLocality = (p.locality || '').toLowerCase();
 
-        // ── PRIMARY: if we detected a specific area, filter strictly by it ──
-        if (detectedArea) {
-          const areaMatch =
-            pArea.includes(detectedArea.toLowerCase()) ||
-            detectedArea.toLowerCase().includes(pArea) ||
-            pLocality.includes(detectedArea.toLowerCase());
-          if (!areaMatch) return false;
+        // ── PRIMARY: if we detected specific areas, filter by ANY of them ──
+        if (detectedAreas.length > 0) {
+          const matchedAny = detectedAreas.some(da => {
+            const daLower = da.toLowerCase();
+            return pArea.includes(daLower) || 
+                   daLower.includes(pArea) || 
+                   pLocality.includes(daLower);
+          });
+          if (!matchedAny) return false;
         } else if (origin) {
           // No area detected — use distance
           if (p.distanceKm > km) return false;
@@ -958,19 +1053,31 @@ export default function MatchingPage() {
   const filteredResults = useMemo(() => pgResults, [pgResults]);
 
   const syncFiltersToLead = (lead: any) => {
-    if (!lead) return;
-    
-    // Use PG_DATA areas for reliable matching (always available, no async dependency)
-    const pgAreas = Array.from(new Set(PG_DATA.map(p => p.area))).sort();
-    
-    // Auto Area detection
-    const rawArea = lead.canonicalArea || lead.location || '';
+    const rawArea = lead.canonicalArea || lead.location || lead.preferredLocation || '';
     if (rawArea) {
-      const geo = matchPropertyToGeo({ name: rawArea });
-      if (geo) {
-        setFilterArea(geo.area);
-        setFilterSubArea(geo.subArea);
-        setFilterCityZone(getZoneByArea(geo.area).zone);
+      const detectedAreas = detectAreasFromText(rawArea);
+      
+      // Reset all secondary filters to ensure search is wide/correct
+      setFilterSubArea('All');
+      setFilterGender('Any');
+      setFilterFood('Any');
+      setFilterType('Any');
+      setFilterBudget(35000);
+
+      if (detectedAreas.length === 1) {
+        setFilterArea(detectedAreas[0]);
+        setFilterCityZone(getZoneByArea(detectedAreas[0]).zone);
+      } else if (detectedAreas.length > 1) {
+        // Multi-match: keep area/zone filters as "All" so search query does the filtering
+        setFilterArea('All');
+        setFilterCityZone('All');
+      } else {
+        // No match found — fallback to geoMaster if possible
+        const geo = matchPropertyToGeo({ name: rawArea });
+        if (geo) {
+          setFilterArea(geo.area);
+          setFilterCityZone(getZoneByArea(geo.area).zone);
+        }
       }
     }
     
@@ -996,7 +1103,7 @@ export default function MatchingPage() {
     setParsedLead(parsed);
     syncFiltersToLead(parsed);
 
-    const query = parsed.canonicalArea || parsed.location || detectAreaFromText(v);
+    const query = parsed.location || parsed.canonicalArea || v;
     if (query) { 
       setPgSearchQuery(query); 
       executeSearch(query); 
@@ -1018,7 +1125,9 @@ export default function MatchingPage() {
       setParsedLead(p);
       syncFiltersToLead(p);
 
-      const query = p.canonicalArea || p.location;
+      // Prioritize the raw original text "p.location" (e.g. "JP/Jayanagar") 
+      // over "p.canonicalArea" (normalized "Jayanagar") so our multi-area search triggers.
+      const query = p.location || p.canonicalArea;
       if (query) { 
         setPgSearchQuery(query); 
         executeSearch(query); 
@@ -1026,7 +1135,17 @@ export default function MatchingPage() {
     }
   };
 
-  const quickSearch = (area: string) => { setPgSearchQuery(area); executeSearch(area); };
+  const quickSearch = (area: string) => { 
+    setPgSearchQuery(area); 
+    setFilterArea('All');
+    setFilterSubArea('All');
+    setFilterCityZone('All');
+    setFilterGender('Any');
+    setFilterFood('Any');
+    setFilterType('Any');
+    setFilterBudget(35000);
+    executeSearch(area); 
+  };
 
   const clearFilters = () => {
     setFilterArea('All');
@@ -1106,8 +1225,15 @@ export default function MatchingPage() {
                 <X size={16} />
               </button>
             )}
-            <button
-              onClick={() => executeSearch(pgSearchQuery)}
+            <button onClick={() => {
+                setFilterArea('All');
+                setFilterSubArea('All');
+                setFilterGender('Any');
+                setFilterFood('Any');
+                setFilterType('Any');
+                setFilterBudget(35000);
+                executeSearch(pgSearchQuery);
+              }} 
               disabled={isPgLoading || !pgSearchQuery}
               style={{ background:isPgLoading||!pgSearchQuery?T.bg3:T.gold, color:isPgLoading||!pgSearchQuery?T.t2:T.bg0, border:"none", padding:"0 24px", height:52, fontFamily:T.sans, fontSize:14, fontWeight:700, cursor:isPgLoading||!pgSearchQuery?"not-allowed":"pointer", display:"flex", alignItems:"center", gap:8, transition:"all .15s", whiteSpace:"nowrap", borderTopRightRadius: 11, borderBottomRightRadius: 11 }}
             >
@@ -1276,7 +1402,7 @@ export default function MatchingPage() {
 
               <div className={viewMode === 'grid' ? 'matching-results-grid' : ''} style={viewMode === 'list' ? { display:'flex', flexDirection:'column', gap:8 } : undefined}>
                 {filteredResults.map((p, idx) => (
-                  <PropertyCard key={`${p.source}-${p.id || idx}-${idx}`} p={p} idx={idx} onClick={() => setSelectedProfile(p)} onScheduleVisit={handleScheduleVisit} lead={parsedLead} viewMode={viewMode} />
+                  <PropertyCard key={`${p.source}-${p.id || idx}-${idx}`} pg={p} idx={idx} onClick={() => setSelectedProfile(p)} onScheduleVisit={() => handleScheduleVisit(p)} lead={parsedLead} viewMode={viewMode} pgRooms={getRoomsForPG(p.id).map(r => ({ ...r, state: getRoom(r) }))} />
                 ))}
               </div>
             </div>

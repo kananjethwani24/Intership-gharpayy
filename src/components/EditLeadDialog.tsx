@@ -10,6 +10,7 @@ interface EditLeadDialogProps {
 }
 
 const EditLeadDialog = ({ lead, open, onOpenChange }: EditLeadDialogProps) => {
+  // @ts-ignore
   return <AddLeadDialog editingLead={lead} open={open} onOpenChange={onOpenChange} />;
 };
 

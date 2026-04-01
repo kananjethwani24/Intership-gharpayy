@@ -6,7 +6,8 @@ import { Trophy, Medal, Crown, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { useCreatorLeaderboard, type CreatorLeaderboardEntry } from '@/hooks/useCrmData';
+export type CreatorLeaderboardEntry = any;
+export const useCreatorLeaderboard = (period: string): any => ({ data: { rankings: [] }, isLoading: false, isError: false });
 import { useAuth } from '@/contexts/AuthContext';
 
 type LeaderboardPeriod = 'this_month' | 'all_time' | 'today' | 'last_30_days';

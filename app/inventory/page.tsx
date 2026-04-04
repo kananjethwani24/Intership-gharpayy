@@ -441,7 +441,7 @@ export default function InventoryPage() {
       
       let matchCityZone = true;
       if (cityZoneFilter !== 'All') {
-        const pz = getZoneByArea(p.locality || p.area || '').zone;
+        const pz = getZoneByArea(p.area, p.locality).zone;
         matchCityZone = pz === cityZoneFilter;
       }
 
